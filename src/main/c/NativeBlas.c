@@ -110,7 +110,7 @@ static void throwIllegalArgumentException(JNIEnv *env, const char *message)
 /**********************************************************************/
 
 static char *routine_names[] = {
- "CAXPY",  "CCOPY",  "CDOTC",  "CDOTU",  "CGEEV",  "CGEMM",  "CGEMV",  "CGERC",  "CGERU",  "CGESVD",  "CSCAL",  "CSSCAL",  "CSWAP",  "DASUM",  "DAXPY",  "DCOPY",  "DDOT",  "DGEEV",  "DGELSD",  "DGEMM",  "DGEMV",  "DGEQRF",  "DGER",  "DGESV",  "DGESVD",  "DGETRF",  "DNRM2",  "DORGQR",  "DORMQR",  "DPOSV",  "DPOTRF",  "DSCAL",  "DSWAP",  "DSYEV",  "DSYEVD",  "DSYEVR",  "DSYEVX",  "DSYGVD",  "DSYGVX",  "DSYSV",  "DZASUM",  "DZNRM2",  "ICAMAX",  "IDAMAX",  "ILAENV",  "ISAMAX",  "IZAMAX",  "SASUM",  "SAXPY",  "SCASUM",  "SCNRM2",  "SCOPY",  "SDOT",  "SGEEV",  "SGELSD",  "SGEMM",  "SGEMV",  "SGEQRF",  "SGER",  "SGESV",  "SGESVD",  "SGETRF",  "SNRM2",  "SORGQR",  "SORMQR",  "SPOSV",  "SPOTRF",  "SSCAL",  "SSWAP",  "SSYEV",  "SSYEVD",  "SSYEVR",  "SSYEVX",  "SSYGVD",  "SSYGVX",  "SSYSV",  "ZAXPY",  "ZCOPY",  "ZDOTC",  "ZDOTU",  "ZDSCAL",  "ZGEEV",  "ZGEMM",  "ZGEMV",  "ZGERC",  "ZGERU",  "ZGESVD",  "ZSCAL",  "ZSWAP", 	0
+ "CAXPY",  "CCOPY",  "CDOTC",  "CDOTU",  "CGEEV",  "CGEMM",  "CGEMV",  "CGERC",  "CGERU",  "CGESVD",  "CLASCL",  "CLASWP",  "CPOTRI",  "CSCAL",  "CSSCAL",  "CSWAP",  "CSYRK",  "DASUM",  "DAXPY",  "DCOPY",  "DDOT",  "DGEEV",  "DGELSD",  "DGEMM",  "DGEMV",  "DGEQRF",  "DGER",  "DGESV",  "DGESVD",  "DGETRF",  "DLASCL",  "DLASWP",  "DNRM2",  "DORGQR",  "DORMQR",  "DPOSV",  "DPOTRF",  "DPOTRI",  "DSCAL",  "DSWAP",  "DSYEV",  "DSYEVD",  "DSYEVR",  "DSYEVX",  "DSYGVD",  "DSYGVX",  "DSYRK",  "DSYSV",  "DZASUM",  "DZNRM2",  "ICAMAX",  "IDAMAX",  "ILAENV",  "ISAMAX",  "IZAMAX",  "SASUM",  "SAXPY",  "SCASUM",  "SCNRM2",  "SCOPY",  "SDOT",  "SGEEV",  "SGELSD",  "SGEMM",  "SGEMV",  "SGEQRF",  "SGER",  "SGESV",  "SGESVD",  "SGETRF",  "SLASCL",  "SLASWP",  "SNRM2",  "SORGQR",  "SORMQR",  "SPOSV",  "SPOTRF",  "SPOTRI",  "SSCAL",  "SSWAP",  "SSYEV",  "SSYEVD",  "SSYEVR",  "SSYEVX",  "SSYGVD",  "SSYGVX",  "SSYRK",  "SSYSV",  "ZAXPY",  "ZCOPY",  "ZDOTC",  "ZDOTU",  "ZDSCAL",  "ZGEEV",  "ZGEMM",  "ZGEMV",  "ZGERC",  "ZGERU",  "ZGESVD",  "ZLASCL",  "ZLASWP",  "ZPOTRI",  "ZSCAL",  "ZSWAP",  "ZSYRK", 	0
 };
 
 static char *routine_arguments[][23] = {
@@ -124,9 +124,13 @@ static char *routine_arguments[][23] = {
    { "M", "N", "ALPHA", "X", "INCX", "Y", "INCY", "A", "LDA" }, 
    { "M", "N", "ALPHA", "X", "INCX", "Y", "INCY", "A", "LDA" }, 
    { "JOBU", "JOBVT", "M", "N", "A", "LDA", "S", "U", "LDU", "VT", "LDVT", "WORK", "LWORK", "RWORK", "INFO" }, 
+   { "TYPE", "KL", "KU", "CFROM", "CTO", "M", "N", "A", "LDA", "INFO" }, 
+   { "N", "A", "LDA", "K1", "K2", "IPIV", "INCX" }, 
+   { "UPLO", "N", "A", "LDA", "INFO" }, 
    { "N", "CA", "CX", "INCX" }, 
    { "N", "SA", "CX", "INCX" }, 
    { "N", "CX", "INCX", "CY", "INCY" }, 
+   { "UPLO", "TRANS", "N", "K", "ALPHA", "A", "LDA", "BETA", "C", "LDC" }, 
    { "N", "DX", "INCX" }, 
    { "N", "DA", "DX", "INCX", "DY", "INCY" }, 
    { "N", "DX", "INCX", "DY", "INCY" }, 
@@ -140,10 +144,13 @@ static char *routine_arguments[][23] = {
    { "N", "NRHS", "A", "LDA", "IPIV", "B", "LDB", "INFO" }, 
    { "JOBU", "JOBVT", "M", "N", "A", "LDA", "S", "U", "LDU", "VT", "LDVT", "WORK", "LWORK", "INFO" }, 
    { "M", "N", "A", "LDA", "IPIV", "INFO" }, 
+   { "TYPE", "KL", "KU", "CFROM", "CTO", "M", "N", "A", "LDA", "INFO" }, 
+   { "N", "A", "LDA", "K1", "K2", "IPIV", "INCX" }, 
    { "N", "X", "INCX" }, 
    { "M", "N", "K", "A", "LDA", "TAU", "WORK", "LWORK", "INFO" }, 
    { "SIDE", "TRANS", "M", "N", "K", "A", "LDA", "TAU", "C", "LDC", "WORK", "LWORK", "INFO" }, 
    { "UPLO", "N", "NRHS", "A", "LDA", "B", "LDB", "INFO" }, 
+   { "UPLO", "N", "A", "LDA", "INFO" }, 
    { "UPLO", "N", "A", "LDA", "INFO" }, 
    { "N", "DA", "DX", "INCX" }, 
    { "N", "DX", "INCX", "DY", "INCY" }, 
@@ -153,6 +160,7 @@ static char *routine_arguments[][23] = {
    { "JOBZ", "RANGE", "UPLO", "N", "A", "LDA", "VL", "VU", "IL", "IU", "ABSTOL", "M", "W", "Z", "LDZ", "WORK", "LWORK", "IWORK", "IFAIL", "INFO" }, 
    { "ITYPE", "JOBZ", "UPLO", "N", "A", "LDA", "B", "LDB", "W", "WORK", "LWORK", "IWORK", "LIWORK", "INFO" }, 
    { "ITYPE", "JOBZ", "RANGE", "UPLO", "N", "A", "LDA", "B", "LDB", "VL", "VU", "IL", "IU", "ABSTOL", "M", "W", "Z", "LDZ", "WORK", "LWORK", "IWORK", "IFAIL", "INFO" }, 
+   { "UPLO", "TRANS", "N", "K", "ALPHA", "A", "LDA", "BETA", "C", "LDC" }, 
    { "UPLO", "N", "NRHS", "A", "LDA", "IPIV", "B", "LDB", "WORK", "LWORK", "INFO" }, 
    { "N", "ZX", "INCX" }, 
    { "N", "X", "INCX" }, 
@@ -176,10 +184,13 @@ static char *routine_arguments[][23] = {
    { "N", "NRHS", "A", "LDA", "IPIV", "B", "LDB", "INFO" }, 
    { "JOBU", "JOBVT", "M", "N", "A", "LDA", "S", "U", "LDU", "VT", "LDVT", "WORK", "LWORK", "INFO" }, 
    { "M", "N", "A", "LDA", "IPIV", "INFO" }, 
+   { "TYPE", "KL", "KU", "CFROM", "CTO", "M", "N", "A", "LDA", "INFO" }, 
+   { "N", "A", "LDA", "K1", "K2", "IPIV", "INCX" }, 
    { "N", "X", "INCX" }, 
    { "M", "N", "K", "A", "LDA", "TAU", "WORK", "LWORK", "INFO" }, 
    { "SIDE", "TRANS", "M", "N", "K", "A", "LDA", "TAU", "C", "LDC", "WORK", "LWORK", "INFO" }, 
    { "UPLO", "N", "NRHS", "A", "LDA", "B", "LDB", "INFO" }, 
+   { "UPLO", "N", "A", "LDA", "INFO" }, 
    { "UPLO", "N", "A", "LDA", "INFO" }, 
    { "N", "SA", "SX", "INCX" }, 
    { "N", "SX", "INCX", "SY", "INCY" }, 
@@ -189,6 +200,7 @@ static char *routine_arguments[][23] = {
    { "JOBZ", "RANGE", "UPLO", "N", "A", "LDA", "VL", "VU", "IL", "IU", "ABSTOL", "M", "W", "Z", "LDZ", "WORK", "LWORK", "IWORK", "IFAIL", "INFO" }, 
    { "ITYPE", "JOBZ", "UPLO", "N", "A", "LDA", "B", "LDB", "W", "WORK", "LWORK", "IWORK", "LIWORK", "INFO" }, 
    { "ITYPE", "JOBZ", "RANGE", "UPLO", "N", "A", "LDA", "B", "LDB", "VL", "VU", "IL", "IU", "ABSTOL", "M", "W", "Z", "LDZ", "WORK", "LWORK", "IWORK", "IFAIL", "INFO" }, 
+   { "UPLO", "TRANS", "N", "K", "ALPHA", "A", "LDA", "BETA", "C", "LDC" }, 
    { "UPLO", "N", "NRHS", "A", "LDA", "IPIV", "B", "LDB", "WORK", "LWORK", "INFO" }, 
    { "N", "ZA", "ZX", "INCX", "ZY", "INCY" }, 
    { "N", "ZX", "INCX", "ZY", "INCY" }, 
@@ -201,8 +213,12 @@ static char *routine_arguments[][23] = {
    { "M", "N", "ALPHA", "X", "INCX", "Y", "INCY", "A", "LDA" }, 
    { "M", "N", "ALPHA", "X", "INCX", "Y", "INCY", "A", "LDA" }, 
    { "JOBU", "JOBVT", "M", "N", "A", "LDA", "S", "U", "LDU", "VT", "LDVT", "WORK", "LWORK", "RWORK", "INFO" }, 
+   { "TYPE", "KL", "KU", "CFROM", "CTO", "M", "N", "A", "LDA", "INFO" }, 
+   { "N", "A", "LDA", "K1", "K2", "IPIV", "INCX" }, 
+   { "UPLO", "N", "A", "LDA", "INFO" }, 
    { "N", "ZA", "ZX", "INCX" }, 
    { "N", "ZX", "INCX", "ZY", "INCY" }, 
+   { "UPLO", "TRANS", "N", "K", "ALPHA", "A", "LDA", "BETA", "C", "LDC" }, 
 };
 
 /**********************************************************************/
@@ -229,8 +245,10 @@ void xerbla_(char *fct, int *info)
 	//fprintf(stderr, "Searching for function \"%s\"\n", name);
 	
 	for (p = routine_names, i = 0; *p; p++, i++)
-		if (!strcmp(*p, name))
+		if (!strcmp(*p, name)) {
 			arguments = routine_arguments[i];
+			break;
+		}
 			
 	if (!arguments) {
 		sprintf(buffer, "XERBLA: Error on argument %d for *unknown function* %s (how odd!)\n", *info, name);
@@ -252,7 +270,7 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_ccopy(JNIEnv *env, jclass this,
   
   jfloat *cxPtrBase = 0, *cxPtr = 0;
   if (cx) {
-    cxPtrBase = (*env)->GetFloatArrayElements(env, cx, NULL);
+    cxPtrBase = (*env)->GetPrimitiveArrayCritical(env, cx, NULL);
     cxPtr = cxPtrBase + 2*cxIdx;
   }
   jfloat *cyPtrBase = 0, *cyPtr = 0;
@@ -260,20 +278,20 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_ccopy(JNIEnv *env, jclass this,
     if((*env)->IsSameObject(env, cy, cx) == JNI_TRUE)
       cyPtrBase = cxPtrBase;
     else
-      cyPtrBase = (*env)->GetFloatArrayElements(env, cy, NULL);
+      cyPtrBase = (*env)->GetPrimitiveArrayCritical(env, cy, NULL);
     cyPtr = cyPtrBase + 2*cyIdx;
   }
 
   savedEnv = env;
   ccopy_(&n, cxPtr, &incx, cyPtr, &incy);
   if(cyPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, cy, cyPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, cy, cyPtrBase, 0);
     if (cyPtrBase == cxPtrBase)
       cxPtrBase = 0;
     cyPtrBase = 0;
   }
   if(cxPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, cx, cxPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, cx, cxPtrBase, 0);
     cxPtrBase = 0;
   }
 
@@ -285,7 +303,7 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_dcopy(JNIEnv *env, jclass this,
   
   jdouble *dxPtrBase = 0, *dxPtr = 0;
   if (dx) {
-    dxPtrBase = (*env)->GetDoubleArrayElements(env, dx, NULL);
+    dxPtrBase = (*env)->GetPrimitiveArrayCritical(env, dx, NULL);
     dxPtr = dxPtrBase + dxIdx;
   }
   jdouble *dyPtrBase = 0, *dyPtr = 0;
@@ -293,20 +311,20 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_dcopy(JNIEnv *env, jclass this,
     if((*env)->IsSameObject(env, dy, dx) == JNI_TRUE)
       dyPtrBase = dxPtrBase;
     else
-      dyPtrBase = (*env)->GetDoubleArrayElements(env, dy, NULL);
+      dyPtrBase = (*env)->GetPrimitiveArrayCritical(env, dy, NULL);
     dyPtr = dyPtrBase + dyIdx;
   }
 
   savedEnv = env;
   dcopy_(&n, dxPtr, &incx, dyPtr, &incy);
   if(dyPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, dy, dyPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, dy, dyPtrBase, 0);
     if (dyPtrBase == dxPtrBase)
       dxPtrBase = 0;
     dyPtrBase = 0;
   }
   if(dxPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, dx, dxPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, dx, dxPtrBase, 0);
     dxPtrBase = 0;
   }
 
@@ -318,7 +336,7 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_scopy(JNIEnv *env, jclass this,
   
   jfloat *sxPtrBase = 0, *sxPtr = 0;
   if (sx) {
-    sxPtrBase = (*env)->GetFloatArrayElements(env, sx, NULL);
+    sxPtrBase = (*env)->GetPrimitiveArrayCritical(env, sx, NULL);
     sxPtr = sxPtrBase + sxIdx;
   }
   jfloat *syPtrBase = 0, *syPtr = 0;
@@ -326,20 +344,20 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_scopy(JNIEnv *env, jclass this,
     if((*env)->IsSameObject(env, sy, sx) == JNI_TRUE)
       syPtrBase = sxPtrBase;
     else
-      syPtrBase = (*env)->GetFloatArrayElements(env, sy, NULL);
+      syPtrBase = (*env)->GetPrimitiveArrayCritical(env, sy, NULL);
     syPtr = syPtrBase + syIdx;
   }
 
   savedEnv = env;
   scopy_(&n, sxPtr, &incx, syPtr, &incy);
   if(syPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, sy, syPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, sy, syPtrBase, 0);
     if (syPtrBase == sxPtrBase)
       sxPtrBase = 0;
     syPtrBase = 0;
   }
   if(sxPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, sx, sxPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, sx, sxPtrBase, 0);
     sxPtrBase = 0;
   }
 
@@ -351,7 +369,7 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_zcopy(JNIEnv *env, jclass this,
   
   jdouble *zxPtrBase = 0, *zxPtr = 0;
   if (zx) {
-    zxPtrBase = (*env)->GetDoubleArrayElements(env, zx, NULL);
+    zxPtrBase = (*env)->GetPrimitiveArrayCritical(env, zx, NULL);
     zxPtr = zxPtrBase + 2*zxIdx;
   }
   jdouble *zyPtrBase = 0, *zyPtr = 0;
@@ -359,20 +377,20 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_zcopy(JNIEnv *env, jclass this,
     if((*env)->IsSameObject(env, zy, zx) == JNI_TRUE)
       zyPtrBase = zxPtrBase;
     else
-      zyPtrBase = (*env)->GetDoubleArrayElements(env, zy, NULL);
+      zyPtrBase = (*env)->GetPrimitiveArrayCritical(env, zy, NULL);
     zyPtr = zyPtrBase + 2*zyIdx;
   }
 
   savedEnv = env;
   zcopy_(&n, zxPtr, &incx, zyPtr, &incy);
   if(zyPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, zy, zyPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, zy, zyPtrBase, 0);
     if (zyPtrBase == zxPtrBase)
       zxPtrBase = 0;
     zyPtrBase = 0;
   }
   if(zxPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, zx, zxPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, zx, zxPtrBase, 0);
     zxPtrBase = 0;
   }
 
@@ -384,7 +402,7 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_cswap(JNIEnv *env, jclass this,
   
   jfloat *cxPtrBase = 0, *cxPtr = 0;
   if (cx) {
-    cxPtrBase = (*env)->GetFloatArrayElements(env, cx, NULL);
+    cxPtrBase = (*env)->GetPrimitiveArrayCritical(env, cx, NULL);
     cxPtr = cxPtrBase + 2*cxIdx;
   }
   jfloat *cyPtrBase = 0, *cyPtr = 0;
@@ -392,20 +410,20 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_cswap(JNIEnv *env, jclass this,
     if((*env)->IsSameObject(env, cy, cx) == JNI_TRUE)
       cyPtrBase = cxPtrBase;
     else
-      cyPtrBase = (*env)->GetFloatArrayElements(env, cy, NULL);
+      cyPtrBase = (*env)->GetPrimitiveArrayCritical(env, cy, NULL);
     cyPtr = cyPtrBase + 2*cyIdx;
   }
 
   savedEnv = env;
   cswap_(&n, cxPtr, &incx, cyPtr, &incy);
   if(cyPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, cy, cyPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, cy, cyPtrBase, 0);
     if (cyPtrBase == cxPtrBase)
       cxPtrBase = 0;
     cyPtrBase = 0;
   }
   if(cxPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, cx, cxPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, cx, cxPtrBase, 0);
     cxPtrBase = 0;
   }
 
@@ -417,7 +435,7 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_dswap(JNIEnv *env, jclass this,
   
   jdouble *dxPtrBase = 0, *dxPtr = 0;
   if (dx) {
-    dxPtrBase = (*env)->GetDoubleArrayElements(env, dx, NULL);
+    dxPtrBase = (*env)->GetPrimitiveArrayCritical(env, dx, NULL);
     dxPtr = dxPtrBase + dxIdx;
   }
   jdouble *dyPtrBase = 0, *dyPtr = 0;
@@ -425,20 +443,20 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_dswap(JNIEnv *env, jclass this,
     if((*env)->IsSameObject(env, dy, dx) == JNI_TRUE)
       dyPtrBase = dxPtrBase;
     else
-      dyPtrBase = (*env)->GetDoubleArrayElements(env, dy, NULL);
+      dyPtrBase = (*env)->GetPrimitiveArrayCritical(env, dy, NULL);
     dyPtr = dyPtrBase + dyIdx;
   }
 
   savedEnv = env;
   dswap_(&n, dxPtr, &incx, dyPtr, &incy);
   if(dyPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, dy, dyPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, dy, dyPtrBase, 0);
     if (dyPtrBase == dxPtrBase)
       dxPtrBase = 0;
     dyPtrBase = 0;
   }
   if(dxPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, dx, dxPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, dx, dxPtrBase, 0);
     dxPtrBase = 0;
   }
 
@@ -450,7 +468,7 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_sswap(JNIEnv *env, jclass this,
   
   jfloat *sxPtrBase = 0, *sxPtr = 0;
   if (sx) {
-    sxPtrBase = (*env)->GetFloatArrayElements(env, sx, NULL);
+    sxPtrBase = (*env)->GetPrimitiveArrayCritical(env, sx, NULL);
     sxPtr = sxPtrBase + sxIdx;
   }
   jfloat *syPtrBase = 0, *syPtr = 0;
@@ -458,20 +476,20 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_sswap(JNIEnv *env, jclass this,
     if((*env)->IsSameObject(env, sy, sx) == JNI_TRUE)
       syPtrBase = sxPtrBase;
     else
-      syPtrBase = (*env)->GetFloatArrayElements(env, sy, NULL);
+      syPtrBase = (*env)->GetPrimitiveArrayCritical(env, sy, NULL);
     syPtr = syPtrBase + syIdx;
   }
 
   savedEnv = env;
   sswap_(&n, sxPtr, &incx, syPtr, &incy);
   if(syPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, sy, syPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, sy, syPtrBase, 0);
     if (syPtrBase == sxPtrBase)
       sxPtrBase = 0;
     syPtrBase = 0;
   }
   if(sxPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, sx, sxPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, sx, sxPtrBase, 0);
     sxPtrBase = 0;
   }
 
@@ -483,7 +501,7 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_zswap(JNIEnv *env, jclass this,
   
   jdouble *zxPtrBase = 0, *zxPtr = 0;
   if (zx) {
-    zxPtrBase = (*env)->GetDoubleArrayElements(env, zx, NULL);
+    zxPtrBase = (*env)->GetPrimitiveArrayCritical(env, zx, NULL);
     zxPtr = zxPtrBase + 2*zxIdx;
   }
   jdouble *zyPtrBase = 0, *zyPtr = 0;
@@ -491,20 +509,20 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_zswap(JNIEnv *env, jclass this,
     if((*env)->IsSameObject(env, zy, zx) == JNI_TRUE)
       zyPtrBase = zxPtrBase;
     else
-      zyPtrBase = (*env)->GetDoubleArrayElements(env, zy, NULL);
+      zyPtrBase = (*env)->GetPrimitiveArrayCritical(env, zy, NULL);
     zyPtr = zyPtrBase + 2*zyIdx;
   }
 
   savedEnv = env;
   zswap_(&n, zxPtr, &incx, zyPtr, &incy);
   if(zyPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, zy, zyPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, zy, zyPtrBase, 0);
     if (zyPtrBase == zxPtrBase)
       zxPtrBase = 0;
     zyPtrBase = 0;
   }
   if(zxPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, zx, zxPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, zx, zxPtrBase, 0);
     zxPtrBase = 0;
   }
 
@@ -518,7 +536,7 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_caxpy(JNIEnv *env, jclass this,
   caCplx = getComplexFloat(env, ca);
   jfloat *cxPtrBase = 0, *cxPtr = 0;
   if (cx) {
-    cxPtrBase = (*env)->GetFloatArrayElements(env, cx, NULL);
+    cxPtrBase = (*env)->GetPrimitiveArrayCritical(env, cx, NULL);
     cxPtr = cxPtrBase + 2*cxIdx;
   }
   jfloat *cyPtrBase = 0, *cyPtr = 0;
@@ -526,20 +544,20 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_caxpy(JNIEnv *env, jclass this,
     if((*env)->IsSameObject(env, cy, cx) == JNI_TRUE)
       cyPtrBase = cxPtrBase;
     else
-      cyPtrBase = (*env)->GetFloatArrayElements(env, cy, NULL);
+      cyPtrBase = (*env)->GetPrimitiveArrayCritical(env, cy, NULL);
     cyPtr = cyPtrBase + 2*cyIdx;
   }
 
   savedEnv = env;
   caxpy_(&n, &caCplx, cxPtr, &incx, cyPtr, &incy);
   if(cyPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, cy, cyPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, cy, cyPtrBase, 0);
     if (cyPtrBase == cxPtrBase)
       cxPtrBase = 0;
     cyPtrBase = 0;
   }
   if(cxPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, cx, cxPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, cx, cxPtrBase, 0);
     cxPtrBase = 0;
   }
 
@@ -551,7 +569,7 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_daxpy(JNIEnv *env, jclass this,
   
   jdouble *dxPtrBase = 0, *dxPtr = 0;
   if (dx) {
-    dxPtrBase = (*env)->GetDoubleArrayElements(env, dx, NULL);
+    dxPtrBase = (*env)->GetPrimitiveArrayCritical(env, dx, NULL);
     dxPtr = dxPtrBase + dxIdx;
   }
   jdouble *dyPtrBase = 0, *dyPtr = 0;
@@ -559,20 +577,20 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_daxpy(JNIEnv *env, jclass this,
     if((*env)->IsSameObject(env, dy, dx) == JNI_TRUE)
       dyPtrBase = dxPtrBase;
     else
-      dyPtrBase = (*env)->GetDoubleArrayElements(env, dy, NULL);
+      dyPtrBase = (*env)->GetPrimitiveArrayCritical(env, dy, NULL);
     dyPtr = dyPtrBase + dyIdx;
   }
 
   savedEnv = env;
   daxpy_(&n, &da, dxPtr, &incx, dyPtr, &incy);
   if(dyPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, dy, dyPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, dy, dyPtrBase, 0);
     if (dyPtrBase == dxPtrBase)
       dxPtrBase = 0;
     dyPtrBase = 0;
   }
   if(dxPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, dx, dxPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, dx, dxPtrBase, 0);
     dxPtrBase = 0;
   }
 
@@ -584,7 +602,7 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_saxpy(JNIEnv *env, jclass this,
   
   jfloat *sxPtrBase = 0, *sxPtr = 0;
   if (sx) {
-    sxPtrBase = (*env)->GetFloatArrayElements(env, sx, NULL);
+    sxPtrBase = (*env)->GetPrimitiveArrayCritical(env, sx, NULL);
     sxPtr = sxPtrBase + sxIdx;
   }
   jfloat *syPtrBase = 0, *syPtr = 0;
@@ -592,20 +610,20 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_saxpy(JNIEnv *env, jclass this,
     if((*env)->IsSameObject(env, sy, sx) == JNI_TRUE)
       syPtrBase = sxPtrBase;
     else
-      syPtrBase = (*env)->GetFloatArrayElements(env, sy, NULL);
+      syPtrBase = (*env)->GetPrimitiveArrayCritical(env, sy, NULL);
     syPtr = syPtrBase + syIdx;
   }
 
   savedEnv = env;
   saxpy_(&n, &sa, sxPtr, &incx, syPtr, &incy);
   if(syPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, sy, syPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, sy, syPtrBase, 0);
     if (syPtrBase == sxPtrBase)
       sxPtrBase = 0;
     syPtrBase = 0;
   }
   if(sxPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, sx, sxPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, sx, sxPtrBase, 0);
     sxPtrBase = 0;
   }
 
@@ -619,7 +637,7 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_zaxpy(JNIEnv *env, jclass this,
   zaCplx = getComplexDouble(env, za);
   jdouble *zxPtrBase = 0, *zxPtr = 0;
   if (zx) {
-    zxPtrBase = (*env)->GetDoubleArrayElements(env, zx, NULL);
+    zxPtrBase = (*env)->GetPrimitiveArrayCritical(env, zx, NULL);
     zxPtr = zxPtrBase + 2*zxIdx;
   }
   jdouble *zyPtrBase = 0, *zyPtr = 0;
@@ -627,20 +645,20 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_zaxpy(JNIEnv *env, jclass this,
     if((*env)->IsSameObject(env, zy, zx) == JNI_TRUE)
       zyPtrBase = zxPtrBase;
     else
-      zyPtrBase = (*env)->GetDoubleArrayElements(env, zy, NULL);
+      zyPtrBase = (*env)->GetPrimitiveArrayCritical(env, zy, NULL);
     zyPtr = zyPtrBase + 2*zyIdx;
   }
 
   savedEnv = env;
   zaxpy_(&n, &zaCplx, zxPtr, &incx, zyPtr, &incy);
   if(zyPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, zy, zyPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, zy, zyPtrBase, 0);
     if (zyPtrBase == zxPtrBase)
       zxPtrBase = 0;
     zyPtrBase = 0;
   }
   if(zxPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, zx, zxPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, zx, zxPtrBase, 0);
     zxPtrBase = 0;
   }
 
@@ -654,14 +672,14 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_cscal(JNIEnv *env, jclass this,
   caCplx = getComplexFloat(env, ca);
   jfloat *cxPtrBase = 0, *cxPtr = 0;
   if (cx) {
-    cxPtrBase = (*env)->GetFloatArrayElements(env, cx, NULL);
+    cxPtrBase = (*env)->GetPrimitiveArrayCritical(env, cx, NULL);
     cxPtr = cxPtrBase + 2*cxIdx;
   }
 
   savedEnv = env;
   cscal_(&n, &caCplx, cxPtr, &incx);
   if(cxPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, cx, cxPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, cx, cxPtrBase, 0);
     cxPtrBase = 0;
   }
 
@@ -673,14 +691,14 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_dscal(JNIEnv *env, jclass this,
   
   jdouble *dxPtrBase = 0, *dxPtr = 0;
   if (dx) {
-    dxPtrBase = (*env)->GetDoubleArrayElements(env, dx, NULL);
+    dxPtrBase = (*env)->GetPrimitiveArrayCritical(env, dx, NULL);
     dxPtr = dxPtrBase + dxIdx;
   }
 
   savedEnv = env;
   dscal_(&n, &da, dxPtr, &incx);
   if(dxPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, dx, dxPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, dx, dxPtrBase, 0);
     dxPtrBase = 0;
   }
 
@@ -692,14 +710,14 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_sscal(JNIEnv *env, jclass this,
   
   jfloat *sxPtrBase = 0, *sxPtr = 0;
   if (sx) {
-    sxPtrBase = (*env)->GetFloatArrayElements(env, sx, NULL);
+    sxPtrBase = (*env)->GetPrimitiveArrayCritical(env, sx, NULL);
     sxPtr = sxPtrBase + sxIdx;
   }
 
   savedEnv = env;
   sscal_(&n, &sa, sxPtr, &incx);
   if(sxPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, sx, sxPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, sx, sxPtrBase, 0);
     sxPtrBase = 0;
   }
 
@@ -713,14 +731,14 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_zscal(JNIEnv *env, jclass this,
   zaCplx = getComplexDouble(env, za);
   jdouble *zxPtrBase = 0, *zxPtr = 0;
   if (zx) {
-    zxPtrBase = (*env)->GetDoubleArrayElements(env, zx, NULL);
+    zxPtrBase = (*env)->GetPrimitiveArrayCritical(env, zx, NULL);
     zxPtr = zxPtrBase + 2*zxIdx;
   }
 
   savedEnv = env;
   zscal_(&n, &zaCplx, zxPtr, &incx);
   if(zxPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, zx, zxPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, zx, zxPtrBase, 0);
     zxPtrBase = 0;
   }
 
@@ -732,14 +750,14 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_csscal(JNIEnv *env, jclass this
   
   jfloat *cxPtrBase = 0, *cxPtr = 0;
   if (cx) {
-    cxPtrBase = (*env)->GetFloatArrayElements(env, cx, NULL);
+    cxPtrBase = (*env)->GetPrimitiveArrayCritical(env, cx, NULL);
     cxPtr = cxPtrBase + 2*cxIdx;
   }
 
   savedEnv = env;
   csscal_(&n, &sa, cxPtr, &incx);
   if(cxPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, cx, cxPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, cx, cxPtrBase, 0);
     cxPtrBase = 0;
   }
 
@@ -751,14 +769,14 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_zdscal(JNIEnv *env, jclass this
   
   jdouble *zxPtrBase = 0, *zxPtr = 0;
   if (zx) {
-    zxPtrBase = (*env)->GetDoubleArrayElements(env, zx, NULL);
+    zxPtrBase = (*env)->GetPrimitiveArrayCritical(env, zx, NULL);
     zxPtr = zxPtrBase + 2*zxIdx;
   }
 
   savedEnv = env;
   zdscal_(&n, &da, zxPtr, &incx);
   if(zxPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, zx, zxPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, zx, zxPtrBase, 0);
     zxPtrBase = 0;
   }
 
@@ -770,7 +788,7 @@ JNIEXPORT jobject JNICALL Java_org_jblas_NativeBlas_cdotc(JNIEnv *env, jclass th
   
   jfloat *cxPtrBase = 0, *cxPtr = 0;
   if (cx) {
-    cxPtrBase = (*env)->GetFloatArrayElements(env, cx, NULL);
+    cxPtrBase = (*env)->GetPrimitiveArrayCritical(env, cx, NULL);
     cxPtr = cxPtrBase + 2*cxIdx;
   }
   jfloat *cyPtrBase = 0, *cyPtr = 0;
@@ -778,20 +796,20 @@ JNIEXPORT jobject JNICALL Java_org_jblas_NativeBlas_cdotc(JNIEnv *env, jclass th
     if((*env)->IsSameObject(env, cy, cx) == JNI_TRUE)
       cyPtrBase = cxPtrBase;
     else
-      cyPtrBase = (*env)->GetFloatArrayElements(env, cy, NULL);
+      cyPtrBase = (*env)->GetPrimitiveArrayCritical(env, cy, NULL);
     cyPtr = cyPtrBase + 2*cyIdx;
   }
 
   savedEnv = env;
   float complex retval = cdotc_(&n, cxPtr, &incx, cyPtr, &incy);
   if(cyPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, cy, cyPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, cy, cyPtrBase, 0);
     if (cyPtrBase == cxPtrBase)
       cxPtrBase = 0;
     cyPtrBase = 0;
   }
   if(cxPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, cx, cxPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, cx, cxPtrBase, 0);
     cxPtrBase = 0;
   }
 
@@ -804,7 +822,7 @@ JNIEXPORT jobject JNICALL Java_org_jblas_NativeBlas_cdotu(JNIEnv *env, jclass th
   
   jfloat *cxPtrBase = 0, *cxPtr = 0;
   if (cx) {
-    cxPtrBase = (*env)->GetFloatArrayElements(env, cx, NULL);
+    cxPtrBase = (*env)->GetPrimitiveArrayCritical(env, cx, NULL);
     cxPtr = cxPtrBase + 2*cxIdx;
   }
   jfloat *cyPtrBase = 0, *cyPtr = 0;
@@ -812,20 +830,20 @@ JNIEXPORT jobject JNICALL Java_org_jblas_NativeBlas_cdotu(JNIEnv *env, jclass th
     if((*env)->IsSameObject(env, cy, cx) == JNI_TRUE)
       cyPtrBase = cxPtrBase;
     else
-      cyPtrBase = (*env)->GetFloatArrayElements(env, cy, NULL);
+      cyPtrBase = (*env)->GetPrimitiveArrayCritical(env, cy, NULL);
     cyPtr = cyPtrBase + 2*cyIdx;
   }
 
   savedEnv = env;
   float complex retval = cdotu_(&n, cxPtr, &incx, cyPtr, &incy);
   if(cyPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, cy, cyPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, cy, cyPtrBase, 0);
     if (cyPtrBase == cxPtrBase)
       cxPtrBase = 0;
     cyPtrBase = 0;
   }
   if(cxPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, cx, cxPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, cx, cxPtrBase, 0);
     cxPtrBase = 0;
   }
 
@@ -838,7 +856,7 @@ JNIEXPORT jdouble JNICALL Java_org_jblas_NativeBlas_ddot(JNIEnv *env, jclass thi
   
   jdouble *dxPtrBase = 0, *dxPtr = 0;
   if (dx) {
-    dxPtrBase = (*env)->GetDoubleArrayElements(env, dx, NULL);
+    dxPtrBase = (*env)->GetPrimitiveArrayCritical(env, dx, NULL);
     dxPtr = dxPtrBase + dxIdx;
   }
   jdouble *dyPtrBase = 0, *dyPtr = 0;
@@ -846,20 +864,20 @@ JNIEXPORT jdouble JNICALL Java_org_jblas_NativeBlas_ddot(JNIEnv *env, jclass thi
     if((*env)->IsSameObject(env, dy, dx) == JNI_TRUE)
       dyPtrBase = dxPtrBase;
     else
-      dyPtrBase = (*env)->GetDoubleArrayElements(env, dy, NULL);
+      dyPtrBase = (*env)->GetPrimitiveArrayCritical(env, dy, NULL);
     dyPtr = dyPtrBase + dyIdx;
   }
 
   savedEnv = env;
   jdouble retval = ddot_(&n, dxPtr, &incx, dyPtr, &incy);
   if(dyPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, dy, dyPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, dy, dyPtrBase, 0);
     if (dyPtrBase == dxPtrBase)
       dxPtrBase = 0;
     dyPtrBase = 0;
   }
   if(dxPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, dx, dxPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, dx, dxPtrBase, 0);
     dxPtrBase = 0;
   }
 
@@ -872,7 +890,7 @@ JNIEXPORT jfloat JNICALL Java_org_jblas_NativeBlas_sdot(JNIEnv *env, jclass this
   
   jfloat *sxPtrBase = 0, *sxPtr = 0;
   if (sx) {
-    sxPtrBase = (*env)->GetFloatArrayElements(env, sx, NULL);
+    sxPtrBase = (*env)->GetPrimitiveArrayCritical(env, sx, NULL);
     sxPtr = sxPtrBase + sxIdx;
   }
   jfloat *syPtrBase = 0, *syPtr = 0;
@@ -880,20 +898,20 @@ JNIEXPORT jfloat JNICALL Java_org_jblas_NativeBlas_sdot(JNIEnv *env, jclass this
     if((*env)->IsSameObject(env, sy, sx) == JNI_TRUE)
       syPtrBase = sxPtrBase;
     else
-      syPtrBase = (*env)->GetFloatArrayElements(env, sy, NULL);
+      syPtrBase = (*env)->GetPrimitiveArrayCritical(env, sy, NULL);
     syPtr = syPtrBase + syIdx;
   }
 
   savedEnv = env;
   jfloat retval = sdot_(&n, sxPtr, &incx, syPtr, &incy);
   if(syPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, sy, syPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, sy, syPtrBase, 0);
     if (syPtrBase == sxPtrBase)
       sxPtrBase = 0;
     syPtrBase = 0;
   }
   if(sxPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, sx, sxPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, sx, sxPtrBase, 0);
     sxPtrBase = 0;
   }
 
@@ -906,7 +924,7 @@ JNIEXPORT jobject JNICALL Java_org_jblas_NativeBlas_zdotc(JNIEnv *env, jclass th
   
   jdouble *zxPtrBase = 0, *zxPtr = 0;
   if (zx) {
-    zxPtrBase = (*env)->GetDoubleArrayElements(env, zx, NULL);
+    zxPtrBase = (*env)->GetPrimitiveArrayCritical(env, zx, NULL);
     zxPtr = zxPtrBase + 2*zxIdx;
   }
   jdouble *zyPtrBase = 0, *zyPtr = 0;
@@ -914,20 +932,20 @@ JNIEXPORT jobject JNICALL Java_org_jblas_NativeBlas_zdotc(JNIEnv *env, jclass th
     if((*env)->IsSameObject(env, zy, zx) == JNI_TRUE)
       zyPtrBase = zxPtrBase;
     else
-      zyPtrBase = (*env)->GetDoubleArrayElements(env, zy, NULL);
+      zyPtrBase = (*env)->GetPrimitiveArrayCritical(env, zy, NULL);
     zyPtr = zyPtrBase + 2*zyIdx;
   }
 
   savedEnv = env;
   double complex retval = zdotc_(&n, zxPtr, &incx, zyPtr, &incy);
   if(zyPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, zy, zyPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, zy, zyPtrBase, 0);
     if (zyPtrBase == zxPtrBase)
       zxPtrBase = 0;
     zyPtrBase = 0;
   }
   if(zxPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, zx, zxPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, zx, zxPtrBase, 0);
     zxPtrBase = 0;
   }
 
@@ -940,7 +958,7 @@ JNIEXPORT jobject JNICALL Java_org_jblas_NativeBlas_zdotu(JNIEnv *env, jclass th
   
   jdouble *zxPtrBase = 0, *zxPtr = 0;
   if (zx) {
-    zxPtrBase = (*env)->GetDoubleArrayElements(env, zx, NULL);
+    zxPtrBase = (*env)->GetPrimitiveArrayCritical(env, zx, NULL);
     zxPtr = zxPtrBase + 2*zxIdx;
   }
   jdouble *zyPtrBase = 0, *zyPtr = 0;
@@ -948,20 +966,20 @@ JNIEXPORT jobject JNICALL Java_org_jblas_NativeBlas_zdotu(JNIEnv *env, jclass th
     if((*env)->IsSameObject(env, zy, zx) == JNI_TRUE)
       zyPtrBase = zxPtrBase;
     else
-      zyPtrBase = (*env)->GetDoubleArrayElements(env, zy, NULL);
+      zyPtrBase = (*env)->GetPrimitiveArrayCritical(env, zy, NULL);
     zyPtr = zyPtrBase + 2*zyIdx;
   }
 
   savedEnv = env;
   double complex retval = zdotu_(&n, zxPtr, &incx, zyPtr, &incy);
   if(zyPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, zy, zyPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, zy, zyPtrBase, 0);
     if (zyPtrBase == zxPtrBase)
       zxPtrBase = 0;
     zyPtrBase = 0;
   }
   if(zxPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, zx, zxPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, zx, zxPtrBase, 0);
     zxPtrBase = 0;
   }
 
@@ -974,14 +992,14 @@ JNIEXPORT jdouble JNICALL Java_org_jblas_NativeBlas_dnrm2(JNIEnv *env, jclass th
   
   jdouble *xPtrBase = 0, *xPtr = 0;
   if (x) {
-    xPtrBase = (*env)->GetDoubleArrayElements(env, x, NULL);
+    xPtrBase = (*env)->GetPrimitiveArrayCritical(env, x, NULL);
     xPtr = xPtrBase + xIdx;
   }
 
   savedEnv = env;
   jdouble retval = dnrm2_(&n, xPtr, &incx);
   if(xPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, x, xPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, x, xPtrBase, 0);
     xPtrBase = 0;
   }
 
@@ -994,14 +1012,14 @@ JNIEXPORT jdouble JNICALL Java_org_jblas_NativeBlas_dznrm2(JNIEnv *env, jclass t
   
   jdouble *xPtrBase = 0, *xPtr = 0;
   if (x) {
-    xPtrBase = (*env)->GetDoubleArrayElements(env, x, NULL);
+    xPtrBase = (*env)->GetPrimitiveArrayCritical(env, x, NULL);
     xPtr = xPtrBase + 2*xIdx;
   }
 
   savedEnv = env;
   jdouble retval = dznrm2_(&n, xPtr, &incx);
   if(xPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, x, xPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, x, xPtrBase, 0);
     xPtrBase = 0;
   }
 
@@ -1014,14 +1032,14 @@ JNIEXPORT jfloat JNICALL Java_org_jblas_NativeBlas_scnrm2(JNIEnv *env, jclass th
   
   jfloat *xPtrBase = 0, *xPtr = 0;
   if (x) {
-    xPtrBase = (*env)->GetFloatArrayElements(env, x, NULL);
+    xPtrBase = (*env)->GetPrimitiveArrayCritical(env, x, NULL);
     xPtr = xPtrBase + 2*xIdx;
   }
 
   savedEnv = env;
   jfloat retval = scnrm2_(&n, xPtr, &incx);
   if(xPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, x, xPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, x, xPtrBase, 0);
     xPtrBase = 0;
   }
 
@@ -1034,14 +1052,14 @@ JNIEXPORT jfloat JNICALL Java_org_jblas_NativeBlas_snrm2(JNIEnv *env, jclass thi
   
   jfloat *xPtrBase = 0, *xPtr = 0;
   if (x) {
-    xPtrBase = (*env)->GetFloatArrayElements(env, x, NULL);
+    xPtrBase = (*env)->GetPrimitiveArrayCritical(env, x, NULL);
     xPtr = xPtrBase + xIdx;
   }
 
   savedEnv = env;
   jfloat retval = snrm2_(&n, xPtr, &incx);
   if(xPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, x, xPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, x, xPtrBase, 0);
     xPtrBase = 0;
   }
 
@@ -1054,14 +1072,14 @@ JNIEXPORT jdouble JNICALL Java_org_jblas_NativeBlas_dasum(JNIEnv *env, jclass th
   
   jdouble *dxPtrBase = 0, *dxPtr = 0;
   if (dx) {
-    dxPtrBase = (*env)->GetDoubleArrayElements(env, dx, NULL);
+    dxPtrBase = (*env)->GetPrimitiveArrayCritical(env, dx, NULL);
     dxPtr = dxPtrBase + dxIdx;
   }
 
   savedEnv = env;
   jdouble retval = dasum_(&n, dxPtr, &incx);
   if(dxPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, dx, dxPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, dx, dxPtrBase, 0);
     dxPtrBase = 0;
   }
 
@@ -1074,14 +1092,14 @@ JNIEXPORT jdouble JNICALL Java_org_jblas_NativeBlas_dzasum(JNIEnv *env, jclass t
   
   jdouble *zxPtrBase = 0, *zxPtr = 0;
   if (zx) {
-    zxPtrBase = (*env)->GetDoubleArrayElements(env, zx, NULL);
+    zxPtrBase = (*env)->GetPrimitiveArrayCritical(env, zx, NULL);
     zxPtr = zxPtrBase + 2*zxIdx;
   }
 
   savedEnv = env;
   jdouble retval = dzasum_(&n, zxPtr, &incx);
   if(zxPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, zx, zxPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, zx, zxPtrBase, 0);
     zxPtrBase = 0;
   }
 
@@ -1094,14 +1112,14 @@ JNIEXPORT jfloat JNICALL Java_org_jblas_NativeBlas_sasum(JNIEnv *env, jclass thi
   
   jfloat *sxPtrBase = 0, *sxPtr = 0;
   if (sx) {
-    sxPtrBase = (*env)->GetFloatArrayElements(env, sx, NULL);
+    sxPtrBase = (*env)->GetPrimitiveArrayCritical(env, sx, NULL);
     sxPtr = sxPtrBase + sxIdx;
   }
 
   savedEnv = env;
   jfloat retval = sasum_(&n, sxPtr, &incx);
   if(sxPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, sx, sxPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, sx, sxPtrBase, 0);
     sxPtrBase = 0;
   }
 
@@ -1114,14 +1132,14 @@ JNIEXPORT jfloat JNICALL Java_org_jblas_NativeBlas_scasum(JNIEnv *env, jclass th
   
   jfloat *cxPtrBase = 0, *cxPtr = 0;
   if (cx) {
-    cxPtrBase = (*env)->GetFloatArrayElements(env, cx, NULL);
+    cxPtrBase = (*env)->GetPrimitiveArrayCritical(env, cx, NULL);
     cxPtr = cxPtrBase + 2*cxIdx;
   }
 
   savedEnv = env;
   jfloat retval = scasum_(&n, cxPtr, &incx);
   if(cxPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, cx, cxPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, cx, cxPtrBase, 0);
     cxPtrBase = 0;
   }
 
@@ -1134,14 +1152,14 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_icamax(JNIEnv *env, jclass this
   
   jfloat *cxPtrBase = 0, *cxPtr = 0;
   if (cx) {
-    cxPtrBase = (*env)->GetFloatArrayElements(env, cx, NULL);
+    cxPtrBase = (*env)->GetPrimitiveArrayCritical(env, cx, NULL);
     cxPtr = cxPtrBase + 2*cxIdx;
   }
 
   savedEnv = env;
   jint retval = icamax_(&n, cxPtr, &incx);
   if(cxPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, cx, cxPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, cx, cxPtrBase, 0);
     cxPtrBase = 0;
   }
 
@@ -1154,14 +1172,14 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_idamax(JNIEnv *env, jclass this
   
   jdouble *dxPtrBase = 0, *dxPtr = 0;
   if (dx) {
-    dxPtrBase = (*env)->GetDoubleArrayElements(env, dx, NULL);
+    dxPtrBase = (*env)->GetPrimitiveArrayCritical(env, dx, NULL);
     dxPtr = dxPtrBase + dxIdx;
   }
 
   savedEnv = env;
   jint retval = idamax_(&n, dxPtr, &incx);
   if(dxPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, dx, dxPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, dx, dxPtrBase, 0);
     dxPtrBase = 0;
   }
 
@@ -1174,14 +1192,14 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_isamax(JNIEnv *env, jclass this
   
   jfloat *sxPtrBase = 0, *sxPtr = 0;
   if (sx) {
-    sxPtrBase = (*env)->GetFloatArrayElements(env, sx, NULL);
+    sxPtrBase = (*env)->GetPrimitiveArrayCritical(env, sx, NULL);
     sxPtr = sxPtrBase + sxIdx;
   }
 
   savedEnv = env;
   jint retval = isamax_(&n, sxPtr, &incx);
   if(sxPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, sx, sxPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, sx, sxPtrBase, 0);
     sxPtrBase = 0;
   }
 
@@ -1194,14 +1212,14 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_izamax(JNIEnv *env, jclass this
   
   jdouble *zxPtrBase = 0, *zxPtr = 0;
   if (zx) {
-    zxPtrBase = (*env)->GetDoubleArrayElements(env, zx, NULL);
+    zxPtrBase = (*env)->GetPrimitiveArrayCritical(env, zx, NULL);
     zxPtr = zxPtrBase + 2*zxIdx;
   }
 
   savedEnv = env;
   jint retval = izamax_(&n, zxPtr, &incx);
   if(zxPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, zx, zxPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, zx, zxPtrBase, 0);
     zxPtrBase = 0;
   }
 
@@ -1217,7 +1235,7 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_cgemv(JNIEnv *env, jclass this,
   alphaCplx = getComplexFloat(env, alpha);
   jfloat *aPtrBase = 0, *aPtr = 0;
   if (a) {
-    aPtrBase = (*env)->GetFloatArrayElements(env, a, NULL);
+    aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
     aPtr = aPtrBase + 2*aIdx;
   }
   jfloat *xPtrBase = 0, *xPtr = 0;
@@ -1225,7 +1243,7 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_cgemv(JNIEnv *env, jclass this,
     if((*env)->IsSameObject(env, x, a) == JNI_TRUE)
       xPtrBase = aPtrBase;
     else
-      xPtrBase = (*env)->GetFloatArrayElements(env, x, NULL);
+      xPtrBase = (*env)->GetPrimitiveArrayCritical(env, x, NULL);
     xPtr = xPtrBase + 2*xIdx;
   }
   float complex betaCplx;
@@ -1238,14 +1256,14 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_cgemv(JNIEnv *env, jclass this,
       if((*env)->IsSameObject(env, y, x) == JNI_TRUE)
       yPtrBase = xPtrBase;
     else
-      yPtrBase = (*env)->GetFloatArrayElements(env, y, NULL);
+      yPtrBase = (*env)->GetPrimitiveArrayCritical(env, y, NULL);
     yPtr = yPtrBase + 2*yIdx;
   }
 
   savedEnv = env;
   cgemv_(&transChr, &m, &n, &alphaCplx, aPtr, &lda, xPtr, &incx, &betaCplx, yPtr, &incy);
   if(yPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, y, yPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, y, yPtrBase, 0);
     if (yPtrBase == aPtrBase)
       aPtrBase = 0;
     if (yPtrBase == xPtrBase)
@@ -1253,13 +1271,13 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_cgemv(JNIEnv *env, jclass this,
     yPtrBase = 0;
   }
   if(xPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, x, xPtrBase, JNI_ABORT);
+    (*env)->ReleasePrimitiveArrayCritical(env, x, xPtrBase, JNI_ABORT);
     if (xPtrBase == aPtrBase)
       aPtrBase = 0;
     xPtrBase = 0;
   }
   if(aPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, a, aPtrBase, JNI_ABORT);
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, JNI_ABORT);
     aPtrBase = 0;
   }
 
@@ -1272,7 +1290,7 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_dgemv(JNIEnv *env, jclass this,
   char transChr = (char) trans;
   jdouble *aPtrBase = 0, *aPtr = 0;
   if (a) {
-    aPtrBase = (*env)->GetDoubleArrayElements(env, a, NULL);
+    aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
     aPtr = aPtrBase + aIdx;
   }
   jdouble *xPtrBase = 0, *xPtr = 0;
@@ -1280,7 +1298,7 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_dgemv(JNIEnv *env, jclass this,
     if((*env)->IsSameObject(env, x, a) == JNI_TRUE)
       xPtrBase = aPtrBase;
     else
-      xPtrBase = (*env)->GetDoubleArrayElements(env, x, NULL);
+      xPtrBase = (*env)->GetPrimitiveArrayCritical(env, x, NULL);
     xPtr = xPtrBase + xIdx;
   }
   jdouble *yPtrBase = 0, *yPtr = 0;
@@ -1291,14 +1309,14 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_dgemv(JNIEnv *env, jclass this,
       if((*env)->IsSameObject(env, y, x) == JNI_TRUE)
       yPtrBase = xPtrBase;
     else
-      yPtrBase = (*env)->GetDoubleArrayElements(env, y, NULL);
+      yPtrBase = (*env)->GetPrimitiveArrayCritical(env, y, NULL);
     yPtr = yPtrBase + yIdx;
   }
 
   savedEnv = env;
   dgemv_(&transChr, &m, &n, &alpha, aPtr, &lda, xPtr, &incx, &beta, yPtr, &incy);
   if(yPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, y, yPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, y, yPtrBase, 0);
     if (yPtrBase == aPtrBase)
       aPtrBase = 0;
     if (yPtrBase == xPtrBase)
@@ -1306,13 +1324,13 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_dgemv(JNIEnv *env, jclass this,
     yPtrBase = 0;
   }
   if(xPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, x, xPtrBase, JNI_ABORT);
+    (*env)->ReleasePrimitiveArrayCritical(env, x, xPtrBase, JNI_ABORT);
     if (xPtrBase == aPtrBase)
       aPtrBase = 0;
     xPtrBase = 0;
   }
   if(aPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, a, aPtrBase, JNI_ABORT);
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, JNI_ABORT);
     aPtrBase = 0;
   }
 
@@ -1325,7 +1343,7 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_sgemv(JNIEnv *env, jclass this,
   char transChr = (char) trans;
   jfloat *aPtrBase = 0, *aPtr = 0;
   if (a) {
-    aPtrBase = (*env)->GetFloatArrayElements(env, a, NULL);
+    aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
     aPtr = aPtrBase + aIdx;
   }
   jfloat *xPtrBase = 0, *xPtr = 0;
@@ -1333,7 +1351,7 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_sgemv(JNIEnv *env, jclass this,
     if((*env)->IsSameObject(env, x, a) == JNI_TRUE)
       xPtrBase = aPtrBase;
     else
-      xPtrBase = (*env)->GetFloatArrayElements(env, x, NULL);
+      xPtrBase = (*env)->GetPrimitiveArrayCritical(env, x, NULL);
     xPtr = xPtrBase + xIdx;
   }
   jfloat *yPtrBase = 0, *yPtr = 0;
@@ -1344,14 +1362,14 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_sgemv(JNIEnv *env, jclass this,
       if((*env)->IsSameObject(env, y, x) == JNI_TRUE)
       yPtrBase = xPtrBase;
     else
-      yPtrBase = (*env)->GetFloatArrayElements(env, y, NULL);
+      yPtrBase = (*env)->GetPrimitiveArrayCritical(env, y, NULL);
     yPtr = yPtrBase + yIdx;
   }
 
   savedEnv = env;
   sgemv_(&transChr, &m, &n, &alpha, aPtr, &lda, xPtr, &incx, &beta, yPtr, &incy);
   if(yPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, y, yPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, y, yPtrBase, 0);
     if (yPtrBase == aPtrBase)
       aPtrBase = 0;
     if (yPtrBase == xPtrBase)
@@ -1359,13 +1377,13 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_sgemv(JNIEnv *env, jclass this,
     yPtrBase = 0;
   }
   if(xPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, x, xPtrBase, JNI_ABORT);
+    (*env)->ReleasePrimitiveArrayCritical(env, x, xPtrBase, JNI_ABORT);
     if (xPtrBase == aPtrBase)
       aPtrBase = 0;
     xPtrBase = 0;
   }
   if(aPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, a, aPtrBase, JNI_ABORT);
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, JNI_ABORT);
     aPtrBase = 0;
   }
 
@@ -1380,7 +1398,7 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_zgemv(JNIEnv *env, jclass this,
   alphaCplx = getComplexDouble(env, alpha);
   jdouble *aPtrBase = 0, *aPtr = 0;
   if (a) {
-    aPtrBase = (*env)->GetDoubleArrayElements(env, a, NULL);
+    aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
     aPtr = aPtrBase + 2*aIdx;
   }
   jdouble *xPtrBase = 0, *xPtr = 0;
@@ -1388,7 +1406,7 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_zgemv(JNIEnv *env, jclass this,
     if((*env)->IsSameObject(env, x, a) == JNI_TRUE)
       xPtrBase = aPtrBase;
     else
-      xPtrBase = (*env)->GetDoubleArrayElements(env, x, NULL);
+      xPtrBase = (*env)->GetPrimitiveArrayCritical(env, x, NULL);
     xPtr = xPtrBase + 2*xIdx;
   }
   double complex betaCplx;
@@ -1401,14 +1419,14 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_zgemv(JNIEnv *env, jclass this,
       if((*env)->IsSameObject(env, y, x) == JNI_TRUE)
       yPtrBase = xPtrBase;
     else
-      yPtrBase = (*env)->GetDoubleArrayElements(env, y, NULL);
+      yPtrBase = (*env)->GetPrimitiveArrayCritical(env, y, NULL);
     yPtr = yPtrBase + 2*yIdx;
   }
 
   savedEnv = env;
   zgemv_(&transChr, &m, &n, &alphaCplx, aPtr, &lda, xPtr, &incx, &betaCplx, yPtr, &incy);
   if(yPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, y, yPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, y, yPtrBase, 0);
     if (yPtrBase == aPtrBase)
       aPtrBase = 0;
     if (yPtrBase == xPtrBase)
@@ -1416,13 +1434,13 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_zgemv(JNIEnv *env, jclass this,
     yPtrBase = 0;
   }
   if(xPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, x, xPtrBase, JNI_ABORT);
+    (*env)->ReleasePrimitiveArrayCritical(env, x, xPtrBase, JNI_ABORT);
     if (xPtrBase == aPtrBase)
       aPtrBase = 0;
     xPtrBase = 0;
   }
   if(aPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, a, aPtrBase, JNI_ABORT);
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, JNI_ABORT);
     aPtrBase = 0;
   }
 
@@ -1436,7 +1454,7 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_cgerc(JNIEnv *env, jclass this,
   alphaCplx = getComplexFloat(env, alpha);
   jfloat *xPtrBase = 0, *xPtr = 0;
   if (x) {
-    xPtrBase = (*env)->GetFloatArrayElements(env, x, NULL);
+    xPtrBase = (*env)->GetPrimitiveArrayCritical(env, x, NULL);
     xPtr = xPtrBase + 2*xIdx;
   }
   jfloat *yPtrBase = 0, *yPtr = 0;
@@ -1444,7 +1462,7 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_cgerc(JNIEnv *env, jclass this,
     if((*env)->IsSameObject(env, y, x) == JNI_TRUE)
       yPtrBase = xPtrBase;
     else
-      yPtrBase = (*env)->GetFloatArrayElements(env, y, NULL);
+      yPtrBase = (*env)->GetPrimitiveArrayCritical(env, y, NULL);
     yPtr = yPtrBase + 2*yIdx;
   }
   jfloat *aPtrBase = 0, *aPtr = 0;
@@ -1455,14 +1473,14 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_cgerc(JNIEnv *env, jclass this,
       if((*env)->IsSameObject(env, a, y) == JNI_TRUE)
       aPtrBase = yPtrBase;
     else
-      aPtrBase = (*env)->GetFloatArrayElements(env, a, NULL);
+      aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
     aPtr = aPtrBase + 2*aIdx;
   }
 
   savedEnv = env;
   cgerc_(&m, &n, &alphaCplx, xPtr, &incx, yPtr, &incy, aPtr, &lda);
   if(aPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, a, aPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, 0);
     if (aPtrBase == xPtrBase)
       xPtrBase = 0;
     if (aPtrBase == yPtrBase)
@@ -1470,13 +1488,13 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_cgerc(JNIEnv *env, jclass this,
     aPtrBase = 0;
   }
   if(yPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, y, yPtrBase, JNI_ABORT);
+    (*env)->ReleasePrimitiveArrayCritical(env, y, yPtrBase, JNI_ABORT);
     if (yPtrBase == xPtrBase)
       xPtrBase = 0;
     yPtrBase = 0;
   }
   if(xPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, x, xPtrBase, JNI_ABORT);
+    (*env)->ReleasePrimitiveArrayCritical(env, x, xPtrBase, JNI_ABORT);
     xPtrBase = 0;
   }
 
@@ -1490,7 +1508,7 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_cgeru(JNIEnv *env, jclass this,
   alphaCplx = getComplexFloat(env, alpha);
   jfloat *xPtrBase = 0, *xPtr = 0;
   if (x) {
-    xPtrBase = (*env)->GetFloatArrayElements(env, x, NULL);
+    xPtrBase = (*env)->GetPrimitiveArrayCritical(env, x, NULL);
     xPtr = xPtrBase + 2*xIdx;
   }
   jfloat *yPtrBase = 0, *yPtr = 0;
@@ -1498,7 +1516,7 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_cgeru(JNIEnv *env, jclass this,
     if((*env)->IsSameObject(env, y, x) == JNI_TRUE)
       yPtrBase = xPtrBase;
     else
-      yPtrBase = (*env)->GetFloatArrayElements(env, y, NULL);
+      yPtrBase = (*env)->GetPrimitiveArrayCritical(env, y, NULL);
     yPtr = yPtrBase + 2*yIdx;
   }
   jfloat *aPtrBase = 0, *aPtr = 0;
@@ -1509,14 +1527,14 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_cgeru(JNIEnv *env, jclass this,
       if((*env)->IsSameObject(env, a, y) == JNI_TRUE)
       aPtrBase = yPtrBase;
     else
-      aPtrBase = (*env)->GetFloatArrayElements(env, a, NULL);
+      aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
     aPtr = aPtrBase + 2*aIdx;
   }
 
   savedEnv = env;
   cgeru_(&m, &n, &alphaCplx, xPtr, &incx, yPtr, &incy, aPtr, &lda);
   if(aPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, a, aPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, 0);
     if (aPtrBase == xPtrBase)
       xPtrBase = 0;
     if (aPtrBase == yPtrBase)
@@ -1524,13 +1542,13 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_cgeru(JNIEnv *env, jclass this,
     aPtrBase = 0;
   }
   if(yPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, y, yPtrBase, JNI_ABORT);
+    (*env)->ReleasePrimitiveArrayCritical(env, y, yPtrBase, JNI_ABORT);
     if (yPtrBase == xPtrBase)
       xPtrBase = 0;
     yPtrBase = 0;
   }
   if(xPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, x, xPtrBase, JNI_ABORT);
+    (*env)->ReleasePrimitiveArrayCritical(env, x, xPtrBase, JNI_ABORT);
     xPtrBase = 0;
   }
 
@@ -1542,7 +1560,7 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_dger(JNIEnv *env, jclass this, 
   
   jdouble *xPtrBase = 0, *xPtr = 0;
   if (x) {
-    xPtrBase = (*env)->GetDoubleArrayElements(env, x, NULL);
+    xPtrBase = (*env)->GetPrimitiveArrayCritical(env, x, NULL);
     xPtr = xPtrBase + xIdx;
   }
   jdouble *yPtrBase = 0, *yPtr = 0;
@@ -1550,7 +1568,7 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_dger(JNIEnv *env, jclass this, 
     if((*env)->IsSameObject(env, y, x) == JNI_TRUE)
       yPtrBase = xPtrBase;
     else
-      yPtrBase = (*env)->GetDoubleArrayElements(env, y, NULL);
+      yPtrBase = (*env)->GetPrimitiveArrayCritical(env, y, NULL);
     yPtr = yPtrBase + yIdx;
   }
   jdouble *aPtrBase = 0, *aPtr = 0;
@@ -1561,14 +1579,14 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_dger(JNIEnv *env, jclass this, 
       if((*env)->IsSameObject(env, a, y) == JNI_TRUE)
       aPtrBase = yPtrBase;
     else
-      aPtrBase = (*env)->GetDoubleArrayElements(env, a, NULL);
+      aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
     aPtr = aPtrBase + aIdx;
   }
 
   savedEnv = env;
   dger_(&m, &n, &alpha, xPtr, &incx, yPtr, &incy, aPtr, &lda);
   if(aPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, a, aPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, 0);
     if (aPtrBase == xPtrBase)
       xPtrBase = 0;
     if (aPtrBase == yPtrBase)
@@ -1576,13 +1594,13 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_dger(JNIEnv *env, jclass this, 
     aPtrBase = 0;
   }
   if(yPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, y, yPtrBase, JNI_ABORT);
+    (*env)->ReleasePrimitiveArrayCritical(env, y, yPtrBase, JNI_ABORT);
     if (yPtrBase == xPtrBase)
       xPtrBase = 0;
     yPtrBase = 0;
   }
   if(xPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, x, xPtrBase, JNI_ABORT);
+    (*env)->ReleasePrimitiveArrayCritical(env, x, xPtrBase, JNI_ABORT);
     xPtrBase = 0;
   }
 
@@ -1594,7 +1612,7 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_sger(JNIEnv *env, jclass this, 
   
   jfloat *xPtrBase = 0, *xPtr = 0;
   if (x) {
-    xPtrBase = (*env)->GetFloatArrayElements(env, x, NULL);
+    xPtrBase = (*env)->GetPrimitiveArrayCritical(env, x, NULL);
     xPtr = xPtrBase + xIdx;
   }
   jfloat *yPtrBase = 0, *yPtr = 0;
@@ -1602,7 +1620,7 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_sger(JNIEnv *env, jclass this, 
     if((*env)->IsSameObject(env, y, x) == JNI_TRUE)
       yPtrBase = xPtrBase;
     else
-      yPtrBase = (*env)->GetFloatArrayElements(env, y, NULL);
+      yPtrBase = (*env)->GetPrimitiveArrayCritical(env, y, NULL);
     yPtr = yPtrBase + yIdx;
   }
   jfloat *aPtrBase = 0, *aPtr = 0;
@@ -1613,14 +1631,14 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_sger(JNIEnv *env, jclass this, 
       if((*env)->IsSameObject(env, a, y) == JNI_TRUE)
       aPtrBase = yPtrBase;
     else
-      aPtrBase = (*env)->GetFloatArrayElements(env, a, NULL);
+      aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
     aPtr = aPtrBase + aIdx;
   }
 
   savedEnv = env;
   sger_(&m, &n, &alpha, xPtr, &incx, yPtr, &incy, aPtr, &lda);
   if(aPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, a, aPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, 0);
     if (aPtrBase == xPtrBase)
       xPtrBase = 0;
     if (aPtrBase == yPtrBase)
@@ -1628,13 +1646,13 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_sger(JNIEnv *env, jclass this, 
     aPtrBase = 0;
   }
   if(yPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, y, yPtrBase, JNI_ABORT);
+    (*env)->ReleasePrimitiveArrayCritical(env, y, yPtrBase, JNI_ABORT);
     if (yPtrBase == xPtrBase)
       xPtrBase = 0;
     yPtrBase = 0;
   }
   if(xPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, x, xPtrBase, JNI_ABORT);
+    (*env)->ReleasePrimitiveArrayCritical(env, x, xPtrBase, JNI_ABORT);
     xPtrBase = 0;
   }
 
@@ -1648,7 +1666,7 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_zgerc(JNIEnv *env, jclass this,
   alphaCplx = getComplexDouble(env, alpha);
   jdouble *xPtrBase = 0, *xPtr = 0;
   if (x) {
-    xPtrBase = (*env)->GetDoubleArrayElements(env, x, NULL);
+    xPtrBase = (*env)->GetPrimitiveArrayCritical(env, x, NULL);
     xPtr = xPtrBase + 2*xIdx;
   }
   jdouble *yPtrBase = 0, *yPtr = 0;
@@ -1656,7 +1674,7 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_zgerc(JNIEnv *env, jclass this,
     if((*env)->IsSameObject(env, y, x) == JNI_TRUE)
       yPtrBase = xPtrBase;
     else
-      yPtrBase = (*env)->GetDoubleArrayElements(env, y, NULL);
+      yPtrBase = (*env)->GetPrimitiveArrayCritical(env, y, NULL);
     yPtr = yPtrBase + 2*yIdx;
   }
   jdouble *aPtrBase = 0, *aPtr = 0;
@@ -1667,14 +1685,14 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_zgerc(JNIEnv *env, jclass this,
       if((*env)->IsSameObject(env, a, y) == JNI_TRUE)
       aPtrBase = yPtrBase;
     else
-      aPtrBase = (*env)->GetDoubleArrayElements(env, a, NULL);
+      aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
     aPtr = aPtrBase + 2*aIdx;
   }
 
   savedEnv = env;
   zgerc_(&m, &n, &alphaCplx, xPtr, &incx, yPtr, &incy, aPtr, &lda);
   if(aPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, a, aPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, 0);
     if (aPtrBase == xPtrBase)
       xPtrBase = 0;
     if (aPtrBase == yPtrBase)
@@ -1682,13 +1700,13 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_zgerc(JNIEnv *env, jclass this,
     aPtrBase = 0;
   }
   if(yPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, y, yPtrBase, JNI_ABORT);
+    (*env)->ReleasePrimitiveArrayCritical(env, y, yPtrBase, JNI_ABORT);
     if (yPtrBase == xPtrBase)
       xPtrBase = 0;
     yPtrBase = 0;
   }
   if(xPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, x, xPtrBase, JNI_ABORT);
+    (*env)->ReleasePrimitiveArrayCritical(env, x, xPtrBase, JNI_ABORT);
     xPtrBase = 0;
   }
 
@@ -1702,7 +1720,7 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_zgeru(JNIEnv *env, jclass this,
   alphaCplx = getComplexDouble(env, alpha);
   jdouble *xPtrBase = 0, *xPtr = 0;
   if (x) {
-    xPtrBase = (*env)->GetDoubleArrayElements(env, x, NULL);
+    xPtrBase = (*env)->GetPrimitiveArrayCritical(env, x, NULL);
     xPtr = xPtrBase + 2*xIdx;
   }
   jdouble *yPtrBase = 0, *yPtr = 0;
@@ -1710,7 +1728,7 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_zgeru(JNIEnv *env, jclass this,
     if((*env)->IsSameObject(env, y, x) == JNI_TRUE)
       yPtrBase = xPtrBase;
     else
-      yPtrBase = (*env)->GetDoubleArrayElements(env, y, NULL);
+      yPtrBase = (*env)->GetPrimitiveArrayCritical(env, y, NULL);
     yPtr = yPtrBase + 2*yIdx;
   }
   jdouble *aPtrBase = 0, *aPtr = 0;
@@ -1721,14 +1739,14 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_zgeru(JNIEnv *env, jclass this,
       if((*env)->IsSameObject(env, a, y) == JNI_TRUE)
       aPtrBase = yPtrBase;
     else
-      aPtrBase = (*env)->GetDoubleArrayElements(env, a, NULL);
+      aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
     aPtr = aPtrBase + 2*aIdx;
   }
 
   savedEnv = env;
   zgeru_(&m, &n, &alphaCplx, xPtr, &incx, yPtr, &incy, aPtr, &lda);
   if(aPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, a, aPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, 0);
     if (aPtrBase == xPtrBase)
       xPtrBase = 0;
     if (aPtrBase == yPtrBase)
@@ -1736,13 +1754,13 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_zgeru(JNIEnv *env, jclass this,
     aPtrBase = 0;
   }
   if(yPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, y, yPtrBase, JNI_ABORT);
+    (*env)->ReleasePrimitiveArrayCritical(env, y, yPtrBase, JNI_ABORT);
     if (yPtrBase == xPtrBase)
       xPtrBase = 0;
     yPtrBase = 0;
   }
   if(xPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, x, xPtrBase, JNI_ABORT);
+    (*env)->ReleasePrimitiveArrayCritical(env, x, xPtrBase, JNI_ABORT);
     xPtrBase = 0;
   }
 
@@ -1758,7 +1776,7 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_cgemm(JNIEnv *env, jclass this,
   alphaCplx = getComplexFloat(env, alpha);
   jfloat *aPtrBase = 0, *aPtr = 0;
   if (a) {
-    aPtrBase = (*env)->GetFloatArrayElements(env, a, NULL);
+    aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
     aPtr = aPtrBase + 2*aIdx;
   }
   jfloat *bPtrBase = 0, *bPtr = 0;
@@ -1766,7 +1784,7 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_cgemm(JNIEnv *env, jclass this,
     if((*env)->IsSameObject(env, b, a) == JNI_TRUE)
       bPtrBase = aPtrBase;
     else
-      bPtrBase = (*env)->GetFloatArrayElements(env, b, NULL);
+      bPtrBase = (*env)->GetPrimitiveArrayCritical(env, b, NULL);
     bPtr = bPtrBase + 2*bIdx;
   }
   float complex betaCplx;
@@ -1779,14 +1797,14 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_cgemm(JNIEnv *env, jclass this,
       if((*env)->IsSameObject(env, c, b) == JNI_TRUE)
       cPtrBase = bPtrBase;
     else
-      cPtrBase = (*env)->GetFloatArrayElements(env, c, NULL);
+      cPtrBase = (*env)->GetPrimitiveArrayCritical(env, c, NULL);
     cPtr = cPtrBase + 2*cIdx;
   }
 
   savedEnv = env;
   cgemm_(&transaChr, &transbChr, &m, &n, &k, &alphaCplx, aPtr, &lda, bPtr, &ldb, &betaCplx, cPtr, &ldc);
   if(cPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, c, cPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, c, cPtrBase, 0);
     if (cPtrBase == aPtrBase)
       aPtrBase = 0;
     if (cPtrBase == bPtrBase)
@@ -1794,13 +1812,13 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_cgemm(JNIEnv *env, jclass this,
     cPtrBase = 0;
   }
   if(bPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, b, bPtrBase, JNI_ABORT);
+    (*env)->ReleasePrimitiveArrayCritical(env, b, bPtrBase, JNI_ABORT);
     if (bPtrBase == aPtrBase)
       aPtrBase = 0;
     bPtrBase = 0;
   }
   if(aPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, a, aPtrBase, JNI_ABORT);
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, JNI_ABORT);
     aPtrBase = 0;
   }
 
@@ -1814,7 +1832,7 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_dgemm(JNIEnv *env, jclass this,
   char transbChr = (char) transb;
   jdouble *aPtrBase = 0, *aPtr = 0;
   if (a) {
-    aPtrBase = (*env)->GetDoubleArrayElements(env, a, NULL);
+    aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
     aPtr = aPtrBase + aIdx;
   }
   jdouble *bPtrBase = 0, *bPtr = 0;
@@ -1822,7 +1840,7 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_dgemm(JNIEnv *env, jclass this,
     if((*env)->IsSameObject(env, b, a) == JNI_TRUE)
       bPtrBase = aPtrBase;
     else
-      bPtrBase = (*env)->GetDoubleArrayElements(env, b, NULL);
+      bPtrBase = (*env)->GetPrimitiveArrayCritical(env, b, NULL);
     bPtr = bPtrBase + bIdx;
   }
   jdouble *cPtrBase = 0, *cPtr = 0;
@@ -1833,14 +1851,14 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_dgemm(JNIEnv *env, jclass this,
       if((*env)->IsSameObject(env, c, b) == JNI_TRUE)
       cPtrBase = bPtrBase;
     else
-      cPtrBase = (*env)->GetDoubleArrayElements(env, c, NULL);
+      cPtrBase = (*env)->GetPrimitiveArrayCritical(env, c, NULL);
     cPtr = cPtrBase + cIdx;
   }
 
   savedEnv = env;
   dgemm_(&transaChr, &transbChr, &m, &n, &k, &alpha, aPtr, &lda, bPtr, &ldb, &beta, cPtr, &ldc);
   if(cPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, c, cPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, c, cPtrBase, 0);
     if (cPtrBase == aPtrBase)
       aPtrBase = 0;
     if (cPtrBase == bPtrBase)
@@ -1848,13 +1866,13 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_dgemm(JNIEnv *env, jclass this,
     cPtrBase = 0;
   }
   if(bPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, b, bPtrBase, JNI_ABORT);
+    (*env)->ReleasePrimitiveArrayCritical(env, b, bPtrBase, JNI_ABORT);
     if (bPtrBase == aPtrBase)
       aPtrBase = 0;
     bPtrBase = 0;
   }
   if(aPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, a, aPtrBase, JNI_ABORT);
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, JNI_ABORT);
     aPtrBase = 0;
   }
 
@@ -1868,7 +1886,7 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_sgemm(JNIEnv *env, jclass this,
   char transbChr = (char) transb;
   jfloat *aPtrBase = 0, *aPtr = 0;
   if (a) {
-    aPtrBase = (*env)->GetFloatArrayElements(env, a, NULL);
+    aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
     aPtr = aPtrBase + aIdx;
   }
   jfloat *bPtrBase = 0, *bPtr = 0;
@@ -1876,7 +1894,7 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_sgemm(JNIEnv *env, jclass this,
     if((*env)->IsSameObject(env, b, a) == JNI_TRUE)
       bPtrBase = aPtrBase;
     else
-      bPtrBase = (*env)->GetFloatArrayElements(env, b, NULL);
+      bPtrBase = (*env)->GetPrimitiveArrayCritical(env, b, NULL);
     bPtr = bPtrBase + bIdx;
   }
   jfloat *cPtrBase = 0, *cPtr = 0;
@@ -1887,14 +1905,14 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_sgemm(JNIEnv *env, jclass this,
       if((*env)->IsSameObject(env, c, b) == JNI_TRUE)
       cPtrBase = bPtrBase;
     else
-      cPtrBase = (*env)->GetFloatArrayElements(env, c, NULL);
+      cPtrBase = (*env)->GetPrimitiveArrayCritical(env, c, NULL);
     cPtr = cPtrBase + cIdx;
   }
 
   savedEnv = env;
   sgemm_(&transaChr, &transbChr, &m, &n, &k, &alpha, aPtr, &lda, bPtr, &ldb, &beta, cPtr, &ldc);
   if(cPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, c, cPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, c, cPtrBase, 0);
     if (cPtrBase == aPtrBase)
       aPtrBase = 0;
     if (cPtrBase == bPtrBase)
@@ -1902,13 +1920,13 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_sgemm(JNIEnv *env, jclass this,
     cPtrBase = 0;
   }
   if(bPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, b, bPtrBase, JNI_ABORT);
+    (*env)->ReleasePrimitiveArrayCritical(env, b, bPtrBase, JNI_ABORT);
     if (bPtrBase == aPtrBase)
       aPtrBase = 0;
     bPtrBase = 0;
   }
   if(aPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, a, aPtrBase, JNI_ABORT);
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, JNI_ABORT);
     aPtrBase = 0;
   }
 
@@ -1924,7 +1942,7 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_zgemm(JNIEnv *env, jclass this,
   alphaCplx = getComplexDouble(env, alpha);
   jdouble *aPtrBase = 0, *aPtr = 0;
   if (a) {
-    aPtrBase = (*env)->GetDoubleArrayElements(env, a, NULL);
+    aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
     aPtr = aPtrBase + 2*aIdx;
   }
   jdouble *bPtrBase = 0, *bPtr = 0;
@@ -1932,7 +1950,7 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_zgemm(JNIEnv *env, jclass this,
     if((*env)->IsSameObject(env, b, a) == JNI_TRUE)
       bPtrBase = aPtrBase;
     else
-      bPtrBase = (*env)->GetDoubleArrayElements(env, b, NULL);
+      bPtrBase = (*env)->GetPrimitiveArrayCritical(env, b, NULL);
     bPtr = bPtrBase + 2*bIdx;
   }
   double complex betaCplx;
@@ -1945,14 +1963,14 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_zgemm(JNIEnv *env, jclass this,
       if((*env)->IsSameObject(env, c, b) == JNI_TRUE)
       cPtrBase = bPtrBase;
     else
-      cPtrBase = (*env)->GetDoubleArrayElements(env, c, NULL);
+      cPtrBase = (*env)->GetPrimitiveArrayCritical(env, c, NULL);
     cPtr = cPtrBase + 2*cIdx;
   }
 
   savedEnv = env;
   zgemm_(&transaChr, &transbChr, &m, &n, &k, &alphaCplx, aPtr, &lda, bPtr, &ldb, &betaCplx, cPtr, &ldc);
   if(cPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, c, cPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, c, cPtrBase, 0);
     if (cPtrBase == aPtrBase)
       aPtrBase = 0;
     if (cPtrBase == bPtrBase)
@@ -1960,16 +1978,452 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_zgemm(JNIEnv *env, jclass this,
     cPtrBase = 0;
   }
   if(bPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, b, bPtrBase, JNI_ABORT);
+    (*env)->ReleasePrimitiveArrayCritical(env, b, bPtrBase, JNI_ABORT);
     if (bPtrBase == aPtrBase)
       aPtrBase = 0;
     bPtrBase = 0;
   }
   if(aPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, a, aPtrBase, JNI_ABORT);
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, JNI_ABORT);
     aPtrBase = 0;
   }
 
+}
+
+JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_csyrk(JNIEnv *env, jclass this, jchar uplo, jchar trans, jint n, jint k, jobject alpha, jfloatArray a, jint aIdx, jint lda, jobject beta, jfloatArray c, jint cIdx, jint ldc)
+{
+  extern void csyrk_(char *, char *, jint *, jint *, float complex *, jfloat *, jint *, float complex *, jfloat *, jint *);
+  
+  char uploChr = (char) uplo;
+  char transChr = (char) trans;
+  float complex alphaCplx;
+  alphaCplx = getComplexFloat(env, alpha);
+  jfloat *aPtrBase = 0, *aPtr = 0;
+  if (a) {
+    aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
+    aPtr = aPtrBase + 2*aIdx;
+  }
+  float complex betaCplx;
+  betaCplx = getComplexFloat(env, beta);
+  jfloat *cPtrBase = 0, *cPtr = 0;
+  if (c) {
+    if((*env)->IsSameObject(env, c, a) == JNI_TRUE)
+      cPtrBase = aPtrBase;
+    else
+      cPtrBase = (*env)->GetPrimitiveArrayCritical(env, c, NULL);
+    cPtr = cPtrBase + 2*cIdx;
+  }
+
+  savedEnv = env;
+  csyrk_(&uploChr, &transChr, &n, &k, &alphaCplx, aPtr, &lda, &betaCplx, cPtr, &ldc);
+  if(cPtrBase) {
+    (*env)->ReleasePrimitiveArrayCritical(env, c, cPtrBase, 0);
+    if (cPtrBase == aPtrBase)
+      aPtrBase = 0;
+    cPtrBase = 0;
+  }
+  if(aPtrBase) {
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, JNI_ABORT);
+    aPtrBase = 0;
+  }
+
+}
+
+JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_dsyrk(JNIEnv *env, jclass this, jchar uplo, jchar trans, jint n, jint k, jdouble alpha, jdoubleArray a, jint aIdx, jint lda, jdouble beta, jdoubleArray c, jint cIdx, jint ldc)
+{
+  extern void dsyrk_(char *, char *, jint *, jint *, jdouble *, jdouble *, jint *, jdouble *, jdouble *, jint *);
+  
+  char uploChr = (char) uplo;
+  char transChr = (char) trans;
+  jdouble *aPtrBase = 0, *aPtr = 0;
+  if (a) {
+    aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
+    aPtr = aPtrBase + aIdx;
+  }
+  jdouble *cPtrBase = 0, *cPtr = 0;
+  if (c) {
+    if((*env)->IsSameObject(env, c, a) == JNI_TRUE)
+      cPtrBase = aPtrBase;
+    else
+      cPtrBase = (*env)->GetPrimitiveArrayCritical(env, c, NULL);
+    cPtr = cPtrBase + cIdx;
+  }
+
+  savedEnv = env;
+  dsyrk_(&uploChr, &transChr, &n, &k, &alpha, aPtr, &lda, &beta, cPtr, &ldc);
+  if(cPtrBase) {
+    (*env)->ReleasePrimitiveArrayCritical(env, c, cPtrBase, 0);
+    if (cPtrBase == aPtrBase)
+      aPtrBase = 0;
+    cPtrBase = 0;
+  }
+  if(aPtrBase) {
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, JNI_ABORT);
+    aPtrBase = 0;
+  }
+
+}
+
+JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_ssyrk(JNIEnv *env, jclass this, jchar uplo, jchar trans, jint n, jint k, jfloat alpha, jfloatArray a, jint aIdx, jint lda, jfloat beta, jfloatArray c, jint cIdx, jint ldc)
+{
+  extern void ssyrk_(char *, char *, jint *, jint *, jfloat *, jfloat *, jint *, jfloat *, jfloat *, jint *);
+  
+  char uploChr = (char) uplo;
+  char transChr = (char) trans;
+  jfloat *aPtrBase = 0, *aPtr = 0;
+  if (a) {
+    aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
+    aPtr = aPtrBase + aIdx;
+  }
+  jfloat *cPtrBase = 0, *cPtr = 0;
+  if (c) {
+    if((*env)->IsSameObject(env, c, a) == JNI_TRUE)
+      cPtrBase = aPtrBase;
+    else
+      cPtrBase = (*env)->GetPrimitiveArrayCritical(env, c, NULL);
+    cPtr = cPtrBase + cIdx;
+  }
+
+  savedEnv = env;
+  ssyrk_(&uploChr, &transChr, &n, &k, &alpha, aPtr, &lda, &beta, cPtr, &ldc);
+  if(cPtrBase) {
+    (*env)->ReleasePrimitiveArrayCritical(env, c, cPtrBase, 0);
+    if (cPtrBase == aPtrBase)
+      aPtrBase = 0;
+    cPtrBase = 0;
+  }
+  if(aPtrBase) {
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, JNI_ABORT);
+    aPtrBase = 0;
+  }
+
+}
+
+JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_zsyrk(JNIEnv *env, jclass this, jchar uplo, jchar trans, jint n, jint k, jobject alpha, jdoubleArray a, jint aIdx, jint lda, jobject beta, jdoubleArray c, jint cIdx, jint ldc)
+{
+  extern void zsyrk_(char *, char *, jint *, jint *, double complex *, jdouble *, jint *, double complex *, jdouble *, jint *);
+  
+  char uploChr = (char) uplo;
+  char transChr = (char) trans;
+  double complex alphaCplx;
+  alphaCplx = getComplexDouble(env, alpha);
+  jdouble *aPtrBase = 0, *aPtr = 0;
+  if (a) {
+    aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
+    aPtr = aPtrBase + 2*aIdx;
+  }
+  double complex betaCplx;
+  betaCplx = getComplexDouble(env, beta);
+  jdouble *cPtrBase = 0, *cPtr = 0;
+  if (c) {
+    if((*env)->IsSameObject(env, c, a) == JNI_TRUE)
+      cPtrBase = aPtrBase;
+    else
+      cPtrBase = (*env)->GetPrimitiveArrayCritical(env, c, NULL);
+    cPtr = cPtrBase + 2*cIdx;
+  }
+
+  savedEnv = env;
+  zsyrk_(&uploChr, &transChr, &n, &k, &alphaCplx, aPtr, &lda, &betaCplx, cPtr, &ldc);
+  if(cPtrBase) {
+    (*env)->ReleasePrimitiveArrayCritical(env, c, cPtrBase, 0);
+    if (cPtrBase == aPtrBase)
+      aPtrBase = 0;
+    cPtrBase = 0;
+  }
+  if(aPtrBase) {
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, JNI_ABORT);
+    aPtrBase = 0;
+  }
+
+}
+
+JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_claswp(JNIEnv *env, jclass this, jint n, jfloatArray a, jint aIdx, jint lda, jint k1, jint k2, jintArray ipiv, jint ipivIdx, jint incx)
+{
+  extern void claswp_(jint *, jfloat *, jint *, jint *, jint *, jint *, jint *);
+  
+  jint *ipivPtrBase = 0, *ipivPtr = 0;
+  if (ipiv) {
+    ipivPtrBase = (*env)->GetPrimitiveArrayCritical(env, ipiv, NULL);
+    ipivPtr = ipivPtrBase + ipivIdx;
+  }
+  jfloat *aPtrBase = 0, *aPtr = 0;
+  if (a) {
+    aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
+    aPtr = aPtrBase + 2*aIdx;
+  }
+
+  savedEnv = env;
+  claswp_(&n, aPtr, &lda, &k1, &k2, ipivPtr, &incx);
+  if(aPtrBase) {
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, 0);
+    aPtrBase = 0;
+  }
+  if(ipivPtrBase) {
+    (*env)->ReleasePrimitiveArrayCritical(env, ipiv, ipivPtrBase, JNI_ABORT);
+    ipivPtrBase = 0;
+  }
+
+}
+
+JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_dlaswp(JNIEnv *env, jclass this, jint n, jdoubleArray a, jint aIdx, jint lda, jint k1, jint k2, jintArray ipiv, jint ipivIdx, jint incx)
+{
+  extern void dlaswp_(jint *, jdouble *, jint *, jint *, jint *, jint *, jint *);
+  
+  jint *ipivPtrBase = 0, *ipivPtr = 0;
+  if (ipiv) {
+    ipivPtrBase = (*env)->GetPrimitiveArrayCritical(env, ipiv, NULL);
+    ipivPtr = ipivPtrBase + ipivIdx;
+  }
+  jdouble *aPtrBase = 0, *aPtr = 0;
+  if (a) {
+    aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
+    aPtr = aPtrBase + aIdx;
+  }
+
+  savedEnv = env;
+  dlaswp_(&n, aPtr, &lda, &k1, &k2, ipivPtr, &incx);
+  if(aPtrBase) {
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, 0);
+    aPtrBase = 0;
+  }
+  if(ipivPtrBase) {
+    (*env)->ReleasePrimitiveArrayCritical(env, ipiv, ipivPtrBase, JNI_ABORT);
+    ipivPtrBase = 0;
+  }
+
+}
+
+JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_slaswp(JNIEnv *env, jclass this, jint n, jfloatArray a, jint aIdx, jint lda, jint k1, jint k2, jintArray ipiv, jint ipivIdx, jint incx)
+{
+  extern void slaswp_(jint *, jfloat *, jint *, jint *, jint *, jint *, jint *);
+  
+  jint *ipivPtrBase = 0, *ipivPtr = 0;
+  if (ipiv) {
+    ipivPtrBase = (*env)->GetPrimitiveArrayCritical(env, ipiv, NULL);
+    ipivPtr = ipivPtrBase + ipivIdx;
+  }
+  jfloat *aPtrBase = 0, *aPtr = 0;
+  if (a) {
+    aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
+    aPtr = aPtrBase + aIdx;
+  }
+
+  savedEnv = env;
+  slaswp_(&n, aPtr, &lda, &k1, &k2, ipivPtr, &incx);
+  if(aPtrBase) {
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, 0);
+    aPtrBase = 0;
+  }
+  if(ipivPtrBase) {
+    (*env)->ReleasePrimitiveArrayCritical(env, ipiv, ipivPtrBase, JNI_ABORT);
+    ipivPtrBase = 0;
+  }
+
+}
+
+JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_zlaswp(JNIEnv *env, jclass this, jint n, jdoubleArray a, jint aIdx, jint lda, jint k1, jint k2, jintArray ipiv, jint ipivIdx, jint incx)
+{
+  extern void zlaswp_(jint *, jdouble *, jint *, jint *, jint *, jint *, jint *);
+  
+  jint *ipivPtrBase = 0, *ipivPtr = 0;
+  if (ipiv) {
+    ipivPtrBase = (*env)->GetPrimitiveArrayCritical(env, ipiv, NULL);
+    ipivPtr = ipivPtrBase + ipivIdx;
+  }
+  jdouble *aPtrBase = 0, *aPtr = 0;
+  if (a) {
+    aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
+    aPtr = aPtrBase + 2*aIdx;
+  }
+
+  savedEnv = env;
+  zlaswp_(&n, aPtr, &lda, &k1, &k2, ipivPtr, &incx);
+  if(aPtrBase) {
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, 0);
+    aPtrBase = 0;
+  }
+  if(ipivPtrBase) {
+    (*env)->ReleasePrimitiveArrayCritical(env, ipiv, ipivPtrBase, JNI_ABORT);
+    ipivPtrBase = 0;
+  }
+
+}
+
+JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_clascl(JNIEnv *env, jclass this, jchar type, jint kl, jint ku, jfloat cfrom, jfloat cto, jint m, jint n, jfloatArray a, jint aIdx, jint lda)
+{
+  extern void clascl_(char *, jint *, jint *, jfloat *, jfloat *, jint *, jint *, jfloat *, jint *, int *);
+  
+  char typeChr = (char) type;
+  jfloat *aPtrBase = 0, *aPtr = 0;
+  if (a) {
+    aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
+    aPtr = aPtrBase + 2*aIdx;
+  }
+  int info;
+
+  savedEnv = env;
+  clascl_(&typeChr, &kl, &ku, &cfrom, &cto, &m, &n, aPtr, &lda, &info);
+  if(aPtrBase) {
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, 0);
+    aPtrBase = 0;
+  }
+
+  return info;
+}
+
+JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dlascl(JNIEnv *env, jclass this, jchar type, jint kl, jint ku, jdouble cfrom, jdouble cto, jint m, jint n, jdoubleArray a, jint aIdx, jint lda)
+{
+  extern void dlascl_(char *, jint *, jint *, jdouble *, jdouble *, jint *, jint *, jdouble *, jint *, int *);
+  
+  char typeChr = (char) type;
+  jdouble *aPtrBase = 0, *aPtr = 0;
+  if (a) {
+    aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
+    aPtr = aPtrBase + aIdx;
+  }
+  int info;
+
+  savedEnv = env;
+  dlascl_(&typeChr, &kl, &ku, &cfrom, &cto, &m, &n, aPtr, &lda, &info);
+  if(aPtrBase) {
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, 0);
+    aPtrBase = 0;
+  }
+
+  return info;
+}
+
+JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_slascl(JNIEnv *env, jclass this, jchar type, jint kl, jint ku, jfloat cfrom, jfloat cto, jint m, jint n, jfloatArray a, jint aIdx, jint lda)
+{
+  extern void slascl_(char *, jint *, jint *, jfloat *, jfloat *, jint *, jint *, jfloat *, jint *, int *);
+  
+  char typeChr = (char) type;
+  jfloat *aPtrBase = 0, *aPtr = 0;
+  if (a) {
+    aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
+    aPtr = aPtrBase + aIdx;
+  }
+  int info;
+
+  savedEnv = env;
+  slascl_(&typeChr, &kl, &ku, &cfrom, &cto, &m, &n, aPtr, &lda, &info);
+  if(aPtrBase) {
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, 0);
+    aPtrBase = 0;
+  }
+
+  return info;
+}
+
+JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_zlascl(JNIEnv *env, jclass this, jchar type, jint kl, jint ku, jdouble cfrom, jdouble cto, jint m, jint n, jdoubleArray a, jint aIdx, jint lda)
+{
+  extern void zlascl_(char *, jint *, jint *, jdouble *, jdouble *, jint *, jint *, jdouble *, jint *, int *);
+  
+  char typeChr = (char) type;
+  jdouble *aPtrBase = 0, *aPtr = 0;
+  if (a) {
+    aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
+    aPtr = aPtrBase + 2*aIdx;
+  }
+  int info;
+
+  savedEnv = env;
+  zlascl_(&typeChr, &kl, &ku, &cfrom, &cto, &m, &n, aPtr, &lda, &info);
+  if(aPtrBase) {
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, 0);
+    aPtrBase = 0;
+  }
+
+  return info;
+}
+
+JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_cpotri(JNIEnv *env, jclass this, jchar uplo, jint n, jfloatArray a, jint aIdx, jint lda)
+{
+  extern void cpotri_(char *, jint *, jfloat *, jint *, int *);
+  
+  char uploChr = (char) uplo;
+  jfloat *aPtrBase = 0, *aPtr = 0;
+  if (a) {
+    aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
+    aPtr = aPtrBase + 2*aIdx;
+  }
+  int info;
+
+  savedEnv = env;
+  cpotri_(&uploChr, &n, aPtr, &lda, &info);
+  if(aPtrBase) {
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, 0);
+    aPtrBase = 0;
+  }
+
+  return info;
+}
+
+JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dpotri(JNIEnv *env, jclass this, jchar uplo, jint n, jdoubleArray a, jint aIdx, jint lda)
+{
+  extern void dpotri_(char *, jint *, jdouble *, jint *, int *);
+  
+  char uploChr = (char) uplo;
+  jdouble *aPtrBase = 0, *aPtr = 0;
+  if (a) {
+    aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
+    aPtr = aPtrBase + aIdx;
+  }
+  int info;
+
+  savedEnv = env;
+  dpotri_(&uploChr, &n, aPtr, &lda, &info);
+  if(aPtrBase) {
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, 0);
+    aPtrBase = 0;
+  }
+
+  return info;
+}
+
+JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_spotri(JNIEnv *env, jclass this, jchar uplo, jint n, jfloatArray a, jint aIdx, jint lda)
+{
+  extern void spotri_(char *, jint *, jfloat *, jint *, int *);
+  
+  char uploChr = (char) uplo;
+  jfloat *aPtrBase = 0, *aPtr = 0;
+  if (a) {
+    aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
+    aPtr = aPtrBase + aIdx;
+  }
+  int info;
+
+  savedEnv = env;
+  spotri_(&uploChr, &n, aPtr, &lda, &info);
+  if(aPtrBase) {
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, 0);
+    aPtrBase = 0;
+  }
+
+  return info;
+}
+
+JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_zpotri(JNIEnv *env, jclass this, jchar uplo, jint n, jdoubleArray a, jint aIdx, jint lda)
+{
+  extern void zpotri_(char *, jint *, jdouble *, jint *, int *);
+  
+  char uploChr = (char) uplo;
+  jdouble *aPtrBase = 0, *aPtr = 0;
+  if (a) {
+    aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
+    aPtr = aPtrBase + 2*aIdx;
+  }
+  int info;
+
+  savedEnv = env;
+  zpotri_(&uploChr, &n, aPtr, &lda, &info);
+  if(aPtrBase) {
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, 0);
+    aPtrBase = 0;
+  }
+
+  return info;
 }
 
 JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dgesv(JNIEnv *env, jclass this, jint n, jint nrhs, jdoubleArray a, jint aIdx, jint lda, jintArray ipiv, jint ipivIdx, jdoubleArray b, jint bIdx, jint ldb)
@@ -1978,12 +2432,12 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dgesv(JNIEnv *env, jclass this,
   
   jdouble *aPtrBase = 0, *aPtr = 0;
   if (a) {
-    aPtrBase = (*env)->GetDoubleArrayElements(env, a, NULL);
+    aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
     aPtr = aPtrBase + aIdx;
   }
   jint *ipivPtrBase = 0, *ipivPtr = 0;
   if (ipiv) {
-    ipivPtrBase = (*env)->GetIntArrayElements(env, ipiv, NULL);
+    ipivPtrBase = (*env)->GetPrimitiveArrayCritical(env, ipiv, NULL);
     ipivPtr = ipivPtrBase + ipivIdx;
   }
   jdouble *bPtrBase = 0, *bPtr = 0;
@@ -1991,7 +2445,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dgesv(JNIEnv *env, jclass this,
     if((*env)->IsSameObject(env, b, a) == JNI_TRUE)
       bPtrBase = aPtrBase;
     else
-      bPtrBase = (*env)->GetDoubleArrayElements(env, b, NULL);
+      bPtrBase = (*env)->GetPrimitiveArrayCritical(env, b, NULL);
     bPtr = bPtrBase + bIdx;
   }
   int info;
@@ -1999,17 +2453,17 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dgesv(JNIEnv *env, jclass this,
   savedEnv = env;
   dgesv_(&n, &nrhs, aPtr, &lda, ipivPtr, bPtr, &ldb, &info);
   if(bPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, b, bPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, b, bPtrBase, 0);
     if (bPtrBase == aPtrBase)
       aPtrBase = 0;
     bPtrBase = 0;
   }
   if(ipivPtrBase) {
-    (*env)->ReleaseIntArrayElements(env, ipiv, ipivPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, ipiv, ipivPtrBase, 0);
     ipivPtrBase = 0;
   }
   if(aPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, a, aPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, 0);
     aPtrBase = 0;
   }
 
@@ -2022,12 +2476,12 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_sgesv(JNIEnv *env, jclass this,
   
   jfloat *aPtrBase = 0, *aPtr = 0;
   if (a) {
-    aPtrBase = (*env)->GetFloatArrayElements(env, a, NULL);
+    aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
     aPtr = aPtrBase + aIdx;
   }
   jint *ipivPtrBase = 0, *ipivPtr = 0;
   if (ipiv) {
-    ipivPtrBase = (*env)->GetIntArrayElements(env, ipiv, NULL);
+    ipivPtrBase = (*env)->GetPrimitiveArrayCritical(env, ipiv, NULL);
     ipivPtr = ipivPtrBase + ipivIdx;
   }
   jfloat *bPtrBase = 0, *bPtr = 0;
@@ -2035,7 +2489,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_sgesv(JNIEnv *env, jclass this,
     if((*env)->IsSameObject(env, b, a) == JNI_TRUE)
       bPtrBase = aPtrBase;
     else
-      bPtrBase = (*env)->GetFloatArrayElements(env, b, NULL);
+      bPtrBase = (*env)->GetPrimitiveArrayCritical(env, b, NULL);
     bPtr = bPtrBase + bIdx;
   }
   int info;
@@ -2043,17 +2497,17 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_sgesv(JNIEnv *env, jclass this,
   savedEnv = env;
   sgesv_(&n, &nrhs, aPtr, &lda, ipivPtr, bPtr, &ldb, &info);
   if(bPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, b, bPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, b, bPtrBase, 0);
     if (bPtrBase == aPtrBase)
       aPtrBase = 0;
     bPtrBase = 0;
   }
   if(ipivPtrBase) {
-    (*env)->ReleaseIntArrayElements(env, ipiv, ipivPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, ipiv, ipivPtrBase, 0);
     ipivPtrBase = 0;
   }
   if(aPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, a, aPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, 0);
     aPtrBase = 0;
   }
 
@@ -2067,12 +2521,12 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dsysv(JNIEnv *env, jclass this,
   char uploChr = (char) uplo;
   jdouble *aPtrBase = 0, *aPtr = 0;
   if (a) {
-    aPtrBase = (*env)->GetDoubleArrayElements(env, a, NULL);
+    aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
     aPtr = aPtrBase + aIdx;
   }
   jint *ipivPtrBase = 0, *ipivPtr = 0;
   if (ipiv) {
-    ipivPtrBase = (*env)->GetIntArrayElements(env, ipiv, NULL);
+    ipivPtrBase = (*env)->GetPrimitiveArrayCritical(env, ipiv, NULL);
     ipivPtr = ipivPtrBase + ipivIdx;
   }
   jdouble *bPtrBase = 0, *bPtr = 0;
@@ -2080,7 +2534,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dsysv(JNIEnv *env, jclass this,
     if((*env)->IsSameObject(env, b, a) == JNI_TRUE)
       bPtrBase = aPtrBase;
     else
-      bPtrBase = (*env)->GetDoubleArrayElements(env, b, NULL);
+      bPtrBase = (*env)->GetPrimitiveArrayCritical(env, b, NULL);
     bPtr = bPtrBase + bIdx;
   }
   jdouble *workPtrBase = 0, *workPtr = 0;
@@ -2091,7 +2545,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dsysv(JNIEnv *env, jclass this,
       if((*env)->IsSameObject(env, work, b) == JNI_TRUE)
       workPtrBase = bPtrBase;
     else
-      workPtrBase = (*env)->GetDoubleArrayElements(env, work, NULL);
+      workPtrBase = (*env)->GetPrimitiveArrayCritical(env, work, NULL);
     workPtr = workPtrBase + workIdx;
   }
   int info;
@@ -2099,7 +2553,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dsysv(JNIEnv *env, jclass this,
   savedEnv = env;
   dsysv_(&uploChr, &n, &nrhs, aPtr, &lda, ipivPtr, bPtr, &ldb, workPtr, &lwork, &info);
   if(workPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, work, workPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, work, workPtrBase, 0);
     if (workPtrBase == aPtrBase)
       aPtrBase = 0;
     if (workPtrBase == bPtrBase)
@@ -2107,17 +2561,17 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dsysv(JNIEnv *env, jclass this,
     workPtrBase = 0;
   }
   if(bPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, b, bPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, b, bPtrBase, 0);
     if (bPtrBase == aPtrBase)
       aPtrBase = 0;
     bPtrBase = 0;
   }
   if(ipivPtrBase) {
-    (*env)->ReleaseIntArrayElements(env, ipiv, ipivPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, ipiv, ipivPtrBase, 0);
     ipivPtrBase = 0;
   }
   if(aPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, a, aPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, 0);
     aPtrBase = 0;
   }
 
@@ -2131,12 +2585,12 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_ssysv(JNIEnv *env, jclass this,
   char uploChr = (char) uplo;
   jfloat *aPtrBase = 0, *aPtr = 0;
   if (a) {
-    aPtrBase = (*env)->GetFloatArrayElements(env, a, NULL);
+    aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
     aPtr = aPtrBase + aIdx;
   }
   jint *ipivPtrBase = 0, *ipivPtr = 0;
   if (ipiv) {
-    ipivPtrBase = (*env)->GetIntArrayElements(env, ipiv, NULL);
+    ipivPtrBase = (*env)->GetPrimitiveArrayCritical(env, ipiv, NULL);
     ipivPtr = ipivPtrBase + ipivIdx;
   }
   jfloat *bPtrBase = 0, *bPtr = 0;
@@ -2144,7 +2598,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_ssysv(JNIEnv *env, jclass this,
     if((*env)->IsSameObject(env, b, a) == JNI_TRUE)
       bPtrBase = aPtrBase;
     else
-      bPtrBase = (*env)->GetFloatArrayElements(env, b, NULL);
+      bPtrBase = (*env)->GetPrimitiveArrayCritical(env, b, NULL);
     bPtr = bPtrBase + bIdx;
   }
   jfloat *workPtrBase = 0, *workPtr = 0;
@@ -2155,7 +2609,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_ssysv(JNIEnv *env, jclass this,
       if((*env)->IsSameObject(env, work, b) == JNI_TRUE)
       workPtrBase = bPtrBase;
     else
-      workPtrBase = (*env)->GetFloatArrayElements(env, work, NULL);
+      workPtrBase = (*env)->GetPrimitiveArrayCritical(env, work, NULL);
     workPtr = workPtrBase + workIdx;
   }
   int info;
@@ -2163,7 +2617,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_ssysv(JNIEnv *env, jclass this,
   savedEnv = env;
   ssysv_(&uploChr, &n, &nrhs, aPtr, &lda, ipivPtr, bPtr, &ldb, workPtr, &lwork, &info);
   if(workPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, work, workPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, work, workPtrBase, 0);
     if (workPtrBase == aPtrBase)
       aPtrBase = 0;
     if (workPtrBase == bPtrBase)
@@ -2171,17 +2625,17 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_ssysv(JNIEnv *env, jclass this,
     workPtrBase = 0;
   }
   if(bPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, b, bPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, b, bPtrBase, 0);
     if (bPtrBase == aPtrBase)
       aPtrBase = 0;
     bPtrBase = 0;
   }
   if(ipivPtrBase) {
-    (*env)->ReleaseIntArrayElements(env, ipiv, ipivPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, ipiv, ipivPtrBase, 0);
     ipivPtrBase = 0;
   }
   if(aPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, a, aPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, 0);
     aPtrBase = 0;
   }
 
@@ -2196,7 +2650,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dsyev(JNIEnv *env, jclass this,
   char uploChr = (char) uplo;
   jdouble *aPtrBase = 0, *aPtr = 0;
   if (a) {
-    aPtrBase = (*env)->GetDoubleArrayElements(env, a, NULL);
+    aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
     aPtr = aPtrBase + aIdx;
   }
   jdouble *wPtrBase = 0, *wPtr = 0;
@@ -2204,7 +2658,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dsyev(JNIEnv *env, jclass this,
     if((*env)->IsSameObject(env, w, a) == JNI_TRUE)
       wPtrBase = aPtrBase;
     else
-      wPtrBase = (*env)->GetDoubleArrayElements(env, w, NULL);
+      wPtrBase = (*env)->GetPrimitiveArrayCritical(env, w, NULL);
     wPtr = wPtrBase + wIdx;
   }
   jdouble *workPtrBase = 0, *workPtr = 0;
@@ -2215,7 +2669,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dsyev(JNIEnv *env, jclass this,
       if((*env)->IsSameObject(env, work, w) == JNI_TRUE)
       workPtrBase = wPtrBase;
     else
-      workPtrBase = (*env)->GetDoubleArrayElements(env, work, NULL);
+      workPtrBase = (*env)->GetPrimitiveArrayCritical(env, work, NULL);
     workPtr = workPtrBase + workIdx;
   }
   int info;
@@ -2223,7 +2677,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dsyev(JNIEnv *env, jclass this,
   savedEnv = env;
   dsyev_(&jobzChr, &uploChr, &n, aPtr, &lda, wPtr, workPtr, &lwork, &info);
   if(workPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, work, workPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, work, workPtrBase, 0);
     if (workPtrBase == aPtrBase)
       aPtrBase = 0;
     if (workPtrBase == wPtrBase)
@@ -2231,13 +2685,13 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dsyev(JNIEnv *env, jclass this,
     workPtrBase = 0;
   }
   if(wPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, w, wPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, w, wPtrBase, 0);
     if (wPtrBase == aPtrBase)
       aPtrBase = 0;
     wPtrBase = 0;
   }
   if(aPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, a, aPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, 0);
     aPtrBase = 0;
   }
 
@@ -2252,7 +2706,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_ssyev(JNIEnv *env, jclass this,
   char uploChr = (char) uplo;
   jfloat *aPtrBase = 0, *aPtr = 0;
   if (a) {
-    aPtrBase = (*env)->GetFloatArrayElements(env, a, NULL);
+    aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
     aPtr = aPtrBase + aIdx;
   }
   jfloat *wPtrBase = 0, *wPtr = 0;
@@ -2260,7 +2714,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_ssyev(JNIEnv *env, jclass this,
     if((*env)->IsSameObject(env, w, a) == JNI_TRUE)
       wPtrBase = aPtrBase;
     else
-      wPtrBase = (*env)->GetFloatArrayElements(env, w, NULL);
+      wPtrBase = (*env)->GetPrimitiveArrayCritical(env, w, NULL);
     wPtr = wPtrBase + wIdx;
   }
   jfloat *workPtrBase = 0, *workPtr = 0;
@@ -2271,7 +2725,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_ssyev(JNIEnv *env, jclass this,
       if((*env)->IsSameObject(env, work, w) == JNI_TRUE)
       workPtrBase = wPtrBase;
     else
-      workPtrBase = (*env)->GetFloatArrayElements(env, work, NULL);
+      workPtrBase = (*env)->GetPrimitiveArrayCritical(env, work, NULL);
     workPtr = workPtrBase + workIdx;
   }
   int info;
@@ -2279,7 +2733,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_ssyev(JNIEnv *env, jclass this,
   savedEnv = env;
   ssyev_(&jobzChr, &uploChr, &n, aPtr, &lda, wPtr, workPtr, &lwork, &info);
   if(workPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, work, workPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, work, workPtrBase, 0);
     if (workPtrBase == aPtrBase)
       aPtrBase = 0;
     if (workPtrBase == wPtrBase)
@@ -2287,13 +2741,13 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_ssyev(JNIEnv *env, jclass this,
     workPtrBase = 0;
   }
   if(wPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, w, wPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, w, wPtrBase, 0);
     if (wPtrBase == aPtrBase)
       aPtrBase = 0;
     wPtrBase = 0;
   }
   if(aPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, a, aPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, 0);
     aPtrBase = 0;
   }
 
@@ -2308,7 +2762,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dsyevd(JNIEnv *env, jclass this
   char uploChr = (char) uplo;
   jdouble *aPtrBase = 0, *aPtr = 0;
   if (a) {
-    aPtrBase = (*env)->GetDoubleArrayElements(env, a, NULL);
+    aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
     aPtr = aPtrBase + aIdx;
   }
   jdouble *wPtrBase = 0, *wPtr = 0;
@@ -2316,7 +2770,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dsyevd(JNIEnv *env, jclass this
     if((*env)->IsSameObject(env, w, a) == JNI_TRUE)
       wPtrBase = aPtrBase;
     else
-      wPtrBase = (*env)->GetDoubleArrayElements(env, w, NULL);
+      wPtrBase = (*env)->GetPrimitiveArrayCritical(env, w, NULL);
     wPtr = wPtrBase + wIdx;
   }
   jdouble *workPtrBase = 0, *workPtr = 0;
@@ -2327,12 +2781,12 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dsyevd(JNIEnv *env, jclass this
       if((*env)->IsSameObject(env, work, w) == JNI_TRUE)
       workPtrBase = wPtrBase;
     else
-      workPtrBase = (*env)->GetDoubleArrayElements(env, work, NULL);
+      workPtrBase = (*env)->GetPrimitiveArrayCritical(env, work, NULL);
     workPtr = workPtrBase + workIdx;
   }
   jint *iworkPtrBase = 0, *iworkPtr = 0;
   if (iwork) {
-    iworkPtrBase = (*env)->GetIntArrayElements(env, iwork, NULL);
+    iworkPtrBase = (*env)->GetPrimitiveArrayCritical(env, iwork, NULL);
     iworkPtr = iworkPtrBase + iworkIdx;
   }
   int info;
@@ -2340,11 +2794,11 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dsyevd(JNIEnv *env, jclass this
   savedEnv = env;
   dsyevd_(&jobzChr, &uploChr, &n, aPtr, &lda, wPtr, workPtr, &lwork, iworkPtr, &liwork, &info);
   if(iworkPtrBase) {
-    (*env)->ReleaseIntArrayElements(env, iwork, iworkPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, iwork, iworkPtrBase, 0);
     iworkPtrBase = 0;
   }
   if(workPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, work, workPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, work, workPtrBase, 0);
     if (workPtrBase == aPtrBase)
       aPtrBase = 0;
     if (workPtrBase == wPtrBase)
@@ -2352,13 +2806,13 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dsyevd(JNIEnv *env, jclass this
     workPtrBase = 0;
   }
   if(wPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, w, wPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, w, wPtrBase, 0);
     if (wPtrBase == aPtrBase)
       aPtrBase = 0;
     wPtrBase = 0;
   }
   if(aPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, a, aPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, 0);
     aPtrBase = 0;
   }
 
@@ -2374,12 +2828,12 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dsyevr(JNIEnv *env, jclass this
   char uploChr = (char) uplo;
   jdouble *aPtrBase = 0, *aPtr = 0;
   if (a) {
-    aPtrBase = (*env)->GetDoubleArrayElements(env, a, NULL);
+    aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
     aPtr = aPtrBase + aIdx;
   }
   jint *mPtrBase = 0, *mPtr = 0;
   if (m) {
-    mPtrBase = (*env)->GetIntArrayElements(env, m, NULL);
+    mPtrBase = (*env)->GetPrimitiveArrayCritical(env, m, NULL);
     mPtr = mPtrBase + mIdx;
   }
   jdouble *wPtrBase = 0, *wPtr = 0;
@@ -2387,7 +2841,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dsyevr(JNIEnv *env, jclass this
     if((*env)->IsSameObject(env, w, a) == JNI_TRUE)
       wPtrBase = aPtrBase;
     else
-      wPtrBase = (*env)->GetDoubleArrayElements(env, w, NULL);
+      wPtrBase = (*env)->GetPrimitiveArrayCritical(env, w, NULL);
     wPtr = wPtrBase + wIdx;
   }
   jdouble *zPtrBase = 0, *zPtr = 0;
@@ -2398,7 +2852,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dsyevr(JNIEnv *env, jclass this
       if((*env)->IsSameObject(env, z, w) == JNI_TRUE)
       zPtrBase = wPtrBase;
     else
-      zPtrBase = (*env)->GetDoubleArrayElements(env, z, NULL);
+      zPtrBase = (*env)->GetPrimitiveArrayCritical(env, z, NULL);
     zPtr = zPtrBase + zIdx;
   }
   jint *isuppzPtrBase = 0, *isuppzPtr = 0;
@@ -2406,7 +2860,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dsyevr(JNIEnv *env, jclass this
     if((*env)->IsSameObject(env, isuppz, m) == JNI_TRUE)
       isuppzPtrBase = mPtrBase;
     else
-      isuppzPtrBase = (*env)->GetIntArrayElements(env, isuppz, NULL);
+      isuppzPtrBase = (*env)->GetPrimitiveArrayCritical(env, isuppz, NULL);
     isuppzPtr = isuppzPtrBase + isuppzIdx;
   }
   jdouble *workPtrBase = 0, *workPtr = 0;
@@ -2420,7 +2874,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dsyevr(JNIEnv *env, jclass this
       if((*env)->IsSameObject(env, work, z) == JNI_TRUE)
       workPtrBase = zPtrBase;
     else
-      workPtrBase = (*env)->GetDoubleArrayElements(env, work, NULL);
+      workPtrBase = (*env)->GetPrimitiveArrayCritical(env, work, NULL);
     workPtr = workPtrBase + workIdx;
   }
   jint *iworkPtrBase = 0, *iworkPtr = 0;
@@ -2431,7 +2885,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dsyevr(JNIEnv *env, jclass this
       if((*env)->IsSameObject(env, iwork, isuppz) == JNI_TRUE)
       iworkPtrBase = isuppzPtrBase;
     else
-      iworkPtrBase = (*env)->GetIntArrayElements(env, iwork, NULL);
+      iworkPtrBase = (*env)->GetPrimitiveArrayCritical(env, iwork, NULL);
     iworkPtr = iworkPtrBase + iworkIdx;
   }
   int info;
@@ -2439,7 +2893,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dsyevr(JNIEnv *env, jclass this
   savedEnv = env;
   dsyevr_(&jobzChr, &rangeChr, &uploChr, &n, aPtr, &lda, &vl, &vu, &il, &iu, &abstol, mPtr, wPtr, zPtr, &ldz, isuppzPtr, workPtr, &lwork, iworkPtr, &liwork, &info);
   if(iworkPtrBase) {
-    (*env)->ReleaseIntArrayElements(env, iwork, iworkPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, iwork, iworkPtrBase, 0);
     if (iworkPtrBase == mPtrBase)
       mPtrBase = 0;
     if (iworkPtrBase == isuppzPtrBase)
@@ -2447,7 +2901,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dsyevr(JNIEnv *env, jclass this
     iworkPtrBase = 0;
   }
   if(workPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, work, workPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, work, workPtrBase, 0);
     if (workPtrBase == aPtrBase)
       aPtrBase = 0;
     if (workPtrBase == wPtrBase)
@@ -2457,13 +2911,13 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dsyevr(JNIEnv *env, jclass this
     workPtrBase = 0;
   }
   if(isuppzPtrBase) {
-    (*env)->ReleaseIntArrayElements(env, isuppz, isuppzPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, isuppz, isuppzPtrBase, 0);
     if (isuppzPtrBase == mPtrBase)
       mPtrBase = 0;
     isuppzPtrBase = 0;
   }
   if(zPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, z, zPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, z, zPtrBase, 0);
     if (zPtrBase == aPtrBase)
       aPtrBase = 0;
     if (zPtrBase == wPtrBase)
@@ -2471,17 +2925,17 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dsyevr(JNIEnv *env, jclass this
     zPtrBase = 0;
   }
   if(wPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, w, wPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, w, wPtrBase, 0);
     if (wPtrBase == aPtrBase)
       aPtrBase = 0;
     wPtrBase = 0;
   }
   if(mPtrBase) {
-    (*env)->ReleaseIntArrayElements(env, m, mPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, m, mPtrBase, 0);
     mPtrBase = 0;
   }
   if(aPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, a, aPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, 0);
     aPtrBase = 0;
   }
 
@@ -2497,12 +2951,12 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dsyevx(JNIEnv *env, jclass this
   char uploChr = (char) uplo;
   jint *iworkPtrBase = 0, *iworkPtr = 0;
   if (iwork) {
-    iworkPtrBase = (*env)->GetIntArrayElements(env, iwork, NULL);
+    iworkPtrBase = (*env)->GetPrimitiveArrayCritical(env, iwork, NULL);
     iworkPtr = iworkPtrBase + iworkIdx;
   }
   jdouble *aPtrBase = 0, *aPtr = 0;
   if (a) {
-    aPtrBase = (*env)->GetDoubleArrayElements(env, a, NULL);
+    aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
     aPtr = aPtrBase + aIdx;
   }
   jint *mPtrBase = 0, *mPtr = 0;
@@ -2510,7 +2964,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dsyevx(JNIEnv *env, jclass this
     if((*env)->IsSameObject(env, m, iwork) == JNI_TRUE)
       mPtrBase = iworkPtrBase;
     else
-      mPtrBase = (*env)->GetIntArrayElements(env, m, NULL);
+      mPtrBase = (*env)->GetPrimitiveArrayCritical(env, m, NULL);
     mPtr = mPtrBase + mIdx;
   }
   jdouble *wPtrBase = 0, *wPtr = 0;
@@ -2518,7 +2972,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dsyevx(JNIEnv *env, jclass this
     if((*env)->IsSameObject(env, w, a) == JNI_TRUE)
       wPtrBase = aPtrBase;
     else
-      wPtrBase = (*env)->GetDoubleArrayElements(env, w, NULL);
+      wPtrBase = (*env)->GetPrimitiveArrayCritical(env, w, NULL);
     wPtr = wPtrBase + wIdx;
   }
   jdouble *zPtrBase = 0, *zPtr = 0;
@@ -2529,7 +2983,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dsyevx(JNIEnv *env, jclass this
       if((*env)->IsSameObject(env, z, w) == JNI_TRUE)
       zPtrBase = wPtrBase;
     else
-      zPtrBase = (*env)->GetDoubleArrayElements(env, z, NULL);
+      zPtrBase = (*env)->GetPrimitiveArrayCritical(env, z, NULL);
     zPtr = zPtrBase + zIdx;
   }
   jdouble *workPtrBase = 0, *workPtr = 0;
@@ -2543,7 +2997,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dsyevx(JNIEnv *env, jclass this
       if((*env)->IsSameObject(env, work, z) == JNI_TRUE)
       workPtrBase = zPtrBase;
     else
-      workPtrBase = (*env)->GetDoubleArrayElements(env, work, NULL);
+      workPtrBase = (*env)->GetPrimitiveArrayCritical(env, work, NULL);
     workPtr = workPtrBase + workIdx;
   }
   jint *ifailPtrBase = 0, *ifailPtr = 0;
@@ -2554,7 +3008,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dsyevx(JNIEnv *env, jclass this
       if((*env)->IsSameObject(env, ifail, m) == JNI_TRUE)
       ifailPtrBase = mPtrBase;
     else
-      ifailPtrBase = (*env)->GetIntArrayElements(env, ifail, NULL);
+      ifailPtrBase = (*env)->GetPrimitiveArrayCritical(env, ifail, NULL);
     ifailPtr = ifailPtrBase + ifailIdx;
   }
   int info;
@@ -2562,7 +3016,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dsyevx(JNIEnv *env, jclass this
   savedEnv = env;
   dsyevx_(&jobzChr, &rangeChr, &uploChr, &n, aPtr, &lda, &vl, &vu, &il, &iu, &abstol, mPtr, wPtr, zPtr, &ldz, workPtr, &lwork, iworkPtr, ifailPtr, &info);
   if(ifailPtrBase) {
-    (*env)->ReleaseIntArrayElements(env, ifail, ifailPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, ifail, ifailPtrBase, 0);
     if (ifailPtrBase == iworkPtrBase)
       iworkPtrBase = 0;
     if (ifailPtrBase == mPtrBase)
@@ -2570,7 +3024,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dsyevx(JNIEnv *env, jclass this
     ifailPtrBase = 0;
   }
   if(workPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, work, workPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, work, workPtrBase, 0);
     if (workPtrBase == aPtrBase)
       aPtrBase = 0;
     if (workPtrBase == wPtrBase)
@@ -2580,7 +3034,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dsyevx(JNIEnv *env, jclass this
     workPtrBase = 0;
   }
   if(zPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, z, zPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, z, zPtrBase, 0);
     if (zPtrBase == aPtrBase)
       aPtrBase = 0;
     if (zPtrBase == wPtrBase)
@@ -2588,23 +3042,23 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dsyevx(JNIEnv *env, jclass this
     zPtrBase = 0;
   }
   if(wPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, w, wPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, w, wPtrBase, 0);
     if (wPtrBase == aPtrBase)
       aPtrBase = 0;
     wPtrBase = 0;
   }
   if(mPtrBase) {
-    (*env)->ReleaseIntArrayElements(env, m, mPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, m, mPtrBase, 0);
     if (mPtrBase == iworkPtrBase)
       iworkPtrBase = 0;
     mPtrBase = 0;
   }
   if(aPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, a, aPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, 0);
     aPtrBase = 0;
   }
   if(iworkPtrBase) {
-    (*env)->ReleaseIntArrayElements(env, iwork, iworkPtrBase, JNI_ABORT);
+    (*env)->ReleasePrimitiveArrayCritical(env, iwork, iworkPtrBase, JNI_ABORT);
     iworkPtrBase = 0;
   }
 
@@ -2619,7 +3073,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_ssyevd(JNIEnv *env, jclass this
   char uploChr = (char) uplo;
   jfloat *aPtrBase = 0, *aPtr = 0;
   if (a) {
-    aPtrBase = (*env)->GetFloatArrayElements(env, a, NULL);
+    aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
     aPtr = aPtrBase + aIdx;
   }
   jfloat *wPtrBase = 0, *wPtr = 0;
@@ -2627,7 +3081,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_ssyevd(JNIEnv *env, jclass this
     if((*env)->IsSameObject(env, w, a) == JNI_TRUE)
       wPtrBase = aPtrBase;
     else
-      wPtrBase = (*env)->GetFloatArrayElements(env, w, NULL);
+      wPtrBase = (*env)->GetPrimitiveArrayCritical(env, w, NULL);
     wPtr = wPtrBase + wIdx;
   }
   jfloat *workPtrBase = 0, *workPtr = 0;
@@ -2638,12 +3092,12 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_ssyevd(JNIEnv *env, jclass this
       if((*env)->IsSameObject(env, work, w) == JNI_TRUE)
       workPtrBase = wPtrBase;
     else
-      workPtrBase = (*env)->GetFloatArrayElements(env, work, NULL);
+      workPtrBase = (*env)->GetPrimitiveArrayCritical(env, work, NULL);
     workPtr = workPtrBase + workIdx;
   }
   jint *iworkPtrBase = 0, *iworkPtr = 0;
   if (iwork) {
-    iworkPtrBase = (*env)->GetIntArrayElements(env, iwork, NULL);
+    iworkPtrBase = (*env)->GetPrimitiveArrayCritical(env, iwork, NULL);
     iworkPtr = iworkPtrBase + iworkIdx;
   }
   int info;
@@ -2651,11 +3105,11 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_ssyevd(JNIEnv *env, jclass this
   savedEnv = env;
   ssyevd_(&jobzChr, &uploChr, &n, aPtr, &lda, wPtr, workPtr, &lwork, iworkPtr, &liwork, &info);
   if(iworkPtrBase) {
-    (*env)->ReleaseIntArrayElements(env, iwork, iworkPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, iwork, iworkPtrBase, 0);
     iworkPtrBase = 0;
   }
   if(workPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, work, workPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, work, workPtrBase, 0);
     if (workPtrBase == aPtrBase)
       aPtrBase = 0;
     if (workPtrBase == wPtrBase)
@@ -2663,13 +3117,13 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_ssyevd(JNIEnv *env, jclass this
     workPtrBase = 0;
   }
   if(wPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, w, wPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, w, wPtrBase, 0);
     if (wPtrBase == aPtrBase)
       aPtrBase = 0;
     wPtrBase = 0;
   }
   if(aPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, a, aPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, 0);
     aPtrBase = 0;
   }
 
@@ -2685,12 +3139,12 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_ssyevr(JNIEnv *env, jclass this
   char uploChr = (char) uplo;
   jfloat *aPtrBase = 0, *aPtr = 0;
   if (a) {
-    aPtrBase = (*env)->GetFloatArrayElements(env, a, NULL);
+    aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
     aPtr = aPtrBase + aIdx;
   }
   jint *mPtrBase = 0, *mPtr = 0;
   if (m) {
-    mPtrBase = (*env)->GetIntArrayElements(env, m, NULL);
+    mPtrBase = (*env)->GetPrimitiveArrayCritical(env, m, NULL);
     mPtr = mPtrBase + mIdx;
   }
   jfloat *wPtrBase = 0, *wPtr = 0;
@@ -2698,7 +3152,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_ssyevr(JNIEnv *env, jclass this
     if((*env)->IsSameObject(env, w, a) == JNI_TRUE)
       wPtrBase = aPtrBase;
     else
-      wPtrBase = (*env)->GetFloatArrayElements(env, w, NULL);
+      wPtrBase = (*env)->GetPrimitiveArrayCritical(env, w, NULL);
     wPtr = wPtrBase + wIdx;
   }
   jfloat *zPtrBase = 0, *zPtr = 0;
@@ -2709,7 +3163,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_ssyevr(JNIEnv *env, jclass this
       if((*env)->IsSameObject(env, z, w) == JNI_TRUE)
       zPtrBase = wPtrBase;
     else
-      zPtrBase = (*env)->GetFloatArrayElements(env, z, NULL);
+      zPtrBase = (*env)->GetPrimitiveArrayCritical(env, z, NULL);
     zPtr = zPtrBase + zIdx;
   }
   jint *isuppzPtrBase = 0, *isuppzPtr = 0;
@@ -2717,7 +3171,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_ssyevr(JNIEnv *env, jclass this
     if((*env)->IsSameObject(env, isuppz, m) == JNI_TRUE)
       isuppzPtrBase = mPtrBase;
     else
-      isuppzPtrBase = (*env)->GetIntArrayElements(env, isuppz, NULL);
+      isuppzPtrBase = (*env)->GetPrimitiveArrayCritical(env, isuppz, NULL);
     isuppzPtr = isuppzPtrBase + isuppzIdx;
   }
   jfloat *workPtrBase = 0, *workPtr = 0;
@@ -2731,7 +3185,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_ssyevr(JNIEnv *env, jclass this
       if((*env)->IsSameObject(env, work, z) == JNI_TRUE)
       workPtrBase = zPtrBase;
     else
-      workPtrBase = (*env)->GetFloatArrayElements(env, work, NULL);
+      workPtrBase = (*env)->GetPrimitiveArrayCritical(env, work, NULL);
     workPtr = workPtrBase + workIdx;
   }
   jint *iworkPtrBase = 0, *iworkPtr = 0;
@@ -2742,7 +3196,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_ssyevr(JNIEnv *env, jclass this
       if((*env)->IsSameObject(env, iwork, isuppz) == JNI_TRUE)
       iworkPtrBase = isuppzPtrBase;
     else
-      iworkPtrBase = (*env)->GetIntArrayElements(env, iwork, NULL);
+      iworkPtrBase = (*env)->GetPrimitiveArrayCritical(env, iwork, NULL);
     iworkPtr = iworkPtrBase + iworkIdx;
   }
   int info;
@@ -2750,7 +3204,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_ssyevr(JNIEnv *env, jclass this
   savedEnv = env;
   ssyevr_(&jobzChr, &rangeChr, &uploChr, &n, aPtr, &lda, &vl, &vu, &il, &iu, &abstol, mPtr, wPtr, zPtr, &ldz, isuppzPtr, workPtr, &lwork, iworkPtr, &liwork, &info);
   if(iworkPtrBase) {
-    (*env)->ReleaseIntArrayElements(env, iwork, iworkPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, iwork, iworkPtrBase, 0);
     if (iworkPtrBase == mPtrBase)
       mPtrBase = 0;
     if (iworkPtrBase == isuppzPtrBase)
@@ -2758,7 +3212,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_ssyevr(JNIEnv *env, jclass this
     iworkPtrBase = 0;
   }
   if(workPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, work, workPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, work, workPtrBase, 0);
     if (workPtrBase == aPtrBase)
       aPtrBase = 0;
     if (workPtrBase == wPtrBase)
@@ -2768,13 +3222,13 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_ssyevr(JNIEnv *env, jclass this
     workPtrBase = 0;
   }
   if(isuppzPtrBase) {
-    (*env)->ReleaseIntArrayElements(env, isuppz, isuppzPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, isuppz, isuppzPtrBase, 0);
     if (isuppzPtrBase == mPtrBase)
       mPtrBase = 0;
     isuppzPtrBase = 0;
   }
   if(zPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, z, zPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, z, zPtrBase, 0);
     if (zPtrBase == aPtrBase)
       aPtrBase = 0;
     if (zPtrBase == wPtrBase)
@@ -2782,17 +3236,17 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_ssyevr(JNIEnv *env, jclass this
     zPtrBase = 0;
   }
   if(wPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, w, wPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, w, wPtrBase, 0);
     if (wPtrBase == aPtrBase)
       aPtrBase = 0;
     wPtrBase = 0;
   }
   if(mPtrBase) {
-    (*env)->ReleaseIntArrayElements(env, m, mPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, m, mPtrBase, 0);
     mPtrBase = 0;
   }
   if(aPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, a, aPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, 0);
     aPtrBase = 0;
   }
 
@@ -2808,12 +3262,12 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_ssyevx(JNIEnv *env, jclass this
   char uploChr = (char) uplo;
   jint *iworkPtrBase = 0, *iworkPtr = 0;
   if (iwork) {
-    iworkPtrBase = (*env)->GetIntArrayElements(env, iwork, NULL);
+    iworkPtrBase = (*env)->GetPrimitiveArrayCritical(env, iwork, NULL);
     iworkPtr = iworkPtrBase + iworkIdx;
   }
   jfloat *aPtrBase = 0, *aPtr = 0;
   if (a) {
-    aPtrBase = (*env)->GetFloatArrayElements(env, a, NULL);
+    aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
     aPtr = aPtrBase + aIdx;
   }
   jint *mPtrBase = 0, *mPtr = 0;
@@ -2821,7 +3275,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_ssyevx(JNIEnv *env, jclass this
     if((*env)->IsSameObject(env, m, iwork) == JNI_TRUE)
       mPtrBase = iworkPtrBase;
     else
-      mPtrBase = (*env)->GetIntArrayElements(env, m, NULL);
+      mPtrBase = (*env)->GetPrimitiveArrayCritical(env, m, NULL);
     mPtr = mPtrBase + mIdx;
   }
   jfloat *wPtrBase = 0, *wPtr = 0;
@@ -2829,7 +3283,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_ssyevx(JNIEnv *env, jclass this
     if((*env)->IsSameObject(env, w, a) == JNI_TRUE)
       wPtrBase = aPtrBase;
     else
-      wPtrBase = (*env)->GetFloatArrayElements(env, w, NULL);
+      wPtrBase = (*env)->GetPrimitiveArrayCritical(env, w, NULL);
     wPtr = wPtrBase + wIdx;
   }
   jfloat *zPtrBase = 0, *zPtr = 0;
@@ -2840,7 +3294,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_ssyevx(JNIEnv *env, jclass this
       if((*env)->IsSameObject(env, z, w) == JNI_TRUE)
       zPtrBase = wPtrBase;
     else
-      zPtrBase = (*env)->GetFloatArrayElements(env, z, NULL);
+      zPtrBase = (*env)->GetPrimitiveArrayCritical(env, z, NULL);
     zPtr = zPtrBase + zIdx;
   }
   jfloat *workPtrBase = 0, *workPtr = 0;
@@ -2854,7 +3308,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_ssyevx(JNIEnv *env, jclass this
       if((*env)->IsSameObject(env, work, z) == JNI_TRUE)
       workPtrBase = zPtrBase;
     else
-      workPtrBase = (*env)->GetFloatArrayElements(env, work, NULL);
+      workPtrBase = (*env)->GetPrimitiveArrayCritical(env, work, NULL);
     workPtr = workPtrBase + workIdx;
   }
   jint *ifailPtrBase = 0, *ifailPtr = 0;
@@ -2865,7 +3319,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_ssyevx(JNIEnv *env, jclass this
       if((*env)->IsSameObject(env, ifail, m) == JNI_TRUE)
       ifailPtrBase = mPtrBase;
     else
-      ifailPtrBase = (*env)->GetIntArrayElements(env, ifail, NULL);
+      ifailPtrBase = (*env)->GetPrimitiveArrayCritical(env, ifail, NULL);
     ifailPtr = ifailPtrBase + ifailIdx;
   }
   int info;
@@ -2873,7 +3327,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_ssyevx(JNIEnv *env, jclass this
   savedEnv = env;
   ssyevx_(&jobzChr, &rangeChr, &uploChr, &n, aPtr, &lda, &vl, &vu, &il, &iu, &abstol, mPtr, wPtr, zPtr, &ldz, workPtr, &lwork, iworkPtr, ifailPtr, &info);
   if(ifailPtrBase) {
-    (*env)->ReleaseIntArrayElements(env, ifail, ifailPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, ifail, ifailPtrBase, 0);
     if (ifailPtrBase == iworkPtrBase)
       iworkPtrBase = 0;
     if (ifailPtrBase == mPtrBase)
@@ -2881,7 +3335,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_ssyevx(JNIEnv *env, jclass this
     ifailPtrBase = 0;
   }
   if(workPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, work, workPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, work, workPtrBase, 0);
     if (workPtrBase == aPtrBase)
       aPtrBase = 0;
     if (workPtrBase == wPtrBase)
@@ -2891,7 +3345,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_ssyevx(JNIEnv *env, jclass this
     workPtrBase = 0;
   }
   if(zPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, z, zPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, z, zPtrBase, 0);
     if (zPtrBase == aPtrBase)
       aPtrBase = 0;
     if (zPtrBase == wPtrBase)
@@ -2899,23 +3353,23 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_ssyevx(JNIEnv *env, jclass this
     zPtrBase = 0;
   }
   if(wPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, w, wPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, w, wPtrBase, 0);
     if (wPtrBase == aPtrBase)
       aPtrBase = 0;
     wPtrBase = 0;
   }
   if(mPtrBase) {
-    (*env)->ReleaseIntArrayElements(env, m, mPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, m, mPtrBase, 0);
     if (mPtrBase == iworkPtrBase)
       iworkPtrBase = 0;
     mPtrBase = 0;
   }
   if(aPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, a, aPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, 0);
     aPtrBase = 0;
   }
   if(iworkPtrBase) {
-    (*env)->ReleaseIntArrayElements(env, iwork, iworkPtrBase, JNI_ABORT);
+    (*env)->ReleasePrimitiveArrayCritical(env, iwork, iworkPtrBase, JNI_ABORT);
     iworkPtrBase = 0;
   }
 
@@ -2929,7 +3383,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dposv(JNIEnv *env, jclass this,
   char uploChr = (char) uplo;
   jdouble *aPtrBase = 0, *aPtr = 0;
   if (a) {
-    aPtrBase = (*env)->GetDoubleArrayElements(env, a, NULL);
+    aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
     aPtr = aPtrBase + aIdx;
   }
   jdouble *bPtrBase = 0, *bPtr = 0;
@@ -2937,7 +3391,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dposv(JNIEnv *env, jclass this,
     if((*env)->IsSameObject(env, b, a) == JNI_TRUE)
       bPtrBase = aPtrBase;
     else
-      bPtrBase = (*env)->GetDoubleArrayElements(env, b, NULL);
+      bPtrBase = (*env)->GetPrimitiveArrayCritical(env, b, NULL);
     bPtr = bPtrBase + bIdx;
   }
   int info;
@@ -2945,13 +3399,13 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dposv(JNIEnv *env, jclass this,
   savedEnv = env;
   dposv_(&uploChr, &n, &nrhs, aPtr, &lda, bPtr, &ldb, &info);
   if(bPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, b, bPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, b, bPtrBase, 0);
     if (bPtrBase == aPtrBase)
       aPtrBase = 0;
     bPtrBase = 0;
   }
   if(aPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, a, aPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, 0);
     aPtrBase = 0;
   }
 
@@ -2965,7 +3419,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_sposv(JNIEnv *env, jclass this,
   char uploChr = (char) uplo;
   jfloat *aPtrBase = 0, *aPtr = 0;
   if (a) {
-    aPtrBase = (*env)->GetFloatArrayElements(env, a, NULL);
+    aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
     aPtr = aPtrBase + aIdx;
   }
   jfloat *bPtrBase = 0, *bPtr = 0;
@@ -2973,7 +3427,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_sposv(JNIEnv *env, jclass this,
     if((*env)->IsSameObject(env, b, a) == JNI_TRUE)
       bPtrBase = aPtrBase;
     else
-      bPtrBase = (*env)->GetFloatArrayElements(env, b, NULL);
+      bPtrBase = (*env)->GetPrimitiveArrayCritical(env, b, NULL);
     bPtr = bPtrBase + bIdx;
   }
   int info;
@@ -2981,13 +3435,13 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_sposv(JNIEnv *env, jclass this,
   savedEnv = env;
   sposv_(&uploChr, &n, &nrhs, aPtr, &lda, bPtr, &ldb, &info);
   if(bPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, b, bPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, b, bPtrBase, 0);
     if (bPtrBase == aPtrBase)
       aPtrBase = 0;
     bPtrBase = 0;
   }
   if(aPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, a, aPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, 0);
     aPtrBase = 0;
   }
 
@@ -3002,7 +3456,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_cgeev(JNIEnv *env, jclass this,
   char jobvrChr = (char) jobvr;
   jfloat *rworkPtrBase = 0, *rworkPtr = 0;
   if (rwork) {
-    rworkPtrBase = (*env)->GetFloatArrayElements(env, rwork, NULL);
+    rworkPtrBase = (*env)->GetPrimitiveArrayCritical(env, rwork, NULL);
     rworkPtr = rworkPtrBase + rworkIdx;
   }
   jfloat *aPtrBase = 0, *aPtr = 0;
@@ -3010,7 +3464,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_cgeev(JNIEnv *env, jclass this,
     if((*env)->IsSameObject(env, a, rwork) == JNI_TRUE)
       aPtrBase = rworkPtrBase;
     else
-      aPtrBase = (*env)->GetFloatArrayElements(env, a, NULL);
+      aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
     aPtr = aPtrBase + 2*aIdx;
   }
   jfloat *wPtrBase = 0, *wPtr = 0;
@@ -3021,7 +3475,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_cgeev(JNIEnv *env, jclass this,
       if((*env)->IsSameObject(env, w, a) == JNI_TRUE)
       wPtrBase = aPtrBase;
     else
-      wPtrBase = (*env)->GetFloatArrayElements(env, w, NULL);
+      wPtrBase = (*env)->GetPrimitiveArrayCritical(env, w, NULL);
     wPtr = wPtrBase + 2*wIdx;
   }
   jfloat *vlPtrBase = 0, *vlPtr = 0;
@@ -3035,7 +3489,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_cgeev(JNIEnv *env, jclass this,
       if((*env)->IsSameObject(env, vl, w) == JNI_TRUE)
       vlPtrBase = wPtrBase;
     else
-      vlPtrBase = (*env)->GetFloatArrayElements(env, vl, NULL);
+      vlPtrBase = (*env)->GetPrimitiveArrayCritical(env, vl, NULL);
     vlPtr = vlPtrBase + 2*vlIdx;
   }
   jfloat *vrPtrBase = 0, *vrPtr = 0;
@@ -3052,7 +3506,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_cgeev(JNIEnv *env, jclass this,
       if((*env)->IsSameObject(env, vr, vl) == JNI_TRUE)
       vrPtrBase = vlPtrBase;
     else
-      vrPtrBase = (*env)->GetFloatArrayElements(env, vr, NULL);
+      vrPtrBase = (*env)->GetPrimitiveArrayCritical(env, vr, NULL);
     vrPtr = vrPtrBase + 2*vrIdx;
   }
   jfloat *workPtrBase = 0, *workPtr = 0;
@@ -3072,7 +3526,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_cgeev(JNIEnv *env, jclass this,
       if((*env)->IsSameObject(env, work, vr) == JNI_TRUE)
       workPtrBase = vrPtrBase;
     else
-      workPtrBase = (*env)->GetFloatArrayElements(env, work, NULL);
+      workPtrBase = (*env)->GetPrimitiveArrayCritical(env, work, NULL);
     workPtr = workPtrBase + 2*workIdx;
   }
   int info;
@@ -3080,7 +3534,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_cgeev(JNIEnv *env, jclass this,
   savedEnv = env;
   cgeev_(&jobvlChr, &jobvrChr, &n, aPtr, &lda, wPtr, vlPtr, &ldvl, vrPtr, &ldvr, workPtr, &lwork, rworkPtr, &info);
   if(workPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, work, workPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, work, workPtrBase, 0);
     if (workPtrBase == rworkPtrBase)
       rworkPtrBase = 0;
     if (workPtrBase == aPtrBase)
@@ -3094,7 +3548,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_cgeev(JNIEnv *env, jclass this,
     workPtrBase = 0;
   }
   if(vrPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, vr, vrPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, vr, vrPtrBase, 0);
     if (vrPtrBase == rworkPtrBase)
       rworkPtrBase = 0;
     if (vrPtrBase == aPtrBase)
@@ -3106,7 +3560,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_cgeev(JNIEnv *env, jclass this,
     vrPtrBase = 0;
   }
   if(vlPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, vl, vlPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, vl, vlPtrBase, 0);
     if (vlPtrBase == rworkPtrBase)
       rworkPtrBase = 0;
     if (vlPtrBase == aPtrBase)
@@ -3116,7 +3570,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_cgeev(JNIEnv *env, jclass this,
     vlPtrBase = 0;
   }
   if(wPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, w, wPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, w, wPtrBase, 0);
     if (wPtrBase == rworkPtrBase)
       rworkPtrBase = 0;
     if (wPtrBase == aPtrBase)
@@ -3124,13 +3578,13 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_cgeev(JNIEnv *env, jclass this,
     wPtrBase = 0;
   }
   if(aPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, a, aPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, 0);
     if (aPtrBase == rworkPtrBase)
       rworkPtrBase = 0;
     aPtrBase = 0;
   }
   if(rworkPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, rwork, rworkPtrBase, JNI_ABORT);
+    (*env)->ReleasePrimitiveArrayCritical(env, rwork, rworkPtrBase, JNI_ABORT);
     rworkPtrBase = 0;
   }
 
@@ -3145,7 +3599,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dgeev(JNIEnv *env, jclass this,
   char jobvrChr = (char) jobvr;
   jdouble *aPtrBase = 0, *aPtr = 0;
   if (a) {
-    aPtrBase = (*env)->GetDoubleArrayElements(env, a, NULL);
+    aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
     aPtr = aPtrBase + aIdx;
   }
   jdouble *wrPtrBase = 0, *wrPtr = 0;
@@ -3153,7 +3607,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dgeev(JNIEnv *env, jclass this,
     if((*env)->IsSameObject(env, wr, a) == JNI_TRUE)
       wrPtrBase = aPtrBase;
     else
-      wrPtrBase = (*env)->GetDoubleArrayElements(env, wr, NULL);
+      wrPtrBase = (*env)->GetPrimitiveArrayCritical(env, wr, NULL);
     wrPtr = wrPtrBase + wrIdx;
   }
   jdouble *wiPtrBase = 0, *wiPtr = 0;
@@ -3164,7 +3618,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dgeev(JNIEnv *env, jclass this,
       if((*env)->IsSameObject(env, wi, wr) == JNI_TRUE)
       wiPtrBase = wrPtrBase;
     else
-      wiPtrBase = (*env)->GetDoubleArrayElements(env, wi, NULL);
+      wiPtrBase = (*env)->GetPrimitiveArrayCritical(env, wi, NULL);
     wiPtr = wiPtrBase + wiIdx;
   }
   jdouble *vlPtrBase = 0, *vlPtr = 0;
@@ -3178,7 +3632,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dgeev(JNIEnv *env, jclass this,
       if((*env)->IsSameObject(env, vl, wi) == JNI_TRUE)
       vlPtrBase = wiPtrBase;
     else
-      vlPtrBase = (*env)->GetDoubleArrayElements(env, vl, NULL);
+      vlPtrBase = (*env)->GetPrimitiveArrayCritical(env, vl, NULL);
     vlPtr = vlPtrBase + vlIdx;
   }
   jdouble *vrPtrBase = 0, *vrPtr = 0;
@@ -3195,7 +3649,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dgeev(JNIEnv *env, jclass this,
       if((*env)->IsSameObject(env, vr, vl) == JNI_TRUE)
       vrPtrBase = vlPtrBase;
     else
-      vrPtrBase = (*env)->GetDoubleArrayElements(env, vr, NULL);
+      vrPtrBase = (*env)->GetPrimitiveArrayCritical(env, vr, NULL);
     vrPtr = vrPtrBase + vrIdx;
   }
   jdouble *workPtrBase = 0, *workPtr = 0;
@@ -3215,7 +3669,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dgeev(JNIEnv *env, jclass this,
       if((*env)->IsSameObject(env, work, vr) == JNI_TRUE)
       workPtrBase = vrPtrBase;
     else
-      workPtrBase = (*env)->GetDoubleArrayElements(env, work, NULL);
+      workPtrBase = (*env)->GetPrimitiveArrayCritical(env, work, NULL);
     workPtr = workPtrBase + workIdx;
   }
   int info;
@@ -3223,7 +3677,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dgeev(JNIEnv *env, jclass this,
   savedEnv = env;
   dgeev_(&jobvlChr, &jobvrChr, &n, aPtr, &lda, wrPtr, wiPtr, vlPtr, &ldvl, vrPtr, &ldvr, workPtr, &lwork, &info);
   if(workPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, work, workPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, work, workPtrBase, 0);
     if (workPtrBase == aPtrBase)
       aPtrBase = 0;
     if (workPtrBase == wrPtrBase)
@@ -3237,7 +3691,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dgeev(JNIEnv *env, jclass this,
     workPtrBase = 0;
   }
   if(vrPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, vr, vrPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, vr, vrPtrBase, 0);
     if (vrPtrBase == aPtrBase)
       aPtrBase = 0;
     if (vrPtrBase == wrPtrBase)
@@ -3249,7 +3703,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dgeev(JNIEnv *env, jclass this,
     vrPtrBase = 0;
   }
   if(vlPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, vl, vlPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, vl, vlPtrBase, 0);
     if (vlPtrBase == aPtrBase)
       aPtrBase = 0;
     if (vlPtrBase == wrPtrBase)
@@ -3259,7 +3713,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dgeev(JNIEnv *env, jclass this,
     vlPtrBase = 0;
   }
   if(wiPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, wi, wiPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, wi, wiPtrBase, 0);
     if (wiPtrBase == aPtrBase)
       aPtrBase = 0;
     if (wiPtrBase == wrPtrBase)
@@ -3267,13 +3721,13 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dgeev(JNIEnv *env, jclass this,
     wiPtrBase = 0;
   }
   if(wrPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, wr, wrPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, wr, wrPtrBase, 0);
     if (wrPtrBase == aPtrBase)
       aPtrBase = 0;
     wrPtrBase = 0;
   }
   if(aPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, a, aPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, 0);
     aPtrBase = 0;
   }
 
@@ -3288,7 +3742,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_sgeev(JNIEnv *env, jclass this,
   char jobvrChr = (char) jobvr;
   jfloat *aPtrBase = 0, *aPtr = 0;
   if (a) {
-    aPtrBase = (*env)->GetFloatArrayElements(env, a, NULL);
+    aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
     aPtr = aPtrBase + aIdx;
   }
   jfloat *wrPtrBase = 0, *wrPtr = 0;
@@ -3296,7 +3750,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_sgeev(JNIEnv *env, jclass this,
     if((*env)->IsSameObject(env, wr, a) == JNI_TRUE)
       wrPtrBase = aPtrBase;
     else
-      wrPtrBase = (*env)->GetFloatArrayElements(env, wr, NULL);
+      wrPtrBase = (*env)->GetPrimitiveArrayCritical(env, wr, NULL);
     wrPtr = wrPtrBase + wrIdx;
   }
   jfloat *wiPtrBase = 0, *wiPtr = 0;
@@ -3307,7 +3761,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_sgeev(JNIEnv *env, jclass this,
       if((*env)->IsSameObject(env, wi, wr) == JNI_TRUE)
       wiPtrBase = wrPtrBase;
     else
-      wiPtrBase = (*env)->GetFloatArrayElements(env, wi, NULL);
+      wiPtrBase = (*env)->GetPrimitiveArrayCritical(env, wi, NULL);
     wiPtr = wiPtrBase + wiIdx;
   }
   jfloat *vlPtrBase = 0, *vlPtr = 0;
@@ -3321,7 +3775,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_sgeev(JNIEnv *env, jclass this,
       if((*env)->IsSameObject(env, vl, wi) == JNI_TRUE)
       vlPtrBase = wiPtrBase;
     else
-      vlPtrBase = (*env)->GetFloatArrayElements(env, vl, NULL);
+      vlPtrBase = (*env)->GetPrimitiveArrayCritical(env, vl, NULL);
     vlPtr = vlPtrBase + vlIdx;
   }
   jfloat *vrPtrBase = 0, *vrPtr = 0;
@@ -3338,7 +3792,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_sgeev(JNIEnv *env, jclass this,
       if((*env)->IsSameObject(env, vr, vl) == JNI_TRUE)
       vrPtrBase = vlPtrBase;
     else
-      vrPtrBase = (*env)->GetFloatArrayElements(env, vr, NULL);
+      vrPtrBase = (*env)->GetPrimitiveArrayCritical(env, vr, NULL);
     vrPtr = vrPtrBase + vrIdx;
   }
   jfloat *workPtrBase = 0, *workPtr = 0;
@@ -3358,7 +3812,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_sgeev(JNIEnv *env, jclass this,
       if((*env)->IsSameObject(env, work, vr) == JNI_TRUE)
       workPtrBase = vrPtrBase;
     else
-      workPtrBase = (*env)->GetFloatArrayElements(env, work, NULL);
+      workPtrBase = (*env)->GetPrimitiveArrayCritical(env, work, NULL);
     workPtr = workPtrBase + workIdx;
   }
   int info;
@@ -3366,7 +3820,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_sgeev(JNIEnv *env, jclass this,
   savedEnv = env;
   sgeev_(&jobvlChr, &jobvrChr, &n, aPtr, &lda, wrPtr, wiPtr, vlPtr, &ldvl, vrPtr, &ldvr, workPtr, &lwork, &info);
   if(workPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, work, workPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, work, workPtrBase, 0);
     if (workPtrBase == aPtrBase)
       aPtrBase = 0;
     if (workPtrBase == wrPtrBase)
@@ -3380,7 +3834,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_sgeev(JNIEnv *env, jclass this,
     workPtrBase = 0;
   }
   if(vrPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, vr, vrPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, vr, vrPtrBase, 0);
     if (vrPtrBase == aPtrBase)
       aPtrBase = 0;
     if (vrPtrBase == wrPtrBase)
@@ -3392,7 +3846,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_sgeev(JNIEnv *env, jclass this,
     vrPtrBase = 0;
   }
   if(vlPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, vl, vlPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, vl, vlPtrBase, 0);
     if (vlPtrBase == aPtrBase)
       aPtrBase = 0;
     if (vlPtrBase == wrPtrBase)
@@ -3402,7 +3856,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_sgeev(JNIEnv *env, jclass this,
     vlPtrBase = 0;
   }
   if(wiPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, wi, wiPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, wi, wiPtrBase, 0);
     if (wiPtrBase == aPtrBase)
       aPtrBase = 0;
     if (wiPtrBase == wrPtrBase)
@@ -3410,13 +3864,13 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_sgeev(JNIEnv *env, jclass this,
     wiPtrBase = 0;
   }
   if(wrPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, wr, wrPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, wr, wrPtrBase, 0);
     if (wrPtrBase == aPtrBase)
       aPtrBase = 0;
     wrPtrBase = 0;
   }
   if(aPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, a, aPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, 0);
     aPtrBase = 0;
   }
 
@@ -3431,7 +3885,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_zgeev(JNIEnv *env, jclass this,
   char jobvrChr = (char) jobvr;
   jdouble *rworkPtrBase = 0, *rworkPtr = 0;
   if (rwork) {
-    rworkPtrBase = (*env)->GetDoubleArrayElements(env, rwork, NULL);
+    rworkPtrBase = (*env)->GetPrimitiveArrayCritical(env, rwork, NULL);
     rworkPtr = rworkPtrBase + rworkIdx;
   }
   jdouble *aPtrBase = 0, *aPtr = 0;
@@ -3439,7 +3893,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_zgeev(JNIEnv *env, jclass this,
     if((*env)->IsSameObject(env, a, rwork) == JNI_TRUE)
       aPtrBase = rworkPtrBase;
     else
-      aPtrBase = (*env)->GetDoubleArrayElements(env, a, NULL);
+      aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
     aPtr = aPtrBase + 2*aIdx;
   }
   jdouble *wPtrBase = 0, *wPtr = 0;
@@ -3450,7 +3904,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_zgeev(JNIEnv *env, jclass this,
       if((*env)->IsSameObject(env, w, a) == JNI_TRUE)
       wPtrBase = aPtrBase;
     else
-      wPtrBase = (*env)->GetDoubleArrayElements(env, w, NULL);
+      wPtrBase = (*env)->GetPrimitiveArrayCritical(env, w, NULL);
     wPtr = wPtrBase + 2*wIdx;
   }
   jdouble *vlPtrBase = 0, *vlPtr = 0;
@@ -3464,7 +3918,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_zgeev(JNIEnv *env, jclass this,
       if((*env)->IsSameObject(env, vl, w) == JNI_TRUE)
       vlPtrBase = wPtrBase;
     else
-      vlPtrBase = (*env)->GetDoubleArrayElements(env, vl, NULL);
+      vlPtrBase = (*env)->GetPrimitiveArrayCritical(env, vl, NULL);
     vlPtr = vlPtrBase + 2*vlIdx;
   }
   jdouble *vrPtrBase = 0, *vrPtr = 0;
@@ -3481,7 +3935,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_zgeev(JNIEnv *env, jclass this,
       if((*env)->IsSameObject(env, vr, vl) == JNI_TRUE)
       vrPtrBase = vlPtrBase;
     else
-      vrPtrBase = (*env)->GetDoubleArrayElements(env, vr, NULL);
+      vrPtrBase = (*env)->GetPrimitiveArrayCritical(env, vr, NULL);
     vrPtr = vrPtrBase + 2*vrIdx;
   }
   jdouble *workPtrBase = 0, *workPtr = 0;
@@ -3501,7 +3955,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_zgeev(JNIEnv *env, jclass this,
       if((*env)->IsSameObject(env, work, vr) == JNI_TRUE)
       workPtrBase = vrPtrBase;
     else
-      workPtrBase = (*env)->GetDoubleArrayElements(env, work, NULL);
+      workPtrBase = (*env)->GetPrimitiveArrayCritical(env, work, NULL);
     workPtr = workPtrBase + 2*workIdx;
   }
   int info;
@@ -3509,7 +3963,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_zgeev(JNIEnv *env, jclass this,
   savedEnv = env;
   zgeev_(&jobvlChr, &jobvrChr, &n, aPtr, &lda, wPtr, vlPtr, &ldvl, vrPtr, &ldvr, workPtr, &lwork, rworkPtr, &info);
   if(workPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, work, workPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, work, workPtrBase, 0);
     if (workPtrBase == rworkPtrBase)
       rworkPtrBase = 0;
     if (workPtrBase == aPtrBase)
@@ -3523,7 +3977,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_zgeev(JNIEnv *env, jclass this,
     workPtrBase = 0;
   }
   if(vrPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, vr, vrPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, vr, vrPtrBase, 0);
     if (vrPtrBase == rworkPtrBase)
       rworkPtrBase = 0;
     if (vrPtrBase == aPtrBase)
@@ -3535,7 +3989,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_zgeev(JNIEnv *env, jclass this,
     vrPtrBase = 0;
   }
   if(vlPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, vl, vlPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, vl, vlPtrBase, 0);
     if (vlPtrBase == rworkPtrBase)
       rworkPtrBase = 0;
     if (vlPtrBase == aPtrBase)
@@ -3545,7 +3999,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_zgeev(JNIEnv *env, jclass this,
     vlPtrBase = 0;
   }
   if(wPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, w, wPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, w, wPtrBase, 0);
     if (wPtrBase == rworkPtrBase)
       rworkPtrBase = 0;
     if (wPtrBase == aPtrBase)
@@ -3553,13 +4007,13 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_zgeev(JNIEnv *env, jclass this,
     wPtrBase = 0;
   }
   if(aPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, a, aPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, 0);
     if (aPtrBase == rworkPtrBase)
       rworkPtrBase = 0;
     aPtrBase = 0;
   }
   if(rworkPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, rwork, rworkPtrBase, JNI_ABORT);
+    (*env)->ReleasePrimitiveArrayCritical(env, rwork, rworkPtrBase, JNI_ABORT);
     rworkPtrBase = 0;
   }
 
@@ -3572,12 +4026,12 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dgetrf(JNIEnv *env, jclass this
   
   jdouble *aPtrBase = 0, *aPtr = 0;
   if (a) {
-    aPtrBase = (*env)->GetDoubleArrayElements(env, a, NULL);
+    aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
     aPtr = aPtrBase + aIdx;
   }
   jint *ipivPtrBase = 0, *ipivPtr = 0;
   if (ipiv) {
-    ipivPtrBase = (*env)->GetIntArrayElements(env, ipiv, NULL);
+    ipivPtrBase = (*env)->GetPrimitiveArrayCritical(env, ipiv, NULL);
     ipivPtr = ipivPtrBase + ipivIdx;
   }
   int info;
@@ -3585,11 +4039,11 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dgetrf(JNIEnv *env, jclass this
   savedEnv = env;
   dgetrf_(&m, &n, aPtr, &lda, ipivPtr, &info);
   if(ipivPtrBase) {
-    (*env)->ReleaseIntArrayElements(env, ipiv, ipivPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, ipiv, ipivPtrBase, 0);
     ipivPtrBase = 0;
   }
   if(aPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, a, aPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, 0);
     aPtrBase = 0;
   }
 
@@ -3602,12 +4056,12 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_sgetrf(JNIEnv *env, jclass this
   
   jfloat *aPtrBase = 0, *aPtr = 0;
   if (a) {
-    aPtrBase = (*env)->GetFloatArrayElements(env, a, NULL);
+    aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
     aPtr = aPtrBase + aIdx;
   }
   jint *ipivPtrBase = 0, *ipivPtr = 0;
   if (ipiv) {
-    ipivPtrBase = (*env)->GetIntArrayElements(env, ipiv, NULL);
+    ipivPtrBase = (*env)->GetPrimitiveArrayCritical(env, ipiv, NULL);
     ipivPtr = ipivPtrBase + ipivIdx;
   }
   int info;
@@ -3615,11 +4069,11 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_sgetrf(JNIEnv *env, jclass this
   savedEnv = env;
   sgetrf_(&m, &n, aPtr, &lda, ipivPtr, &info);
   if(ipivPtrBase) {
-    (*env)->ReleaseIntArrayElements(env, ipiv, ipivPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, ipiv, ipivPtrBase, 0);
     ipivPtrBase = 0;
   }
   if(aPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, a, aPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, 0);
     aPtrBase = 0;
   }
 
@@ -3633,7 +4087,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dpotrf(JNIEnv *env, jclass this
   char uploChr = (char) uplo;
   jdouble *aPtrBase = 0, *aPtr = 0;
   if (a) {
-    aPtrBase = (*env)->GetDoubleArrayElements(env, a, NULL);
+    aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
     aPtr = aPtrBase + aIdx;
   }
   int info;
@@ -3641,7 +4095,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dpotrf(JNIEnv *env, jclass this
   savedEnv = env;
   dpotrf_(&uploChr, &n, aPtr, &lda, &info);
   if(aPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, a, aPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, 0);
     aPtrBase = 0;
   }
 
@@ -3655,7 +4109,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_spotrf(JNIEnv *env, jclass this
   char uploChr = (char) uplo;
   jfloat *aPtrBase = 0, *aPtr = 0;
   if (a) {
-    aPtrBase = (*env)->GetFloatArrayElements(env, a, NULL);
+    aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
     aPtr = aPtrBase + aIdx;
   }
   int info;
@@ -3663,7 +4117,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_spotrf(JNIEnv *env, jclass this
   savedEnv = env;
   spotrf_(&uploChr, &n, aPtr, &lda, &info);
   if(aPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, a, aPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, 0);
     aPtrBase = 0;
   }
 
@@ -3678,7 +4132,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_cgesvd(JNIEnv *env, jclass this
   char jobvtChr = (char) jobvt;
   jfloat *rworkPtrBase = 0, *rworkPtr = 0;
   if (rwork) {
-    rworkPtrBase = (*env)->GetFloatArrayElements(env, rwork, NULL);
+    rworkPtrBase = (*env)->GetPrimitiveArrayCritical(env, rwork, NULL);
     rworkPtr = rworkPtrBase + rworkIdx;
   }
   jfloat *aPtrBase = 0, *aPtr = 0;
@@ -3686,7 +4140,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_cgesvd(JNIEnv *env, jclass this
     if((*env)->IsSameObject(env, a, rwork) == JNI_TRUE)
       aPtrBase = rworkPtrBase;
     else
-      aPtrBase = (*env)->GetFloatArrayElements(env, a, NULL);
+      aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
     aPtr = aPtrBase + 2*aIdx;
   }
   jfloat *sPtrBase = 0, *sPtr = 0;
@@ -3697,7 +4151,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_cgesvd(JNIEnv *env, jclass this
       if((*env)->IsSameObject(env, s, a) == JNI_TRUE)
       sPtrBase = aPtrBase;
     else
-      sPtrBase = (*env)->GetFloatArrayElements(env, s, NULL);
+      sPtrBase = (*env)->GetPrimitiveArrayCritical(env, s, NULL);
     sPtr = sPtrBase + sIdx;
   }
   jfloat *uPtrBase = 0, *uPtr = 0;
@@ -3711,7 +4165,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_cgesvd(JNIEnv *env, jclass this
       if((*env)->IsSameObject(env, u, s) == JNI_TRUE)
       uPtrBase = sPtrBase;
     else
-      uPtrBase = (*env)->GetFloatArrayElements(env, u, NULL);
+      uPtrBase = (*env)->GetPrimitiveArrayCritical(env, u, NULL);
     uPtr = uPtrBase + 2*uIdx;
   }
   jfloat *vtPtrBase = 0, *vtPtr = 0;
@@ -3728,7 +4182,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_cgesvd(JNIEnv *env, jclass this
       if((*env)->IsSameObject(env, vt, u) == JNI_TRUE)
       vtPtrBase = uPtrBase;
     else
-      vtPtrBase = (*env)->GetFloatArrayElements(env, vt, NULL);
+      vtPtrBase = (*env)->GetPrimitiveArrayCritical(env, vt, NULL);
     vtPtr = vtPtrBase + 2*vtIdx;
   }
   jfloat *workPtrBase = 0, *workPtr = 0;
@@ -3748,7 +4202,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_cgesvd(JNIEnv *env, jclass this
       if((*env)->IsSameObject(env, work, vt) == JNI_TRUE)
       workPtrBase = vtPtrBase;
     else
-      workPtrBase = (*env)->GetFloatArrayElements(env, work, NULL);
+      workPtrBase = (*env)->GetPrimitiveArrayCritical(env, work, NULL);
     workPtr = workPtrBase + 2*workIdx;
   }
   int info;
@@ -3756,7 +4210,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_cgesvd(JNIEnv *env, jclass this
   savedEnv = env;
   cgesvd_(&jobuChr, &jobvtChr, &m, &n, aPtr, &lda, sPtr, uPtr, &ldu, vtPtr, &ldvt, workPtr, &lwork, rworkPtr, &info);
   if(workPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, work, workPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, work, workPtrBase, 0);
     if (workPtrBase == rworkPtrBase)
       rworkPtrBase = 0;
     if (workPtrBase == aPtrBase)
@@ -3770,7 +4224,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_cgesvd(JNIEnv *env, jclass this
     workPtrBase = 0;
   }
   if(vtPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, vt, vtPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, vt, vtPtrBase, 0);
     if (vtPtrBase == rworkPtrBase)
       rworkPtrBase = 0;
     if (vtPtrBase == aPtrBase)
@@ -3782,7 +4236,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_cgesvd(JNIEnv *env, jclass this
     vtPtrBase = 0;
   }
   if(uPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, u, uPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, u, uPtrBase, 0);
     if (uPtrBase == rworkPtrBase)
       rworkPtrBase = 0;
     if (uPtrBase == aPtrBase)
@@ -3792,7 +4246,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_cgesvd(JNIEnv *env, jclass this
     uPtrBase = 0;
   }
   if(sPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, s, sPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, s, sPtrBase, 0);
     if (sPtrBase == rworkPtrBase)
       rworkPtrBase = 0;
     if (sPtrBase == aPtrBase)
@@ -3800,13 +4254,13 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_cgesvd(JNIEnv *env, jclass this
     sPtrBase = 0;
   }
   if(aPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, a, aPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, 0);
     if (aPtrBase == rworkPtrBase)
       rworkPtrBase = 0;
     aPtrBase = 0;
   }
   if(rworkPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, rwork, rworkPtrBase, JNI_ABORT);
+    (*env)->ReleasePrimitiveArrayCritical(env, rwork, rworkPtrBase, JNI_ABORT);
     rworkPtrBase = 0;
   }
 
@@ -3821,7 +4275,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dgesvd(JNIEnv *env, jclass this
   char jobvtChr = (char) jobvt;
   jdouble *aPtrBase = 0, *aPtr = 0;
   if (a) {
-    aPtrBase = (*env)->GetDoubleArrayElements(env, a, NULL);
+    aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
     aPtr = aPtrBase + aIdx;
   }
   jdouble *sPtrBase = 0, *sPtr = 0;
@@ -3829,7 +4283,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dgesvd(JNIEnv *env, jclass this
     if((*env)->IsSameObject(env, s, a) == JNI_TRUE)
       sPtrBase = aPtrBase;
     else
-      sPtrBase = (*env)->GetDoubleArrayElements(env, s, NULL);
+      sPtrBase = (*env)->GetPrimitiveArrayCritical(env, s, NULL);
     sPtr = sPtrBase + sIdx;
   }
   jdouble *uPtrBase = 0, *uPtr = 0;
@@ -3840,7 +4294,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dgesvd(JNIEnv *env, jclass this
       if((*env)->IsSameObject(env, u, s) == JNI_TRUE)
       uPtrBase = sPtrBase;
     else
-      uPtrBase = (*env)->GetDoubleArrayElements(env, u, NULL);
+      uPtrBase = (*env)->GetPrimitiveArrayCritical(env, u, NULL);
     uPtr = uPtrBase + uIdx;
   }
   jdouble *vtPtrBase = 0, *vtPtr = 0;
@@ -3854,7 +4308,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dgesvd(JNIEnv *env, jclass this
       if((*env)->IsSameObject(env, vt, u) == JNI_TRUE)
       vtPtrBase = uPtrBase;
     else
-      vtPtrBase = (*env)->GetDoubleArrayElements(env, vt, NULL);
+      vtPtrBase = (*env)->GetPrimitiveArrayCritical(env, vt, NULL);
     vtPtr = vtPtrBase + vtIdx;
   }
   jdouble *workPtrBase = 0, *workPtr = 0;
@@ -3871,7 +4325,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dgesvd(JNIEnv *env, jclass this
       if((*env)->IsSameObject(env, work, vt) == JNI_TRUE)
       workPtrBase = vtPtrBase;
     else
-      workPtrBase = (*env)->GetDoubleArrayElements(env, work, NULL);
+      workPtrBase = (*env)->GetPrimitiveArrayCritical(env, work, NULL);
     workPtr = workPtrBase + workIdx;
   }
   int info;
@@ -3879,7 +4333,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dgesvd(JNIEnv *env, jclass this
   savedEnv = env;
   dgesvd_(&jobuChr, &jobvtChr, &m, &n, aPtr, &lda, sPtr, uPtr, &ldu, vtPtr, &ldvt, workPtr, &lwork, &info);
   if(workPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, work, workPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, work, workPtrBase, 0);
     if (workPtrBase == aPtrBase)
       aPtrBase = 0;
     if (workPtrBase == sPtrBase)
@@ -3891,7 +4345,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dgesvd(JNIEnv *env, jclass this
     workPtrBase = 0;
   }
   if(vtPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, vt, vtPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, vt, vtPtrBase, 0);
     if (vtPtrBase == aPtrBase)
       aPtrBase = 0;
     if (vtPtrBase == sPtrBase)
@@ -3901,7 +4355,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dgesvd(JNIEnv *env, jclass this
     vtPtrBase = 0;
   }
   if(uPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, u, uPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, u, uPtrBase, 0);
     if (uPtrBase == aPtrBase)
       aPtrBase = 0;
     if (uPtrBase == sPtrBase)
@@ -3909,13 +4363,13 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dgesvd(JNIEnv *env, jclass this
     uPtrBase = 0;
   }
   if(sPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, s, sPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, s, sPtrBase, 0);
     if (sPtrBase == aPtrBase)
       aPtrBase = 0;
     sPtrBase = 0;
   }
   if(aPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, a, aPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, 0);
     aPtrBase = 0;
   }
 
@@ -3930,7 +4384,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_sgesvd(JNIEnv *env, jclass this
   char jobvtChr = (char) jobvt;
   jfloat *aPtrBase = 0, *aPtr = 0;
   if (a) {
-    aPtrBase = (*env)->GetFloatArrayElements(env, a, NULL);
+    aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
     aPtr = aPtrBase + aIdx;
   }
   jfloat *sPtrBase = 0, *sPtr = 0;
@@ -3938,7 +4392,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_sgesvd(JNIEnv *env, jclass this
     if((*env)->IsSameObject(env, s, a) == JNI_TRUE)
       sPtrBase = aPtrBase;
     else
-      sPtrBase = (*env)->GetFloatArrayElements(env, s, NULL);
+      sPtrBase = (*env)->GetPrimitiveArrayCritical(env, s, NULL);
     sPtr = sPtrBase + sIdx;
   }
   jfloat *uPtrBase = 0, *uPtr = 0;
@@ -3949,7 +4403,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_sgesvd(JNIEnv *env, jclass this
       if((*env)->IsSameObject(env, u, s) == JNI_TRUE)
       uPtrBase = sPtrBase;
     else
-      uPtrBase = (*env)->GetFloatArrayElements(env, u, NULL);
+      uPtrBase = (*env)->GetPrimitiveArrayCritical(env, u, NULL);
     uPtr = uPtrBase + uIdx;
   }
   jfloat *vtPtrBase = 0, *vtPtr = 0;
@@ -3963,7 +4417,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_sgesvd(JNIEnv *env, jclass this
       if((*env)->IsSameObject(env, vt, u) == JNI_TRUE)
       vtPtrBase = uPtrBase;
     else
-      vtPtrBase = (*env)->GetFloatArrayElements(env, vt, NULL);
+      vtPtrBase = (*env)->GetPrimitiveArrayCritical(env, vt, NULL);
     vtPtr = vtPtrBase + vtIdx;
   }
   jfloat *workPtrBase = 0, *workPtr = 0;
@@ -3980,7 +4434,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_sgesvd(JNIEnv *env, jclass this
       if((*env)->IsSameObject(env, work, vt) == JNI_TRUE)
       workPtrBase = vtPtrBase;
     else
-      workPtrBase = (*env)->GetFloatArrayElements(env, work, NULL);
+      workPtrBase = (*env)->GetPrimitiveArrayCritical(env, work, NULL);
     workPtr = workPtrBase + workIdx;
   }
   int info;
@@ -3988,7 +4442,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_sgesvd(JNIEnv *env, jclass this
   savedEnv = env;
   sgesvd_(&jobuChr, &jobvtChr, &m, &n, aPtr, &lda, sPtr, uPtr, &ldu, vtPtr, &ldvt, workPtr, &lwork, &info);
   if(workPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, work, workPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, work, workPtrBase, 0);
     if (workPtrBase == aPtrBase)
       aPtrBase = 0;
     if (workPtrBase == sPtrBase)
@@ -4000,7 +4454,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_sgesvd(JNIEnv *env, jclass this
     workPtrBase = 0;
   }
   if(vtPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, vt, vtPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, vt, vtPtrBase, 0);
     if (vtPtrBase == aPtrBase)
       aPtrBase = 0;
     if (vtPtrBase == sPtrBase)
@@ -4010,7 +4464,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_sgesvd(JNIEnv *env, jclass this
     vtPtrBase = 0;
   }
   if(uPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, u, uPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, u, uPtrBase, 0);
     if (uPtrBase == aPtrBase)
       aPtrBase = 0;
     if (uPtrBase == sPtrBase)
@@ -4018,13 +4472,13 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_sgesvd(JNIEnv *env, jclass this
     uPtrBase = 0;
   }
   if(sPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, s, sPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, s, sPtrBase, 0);
     if (sPtrBase == aPtrBase)
       aPtrBase = 0;
     sPtrBase = 0;
   }
   if(aPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, a, aPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, 0);
     aPtrBase = 0;
   }
 
@@ -4039,7 +4493,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_zgesvd(JNIEnv *env, jclass this
   char jobvtChr = (char) jobvt;
   jdouble *rworkPtrBase = 0, *rworkPtr = 0;
   if (rwork) {
-    rworkPtrBase = (*env)->GetDoubleArrayElements(env, rwork, NULL);
+    rworkPtrBase = (*env)->GetPrimitiveArrayCritical(env, rwork, NULL);
     rworkPtr = rworkPtrBase + rworkIdx;
   }
   jdouble *aPtrBase = 0, *aPtr = 0;
@@ -4047,7 +4501,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_zgesvd(JNIEnv *env, jclass this
     if((*env)->IsSameObject(env, a, rwork) == JNI_TRUE)
       aPtrBase = rworkPtrBase;
     else
-      aPtrBase = (*env)->GetDoubleArrayElements(env, a, NULL);
+      aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
     aPtr = aPtrBase + 2*aIdx;
   }
   jdouble *sPtrBase = 0, *sPtr = 0;
@@ -4058,7 +4512,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_zgesvd(JNIEnv *env, jclass this
       if((*env)->IsSameObject(env, s, a) == JNI_TRUE)
       sPtrBase = aPtrBase;
     else
-      sPtrBase = (*env)->GetDoubleArrayElements(env, s, NULL);
+      sPtrBase = (*env)->GetPrimitiveArrayCritical(env, s, NULL);
     sPtr = sPtrBase + sIdx;
   }
   jdouble *uPtrBase = 0, *uPtr = 0;
@@ -4072,7 +4526,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_zgesvd(JNIEnv *env, jclass this
       if((*env)->IsSameObject(env, u, s) == JNI_TRUE)
       uPtrBase = sPtrBase;
     else
-      uPtrBase = (*env)->GetDoubleArrayElements(env, u, NULL);
+      uPtrBase = (*env)->GetPrimitiveArrayCritical(env, u, NULL);
     uPtr = uPtrBase + 2*uIdx;
   }
   jdouble *vtPtrBase = 0, *vtPtr = 0;
@@ -4089,7 +4543,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_zgesvd(JNIEnv *env, jclass this
       if((*env)->IsSameObject(env, vt, u) == JNI_TRUE)
       vtPtrBase = uPtrBase;
     else
-      vtPtrBase = (*env)->GetDoubleArrayElements(env, vt, NULL);
+      vtPtrBase = (*env)->GetPrimitiveArrayCritical(env, vt, NULL);
     vtPtr = vtPtrBase + 2*vtIdx;
   }
   jdouble *workPtrBase = 0, *workPtr = 0;
@@ -4109,7 +4563,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_zgesvd(JNIEnv *env, jclass this
       if((*env)->IsSameObject(env, work, vt) == JNI_TRUE)
       workPtrBase = vtPtrBase;
     else
-      workPtrBase = (*env)->GetDoubleArrayElements(env, work, NULL);
+      workPtrBase = (*env)->GetPrimitiveArrayCritical(env, work, NULL);
     workPtr = workPtrBase + 2*workIdx;
   }
   int info;
@@ -4117,7 +4571,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_zgesvd(JNIEnv *env, jclass this
   savedEnv = env;
   zgesvd_(&jobuChr, &jobvtChr, &m, &n, aPtr, &lda, sPtr, uPtr, &ldu, vtPtr, &ldvt, workPtr, &lwork, rworkPtr, &info);
   if(workPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, work, workPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, work, workPtrBase, 0);
     if (workPtrBase == rworkPtrBase)
       rworkPtrBase = 0;
     if (workPtrBase == aPtrBase)
@@ -4131,7 +4585,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_zgesvd(JNIEnv *env, jclass this
     workPtrBase = 0;
   }
   if(vtPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, vt, vtPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, vt, vtPtrBase, 0);
     if (vtPtrBase == rworkPtrBase)
       rworkPtrBase = 0;
     if (vtPtrBase == aPtrBase)
@@ -4143,7 +4597,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_zgesvd(JNIEnv *env, jclass this
     vtPtrBase = 0;
   }
   if(uPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, u, uPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, u, uPtrBase, 0);
     if (uPtrBase == rworkPtrBase)
       rworkPtrBase = 0;
     if (uPtrBase == aPtrBase)
@@ -4153,7 +4607,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_zgesvd(JNIEnv *env, jclass this
     uPtrBase = 0;
   }
   if(sPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, s, sPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, s, sPtrBase, 0);
     if (sPtrBase == rworkPtrBase)
       rworkPtrBase = 0;
     if (sPtrBase == aPtrBase)
@@ -4161,13 +4615,13 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_zgesvd(JNIEnv *env, jclass this
     sPtrBase = 0;
   }
   if(aPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, a, aPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, 0);
     if (aPtrBase == rworkPtrBase)
       rworkPtrBase = 0;
     aPtrBase = 0;
   }
   if(rworkPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, rwork, rworkPtrBase, JNI_ABORT);
+    (*env)->ReleasePrimitiveArrayCritical(env, rwork, rworkPtrBase, JNI_ABORT);
     rworkPtrBase = 0;
   }
 
@@ -4182,7 +4636,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dsygvd(JNIEnv *env, jclass this
   char uploChr = (char) uplo;
   jdouble *aPtrBase = 0, *aPtr = 0;
   if (a) {
-    aPtrBase = (*env)->GetDoubleArrayElements(env, a, NULL);
+    aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
     aPtr = aPtrBase + aIdx;
   }
   jdouble *bPtrBase = 0, *bPtr = 0;
@@ -4190,7 +4644,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dsygvd(JNIEnv *env, jclass this
     if((*env)->IsSameObject(env, b, a) == JNI_TRUE)
       bPtrBase = aPtrBase;
     else
-      bPtrBase = (*env)->GetDoubleArrayElements(env, b, NULL);
+      bPtrBase = (*env)->GetPrimitiveArrayCritical(env, b, NULL);
     bPtr = bPtrBase + bIdx;
   }
   jdouble *wPtrBase = 0, *wPtr = 0;
@@ -4201,7 +4655,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dsygvd(JNIEnv *env, jclass this
       if((*env)->IsSameObject(env, w, b) == JNI_TRUE)
       wPtrBase = bPtrBase;
     else
-      wPtrBase = (*env)->GetDoubleArrayElements(env, w, NULL);
+      wPtrBase = (*env)->GetPrimitiveArrayCritical(env, w, NULL);
     wPtr = wPtrBase + wIdx;
   }
   jdouble *workPtrBase = 0, *workPtr = 0;
@@ -4215,12 +4669,12 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dsygvd(JNIEnv *env, jclass this
       if((*env)->IsSameObject(env, work, w) == JNI_TRUE)
       workPtrBase = wPtrBase;
     else
-      workPtrBase = (*env)->GetDoubleArrayElements(env, work, NULL);
+      workPtrBase = (*env)->GetPrimitiveArrayCritical(env, work, NULL);
     workPtr = workPtrBase + workIdx;
   }
   jint *iworkPtrBase = 0, *iworkPtr = 0;
   if (iwork) {
-    iworkPtrBase = (*env)->GetIntArrayElements(env, iwork, NULL);
+    iworkPtrBase = (*env)->GetPrimitiveArrayCritical(env, iwork, NULL);
     iworkPtr = iworkPtrBase + iworkIdx;
   }
   int info;
@@ -4228,11 +4682,11 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dsygvd(JNIEnv *env, jclass this
   savedEnv = env;
   dsygvd_(&itype, &jobzChr, &uploChr, &n, aPtr, &lda, bPtr, &ldb, wPtr, workPtr, &lwork, iworkPtr, &liwork, &info);
   if(iworkPtrBase) {
-    (*env)->ReleaseIntArrayElements(env, iwork, iworkPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, iwork, iworkPtrBase, 0);
     iworkPtrBase = 0;
   }
   if(workPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, work, workPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, work, workPtrBase, 0);
     if (workPtrBase == aPtrBase)
       aPtrBase = 0;
     if (workPtrBase == bPtrBase)
@@ -4242,7 +4696,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dsygvd(JNIEnv *env, jclass this
     workPtrBase = 0;
   }
   if(wPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, w, wPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, w, wPtrBase, 0);
     if (wPtrBase == aPtrBase)
       aPtrBase = 0;
     if (wPtrBase == bPtrBase)
@@ -4250,13 +4704,13 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dsygvd(JNIEnv *env, jclass this
     wPtrBase = 0;
   }
   if(bPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, b, bPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, b, bPtrBase, 0);
     if (bPtrBase == aPtrBase)
       aPtrBase = 0;
     bPtrBase = 0;
   }
   if(aPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, a, aPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, 0);
     aPtrBase = 0;
   }
 
@@ -4271,7 +4725,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_ssygvd(JNIEnv *env, jclass this
   char uploChr = (char) uplo;
   jfloat *aPtrBase = 0, *aPtr = 0;
   if (a) {
-    aPtrBase = (*env)->GetFloatArrayElements(env, a, NULL);
+    aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
     aPtr = aPtrBase + aIdx;
   }
   jfloat *bPtrBase = 0, *bPtr = 0;
@@ -4279,7 +4733,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_ssygvd(JNIEnv *env, jclass this
     if((*env)->IsSameObject(env, b, a) == JNI_TRUE)
       bPtrBase = aPtrBase;
     else
-      bPtrBase = (*env)->GetFloatArrayElements(env, b, NULL);
+      bPtrBase = (*env)->GetPrimitiveArrayCritical(env, b, NULL);
     bPtr = bPtrBase + bIdx;
   }
   jfloat *wPtrBase = 0, *wPtr = 0;
@@ -4290,7 +4744,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_ssygvd(JNIEnv *env, jclass this
       if((*env)->IsSameObject(env, w, b) == JNI_TRUE)
       wPtrBase = bPtrBase;
     else
-      wPtrBase = (*env)->GetFloatArrayElements(env, w, NULL);
+      wPtrBase = (*env)->GetPrimitiveArrayCritical(env, w, NULL);
     wPtr = wPtrBase + wIdx;
   }
   jfloat *workPtrBase = 0, *workPtr = 0;
@@ -4304,12 +4758,12 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_ssygvd(JNIEnv *env, jclass this
       if((*env)->IsSameObject(env, work, w) == JNI_TRUE)
       workPtrBase = wPtrBase;
     else
-      workPtrBase = (*env)->GetFloatArrayElements(env, work, NULL);
+      workPtrBase = (*env)->GetPrimitiveArrayCritical(env, work, NULL);
     workPtr = workPtrBase + workIdx;
   }
   jint *iworkPtrBase = 0, *iworkPtr = 0;
   if (iwork) {
-    iworkPtrBase = (*env)->GetIntArrayElements(env, iwork, NULL);
+    iworkPtrBase = (*env)->GetPrimitiveArrayCritical(env, iwork, NULL);
     iworkPtr = iworkPtrBase + iworkIdx;
   }
   int info;
@@ -4317,11 +4771,11 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_ssygvd(JNIEnv *env, jclass this
   savedEnv = env;
   ssygvd_(&itype, &jobzChr, &uploChr, &n, aPtr, &lda, bPtr, &ldb, wPtr, workPtr, &lwork, iworkPtr, &liwork, &info);
   if(iworkPtrBase) {
-    (*env)->ReleaseIntArrayElements(env, iwork, iworkPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, iwork, iworkPtrBase, 0);
     iworkPtrBase = 0;
   }
   if(workPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, work, workPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, work, workPtrBase, 0);
     if (workPtrBase == aPtrBase)
       aPtrBase = 0;
     if (workPtrBase == bPtrBase)
@@ -4331,7 +4785,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_ssygvd(JNIEnv *env, jclass this
     workPtrBase = 0;
   }
   if(wPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, w, wPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, w, wPtrBase, 0);
     if (wPtrBase == aPtrBase)
       aPtrBase = 0;
     if (wPtrBase == bPtrBase)
@@ -4339,13 +4793,13 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_ssygvd(JNIEnv *env, jclass this
     wPtrBase = 0;
   }
   if(bPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, b, bPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, b, bPtrBase, 0);
     if (bPtrBase == aPtrBase)
       aPtrBase = 0;
     bPtrBase = 0;
   }
   if(aPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, a, aPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, 0);
     aPtrBase = 0;
   }
 
@@ -4358,12 +4812,12 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dgelsd(JNIEnv *env, jclass this
   
   jdouble *aPtrBase = 0, *aPtr = 0;
   if (a) {
-    aPtrBase = (*env)->GetDoubleArrayElements(env, a, NULL);
+    aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
     aPtr = aPtrBase + aIdx;
   }
   jint *iworkPtrBase = 0, *iworkPtr = 0;
   if (iwork) {
-    iworkPtrBase = (*env)->GetIntArrayElements(env, iwork, NULL);
+    iworkPtrBase = (*env)->GetPrimitiveArrayCritical(env, iwork, NULL);
     iworkPtr = iworkPtrBase + iworkIdx;
   }
   jdouble *bPtrBase = 0, *bPtr = 0;
@@ -4371,7 +4825,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dgelsd(JNIEnv *env, jclass this
     if((*env)->IsSameObject(env, b, a) == JNI_TRUE)
       bPtrBase = aPtrBase;
     else
-      bPtrBase = (*env)->GetDoubleArrayElements(env, b, NULL);
+      bPtrBase = (*env)->GetPrimitiveArrayCritical(env, b, NULL);
     bPtr = bPtrBase + bIdx;
   }
   jdouble *sPtrBase = 0, *sPtr = 0;
@@ -4382,7 +4836,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dgelsd(JNIEnv *env, jclass this
       if((*env)->IsSameObject(env, s, b) == JNI_TRUE)
       sPtrBase = bPtrBase;
     else
-      sPtrBase = (*env)->GetDoubleArrayElements(env, s, NULL);
+      sPtrBase = (*env)->GetPrimitiveArrayCritical(env, s, NULL);
     sPtr = sPtrBase + sIdx;
   }
   jint *rankPtrBase = 0, *rankPtr = 0;
@@ -4390,7 +4844,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dgelsd(JNIEnv *env, jclass this
     if((*env)->IsSameObject(env, rank, iwork) == JNI_TRUE)
       rankPtrBase = iworkPtrBase;
     else
-      rankPtrBase = (*env)->GetIntArrayElements(env, rank, NULL);
+      rankPtrBase = (*env)->GetPrimitiveArrayCritical(env, rank, NULL);
     rankPtr = rankPtrBase + rankIdx;
   }
   jdouble *workPtrBase = 0, *workPtr = 0;
@@ -4404,7 +4858,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dgelsd(JNIEnv *env, jclass this
       if((*env)->IsSameObject(env, work, s) == JNI_TRUE)
       workPtrBase = sPtrBase;
     else
-      workPtrBase = (*env)->GetDoubleArrayElements(env, work, NULL);
+      workPtrBase = (*env)->GetPrimitiveArrayCritical(env, work, NULL);
     workPtr = workPtrBase + workIdx;
   }
   int info;
@@ -4412,7 +4866,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dgelsd(JNIEnv *env, jclass this
   savedEnv = env;
   dgelsd_(&m, &n, &nrhs, aPtr, &lda, bPtr, &ldb, sPtr, &rcond, rankPtr, workPtr, &lwork, iworkPtr, &info);
   if(workPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, work, workPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, work, workPtrBase, 0);
     if (workPtrBase == aPtrBase)
       aPtrBase = 0;
     if (workPtrBase == bPtrBase)
@@ -4422,13 +4876,13 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dgelsd(JNIEnv *env, jclass this
     workPtrBase = 0;
   }
   if(rankPtrBase) {
-    (*env)->ReleaseIntArrayElements(env, rank, rankPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, rank, rankPtrBase, 0);
     if (rankPtrBase == iworkPtrBase)
       iworkPtrBase = 0;
     rankPtrBase = 0;
   }
   if(sPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, s, sPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, s, sPtrBase, 0);
     if (sPtrBase == aPtrBase)
       aPtrBase = 0;
     if (sPtrBase == bPtrBase)
@@ -4436,17 +4890,17 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dgelsd(JNIEnv *env, jclass this
     sPtrBase = 0;
   }
   if(bPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, b, bPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, b, bPtrBase, 0);
     if (bPtrBase == aPtrBase)
       aPtrBase = 0;
     bPtrBase = 0;
   }
   if(iworkPtrBase) {
-    (*env)->ReleaseIntArrayElements(env, iwork, iworkPtrBase, JNI_ABORT);
+    (*env)->ReleasePrimitiveArrayCritical(env, iwork, iworkPtrBase, JNI_ABORT);
     iworkPtrBase = 0;
   }
   if(aPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, a, aPtrBase, JNI_ABORT);
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, JNI_ABORT);
     aPtrBase = 0;
   }
 
@@ -4459,12 +4913,12 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_sgelsd(JNIEnv *env, jclass this
   
   jfloat *aPtrBase = 0, *aPtr = 0;
   if (a) {
-    aPtrBase = (*env)->GetFloatArrayElements(env, a, NULL);
+    aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
     aPtr = aPtrBase + aIdx;
   }
   jint *iworkPtrBase = 0, *iworkPtr = 0;
   if (iwork) {
-    iworkPtrBase = (*env)->GetIntArrayElements(env, iwork, NULL);
+    iworkPtrBase = (*env)->GetPrimitiveArrayCritical(env, iwork, NULL);
     iworkPtr = iworkPtrBase + iworkIdx;
   }
   jfloat *bPtrBase = 0, *bPtr = 0;
@@ -4472,7 +4926,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_sgelsd(JNIEnv *env, jclass this
     if((*env)->IsSameObject(env, b, a) == JNI_TRUE)
       bPtrBase = aPtrBase;
     else
-      bPtrBase = (*env)->GetFloatArrayElements(env, b, NULL);
+      bPtrBase = (*env)->GetPrimitiveArrayCritical(env, b, NULL);
     bPtr = bPtrBase + bIdx;
   }
   jfloat *sPtrBase = 0, *sPtr = 0;
@@ -4483,7 +4937,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_sgelsd(JNIEnv *env, jclass this
       if((*env)->IsSameObject(env, s, b) == JNI_TRUE)
       sPtrBase = bPtrBase;
     else
-      sPtrBase = (*env)->GetFloatArrayElements(env, s, NULL);
+      sPtrBase = (*env)->GetPrimitiveArrayCritical(env, s, NULL);
     sPtr = sPtrBase + sIdx;
   }
   jint *rankPtrBase = 0, *rankPtr = 0;
@@ -4491,7 +4945,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_sgelsd(JNIEnv *env, jclass this
     if((*env)->IsSameObject(env, rank, iwork) == JNI_TRUE)
       rankPtrBase = iworkPtrBase;
     else
-      rankPtrBase = (*env)->GetIntArrayElements(env, rank, NULL);
+      rankPtrBase = (*env)->GetPrimitiveArrayCritical(env, rank, NULL);
     rankPtr = rankPtrBase + rankIdx;
   }
   jfloat *workPtrBase = 0, *workPtr = 0;
@@ -4505,7 +4959,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_sgelsd(JNIEnv *env, jclass this
       if((*env)->IsSameObject(env, work, s) == JNI_TRUE)
       workPtrBase = sPtrBase;
     else
-      workPtrBase = (*env)->GetFloatArrayElements(env, work, NULL);
+      workPtrBase = (*env)->GetPrimitiveArrayCritical(env, work, NULL);
     workPtr = workPtrBase + workIdx;
   }
   int info;
@@ -4513,7 +4967,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_sgelsd(JNIEnv *env, jclass this
   savedEnv = env;
   sgelsd_(&m, &n, &nrhs, aPtr, &lda, bPtr, &ldb, sPtr, &rcond, rankPtr, workPtr, &lwork, iworkPtr, &info);
   if(workPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, work, workPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, work, workPtrBase, 0);
     if (workPtrBase == aPtrBase)
       aPtrBase = 0;
     if (workPtrBase == bPtrBase)
@@ -4523,13 +4977,13 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_sgelsd(JNIEnv *env, jclass this
     workPtrBase = 0;
   }
   if(rankPtrBase) {
-    (*env)->ReleaseIntArrayElements(env, rank, rankPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, rank, rankPtrBase, 0);
     if (rankPtrBase == iworkPtrBase)
       iworkPtrBase = 0;
     rankPtrBase = 0;
   }
   if(sPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, s, sPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, s, sPtrBase, 0);
     if (sPtrBase == aPtrBase)
       aPtrBase = 0;
     if (sPtrBase == bPtrBase)
@@ -4537,17 +4991,17 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_sgelsd(JNIEnv *env, jclass this
     sPtrBase = 0;
   }
   if(bPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, b, bPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, b, bPtrBase, 0);
     if (bPtrBase == aPtrBase)
       aPtrBase = 0;
     bPtrBase = 0;
   }
   if(iworkPtrBase) {
-    (*env)->ReleaseIntArrayElements(env, iwork, iworkPtrBase, JNI_ABORT);
+    (*env)->ReleasePrimitiveArrayCritical(env, iwork, iworkPtrBase, JNI_ABORT);
     iworkPtrBase = 0;
   }
   if(aPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, a, aPtrBase, JNI_ABORT);
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, JNI_ABORT);
     aPtrBase = 0;
   }
 
@@ -4577,7 +5031,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dgeqrf(JNIEnv *env, jclass this
   
   jdouble *aPtrBase = 0, *aPtr = 0;
   if (a) {
-    aPtrBase = (*env)->GetDoubleArrayElements(env, a, NULL);
+    aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
     aPtr = aPtrBase + aIdx;
   }
   jdouble *tauPtrBase = 0, *tauPtr = 0;
@@ -4585,7 +5039,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dgeqrf(JNIEnv *env, jclass this
     if((*env)->IsSameObject(env, tau, a) == JNI_TRUE)
       tauPtrBase = aPtrBase;
     else
-      tauPtrBase = (*env)->GetDoubleArrayElements(env, tau, NULL);
+      tauPtrBase = (*env)->GetPrimitiveArrayCritical(env, tau, NULL);
     tauPtr = tauPtrBase + tauIdx;
   }
   jdouble *workPtrBase = 0, *workPtr = 0;
@@ -4596,7 +5050,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dgeqrf(JNIEnv *env, jclass this
       if((*env)->IsSameObject(env, work, tau) == JNI_TRUE)
       workPtrBase = tauPtrBase;
     else
-      workPtrBase = (*env)->GetDoubleArrayElements(env, work, NULL);
+      workPtrBase = (*env)->GetPrimitiveArrayCritical(env, work, NULL);
     workPtr = workPtrBase + workIdx;
   }
   int info;
@@ -4604,7 +5058,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dgeqrf(JNIEnv *env, jclass this
   savedEnv = env;
   dgeqrf_(&m, &n, aPtr, &lda, tauPtr, workPtr, &lwork, &info);
   if(workPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, work, workPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, work, workPtrBase, 0);
     if (workPtrBase == aPtrBase)
       aPtrBase = 0;
     if (workPtrBase == tauPtrBase)
@@ -4612,13 +5066,13 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dgeqrf(JNIEnv *env, jclass this
     workPtrBase = 0;
   }
   if(tauPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, tau, tauPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, tau, tauPtrBase, 0);
     if (tauPtrBase == aPtrBase)
       aPtrBase = 0;
     tauPtrBase = 0;
   }
   if(aPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, a, aPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, 0);
     aPtrBase = 0;
   }
 
@@ -4631,7 +5085,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_sgeqrf(JNIEnv *env, jclass this
   
   jfloat *aPtrBase = 0, *aPtr = 0;
   if (a) {
-    aPtrBase = (*env)->GetFloatArrayElements(env, a, NULL);
+    aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
     aPtr = aPtrBase + aIdx;
   }
   jfloat *tauPtrBase = 0, *tauPtr = 0;
@@ -4639,7 +5093,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_sgeqrf(JNIEnv *env, jclass this
     if((*env)->IsSameObject(env, tau, a) == JNI_TRUE)
       tauPtrBase = aPtrBase;
     else
-      tauPtrBase = (*env)->GetFloatArrayElements(env, tau, NULL);
+      tauPtrBase = (*env)->GetPrimitiveArrayCritical(env, tau, NULL);
     tauPtr = tauPtrBase + tauIdx;
   }
   jfloat *workPtrBase = 0, *workPtr = 0;
@@ -4650,7 +5104,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_sgeqrf(JNIEnv *env, jclass this
       if((*env)->IsSameObject(env, work, tau) == JNI_TRUE)
       workPtrBase = tauPtrBase;
     else
-      workPtrBase = (*env)->GetFloatArrayElements(env, work, NULL);
+      workPtrBase = (*env)->GetPrimitiveArrayCritical(env, work, NULL);
     workPtr = workPtrBase + workIdx;
   }
   int info;
@@ -4658,7 +5112,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_sgeqrf(JNIEnv *env, jclass this
   savedEnv = env;
   sgeqrf_(&m, &n, aPtr, &lda, tauPtr, workPtr, &lwork, &info);
   if(workPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, work, workPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, work, workPtrBase, 0);
     if (workPtrBase == aPtrBase)
       aPtrBase = 0;
     if (workPtrBase == tauPtrBase)
@@ -4666,13 +5120,13 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_sgeqrf(JNIEnv *env, jclass this
     workPtrBase = 0;
   }
   if(tauPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, tau, tauPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, tau, tauPtrBase, 0);
     if (tauPtrBase == aPtrBase)
       aPtrBase = 0;
     tauPtrBase = 0;
   }
   if(aPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, a, aPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, 0);
     aPtrBase = 0;
   }
 
@@ -4687,7 +5141,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dormqr(JNIEnv *env, jclass this
   char transChr = (char) trans;
   jdouble *aPtrBase = 0, *aPtr = 0;
   if (a) {
-    aPtrBase = (*env)->GetDoubleArrayElements(env, a, NULL);
+    aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
     aPtr = aPtrBase + aIdx;
   }
   jdouble *tauPtrBase = 0, *tauPtr = 0;
@@ -4695,7 +5149,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dormqr(JNIEnv *env, jclass this
     if((*env)->IsSameObject(env, tau, a) == JNI_TRUE)
       tauPtrBase = aPtrBase;
     else
-      tauPtrBase = (*env)->GetDoubleArrayElements(env, tau, NULL);
+      tauPtrBase = (*env)->GetPrimitiveArrayCritical(env, tau, NULL);
     tauPtr = tauPtrBase + tauIdx;
   }
   jdouble *cPtrBase = 0, *cPtr = 0;
@@ -4706,7 +5160,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dormqr(JNIEnv *env, jclass this
       if((*env)->IsSameObject(env, c, tau) == JNI_TRUE)
       cPtrBase = tauPtrBase;
     else
-      cPtrBase = (*env)->GetDoubleArrayElements(env, c, NULL);
+      cPtrBase = (*env)->GetPrimitiveArrayCritical(env, c, NULL);
     cPtr = cPtrBase + cIdx;
   }
   jdouble *workPtrBase = 0, *workPtr = 0;
@@ -4720,7 +5174,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dormqr(JNIEnv *env, jclass this
       if((*env)->IsSameObject(env, work, c) == JNI_TRUE)
       workPtrBase = cPtrBase;
     else
-      workPtrBase = (*env)->GetDoubleArrayElements(env, work, NULL);
+      workPtrBase = (*env)->GetPrimitiveArrayCritical(env, work, NULL);
     workPtr = workPtrBase + workIdx;
   }
   int info;
@@ -4728,7 +5182,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dormqr(JNIEnv *env, jclass this
   savedEnv = env;
   dormqr_(&sideChr, &transChr, &m, &n, &k, aPtr, &lda, tauPtr, cPtr, &ldc, workPtr, &lwork, &info);
   if(workPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, work, workPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, work, workPtrBase, 0);
     if (workPtrBase == aPtrBase)
       aPtrBase = 0;
     if (workPtrBase == tauPtrBase)
@@ -4738,7 +5192,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dormqr(JNIEnv *env, jclass this
     workPtrBase = 0;
   }
   if(cPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, c, cPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, c, cPtrBase, 0);
     if (cPtrBase == aPtrBase)
       aPtrBase = 0;
     if (cPtrBase == tauPtrBase)
@@ -4746,13 +5200,13 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dormqr(JNIEnv *env, jclass this
     cPtrBase = 0;
   }
   if(tauPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, tau, tauPtrBase, JNI_ABORT);
+    (*env)->ReleasePrimitiveArrayCritical(env, tau, tauPtrBase, JNI_ABORT);
     if (tauPtrBase == aPtrBase)
       aPtrBase = 0;
     tauPtrBase = 0;
   }
   if(aPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, a, aPtrBase, JNI_ABORT);
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, JNI_ABORT);
     aPtrBase = 0;
   }
 
@@ -4767,7 +5221,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_sormqr(JNIEnv *env, jclass this
   char transChr = (char) trans;
   jfloat *aPtrBase = 0, *aPtr = 0;
   if (a) {
-    aPtrBase = (*env)->GetFloatArrayElements(env, a, NULL);
+    aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
     aPtr = aPtrBase + aIdx;
   }
   jfloat *tauPtrBase = 0, *tauPtr = 0;
@@ -4775,7 +5229,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_sormqr(JNIEnv *env, jclass this
     if((*env)->IsSameObject(env, tau, a) == JNI_TRUE)
       tauPtrBase = aPtrBase;
     else
-      tauPtrBase = (*env)->GetFloatArrayElements(env, tau, NULL);
+      tauPtrBase = (*env)->GetPrimitiveArrayCritical(env, tau, NULL);
     tauPtr = tauPtrBase + tauIdx;
   }
   jfloat *cPtrBase = 0, *cPtr = 0;
@@ -4786,7 +5240,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_sormqr(JNIEnv *env, jclass this
       if((*env)->IsSameObject(env, c, tau) == JNI_TRUE)
       cPtrBase = tauPtrBase;
     else
-      cPtrBase = (*env)->GetFloatArrayElements(env, c, NULL);
+      cPtrBase = (*env)->GetPrimitiveArrayCritical(env, c, NULL);
     cPtr = cPtrBase + cIdx;
   }
   jfloat *workPtrBase = 0, *workPtr = 0;
@@ -4800,7 +5254,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_sormqr(JNIEnv *env, jclass this
       if((*env)->IsSameObject(env, work, c) == JNI_TRUE)
       workPtrBase = cPtrBase;
     else
-      workPtrBase = (*env)->GetFloatArrayElements(env, work, NULL);
+      workPtrBase = (*env)->GetPrimitiveArrayCritical(env, work, NULL);
     workPtr = workPtrBase + workIdx;
   }
   int info;
@@ -4808,7 +5262,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_sormqr(JNIEnv *env, jclass this
   savedEnv = env;
   sormqr_(&sideChr, &transChr, &m, &n, &k, aPtr, &lda, tauPtr, cPtr, &ldc, workPtr, &lwork, &info);
   if(workPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, work, workPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, work, workPtrBase, 0);
     if (workPtrBase == aPtrBase)
       aPtrBase = 0;
     if (workPtrBase == tauPtrBase)
@@ -4818,7 +5272,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_sormqr(JNIEnv *env, jclass this
     workPtrBase = 0;
   }
   if(cPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, c, cPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, c, cPtrBase, 0);
     if (cPtrBase == aPtrBase)
       aPtrBase = 0;
     if (cPtrBase == tauPtrBase)
@@ -4826,13 +5280,13 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_sormqr(JNIEnv *env, jclass this
     cPtrBase = 0;
   }
   if(tauPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, tau, tauPtrBase, JNI_ABORT);
+    (*env)->ReleasePrimitiveArrayCritical(env, tau, tauPtrBase, JNI_ABORT);
     if (tauPtrBase == aPtrBase)
       aPtrBase = 0;
     tauPtrBase = 0;
   }
   if(aPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, a, aPtrBase, JNI_ABORT);
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, JNI_ABORT);
     aPtrBase = 0;
   }
 
@@ -4845,7 +5299,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dorgqr(JNIEnv *env, jclass this
   
   jdouble *tauPtrBase = 0, *tauPtr = 0;
   if (tau) {
-    tauPtrBase = (*env)->GetDoubleArrayElements(env, tau, NULL);
+    tauPtrBase = (*env)->GetPrimitiveArrayCritical(env, tau, NULL);
     tauPtr = tauPtrBase + tauIdx;
   }
   jdouble *aPtrBase = 0, *aPtr = 0;
@@ -4853,7 +5307,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dorgqr(JNIEnv *env, jclass this
     if((*env)->IsSameObject(env, a, tau) == JNI_TRUE)
       aPtrBase = tauPtrBase;
     else
-      aPtrBase = (*env)->GetDoubleArrayElements(env, a, NULL);
+      aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
     aPtr = aPtrBase + aIdx;
   }
   jdouble *workPtrBase = 0, *workPtr = 0;
@@ -4864,7 +5318,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dorgqr(JNIEnv *env, jclass this
       if((*env)->IsSameObject(env, work, a) == JNI_TRUE)
       workPtrBase = aPtrBase;
     else
-      workPtrBase = (*env)->GetDoubleArrayElements(env, work, NULL);
+      workPtrBase = (*env)->GetPrimitiveArrayCritical(env, work, NULL);
     workPtr = workPtrBase + workIdx;
   }
   int info;
@@ -4872,7 +5326,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dorgqr(JNIEnv *env, jclass this
   savedEnv = env;
   dorgqr_(&m, &n, &k, aPtr, &lda, tauPtr, workPtr, &lwork, &info);
   if(workPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, work, workPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, work, workPtrBase, 0);
     if (workPtrBase == tauPtrBase)
       tauPtrBase = 0;
     if (workPtrBase == aPtrBase)
@@ -4880,13 +5334,13 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dorgqr(JNIEnv *env, jclass this
     workPtrBase = 0;
   }
   if(aPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, a, aPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, 0);
     if (aPtrBase == tauPtrBase)
       tauPtrBase = 0;
     aPtrBase = 0;
   }
   if(tauPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, tau, tauPtrBase, JNI_ABORT);
+    (*env)->ReleasePrimitiveArrayCritical(env, tau, tauPtrBase, JNI_ABORT);
     tauPtrBase = 0;
   }
 
@@ -4899,7 +5353,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_sorgqr(JNIEnv *env, jclass this
   
   jfloat *tauPtrBase = 0, *tauPtr = 0;
   if (tau) {
-    tauPtrBase = (*env)->GetFloatArrayElements(env, tau, NULL);
+    tauPtrBase = (*env)->GetPrimitiveArrayCritical(env, tau, NULL);
     tauPtr = tauPtrBase + tauIdx;
   }
   jfloat *aPtrBase = 0, *aPtr = 0;
@@ -4907,7 +5361,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_sorgqr(JNIEnv *env, jclass this
     if((*env)->IsSameObject(env, a, tau) == JNI_TRUE)
       aPtrBase = tauPtrBase;
     else
-      aPtrBase = (*env)->GetFloatArrayElements(env, a, NULL);
+      aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
     aPtr = aPtrBase + aIdx;
   }
   jfloat *workPtrBase = 0, *workPtr = 0;
@@ -4918,7 +5372,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_sorgqr(JNIEnv *env, jclass this
       if((*env)->IsSameObject(env, work, a) == JNI_TRUE)
       workPtrBase = aPtrBase;
     else
-      workPtrBase = (*env)->GetFloatArrayElements(env, work, NULL);
+      workPtrBase = (*env)->GetPrimitiveArrayCritical(env, work, NULL);
     workPtr = workPtrBase + workIdx;
   }
   int info;
@@ -4926,7 +5380,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_sorgqr(JNIEnv *env, jclass this
   savedEnv = env;
   sorgqr_(&m, &n, &k, aPtr, &lda, tauPtr, workPtr, &lwork, &info);
   if(workPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, work, workPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, work, workPtrBase, 0);
     if (workPtrBase == tauPtrBase)
       tauPtrBase = 0;
     if (workPtrBase == aPtrBase)
@@ -4934,13 +5388,13 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_sorgqr(JNIEnv *env, jclass this
     workPtrBase = 0;
   }
   if(aPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, a, aPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, 0);
     if (aPtrBase == tauPtrBase)
       tauPtrBase = 0;
     aPtrBase = 0;
   }
   if(tauPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, tau, tauPtrBase, JNI_ABORT);
+    (*env)->ReleasePrimitiveArrayCritical(env, tau, tauPtrBase, JNI_ABORT);
     tauPtrBase = 0;
   }
 
@@ -4956,12 +5410,12 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dsygvx(JNIEnv *env, jclass this
   char uploChr = (char) uplo;
   jint *iworkPtrBase = 0, *iworkPtr = 0;
   if (iwork) {
-    iworkPtrBase = (*env)->GetIntArrayElements(env, iwork, NULL);
+    iworkPtrBase = (*env)->GetPrimitiveArrayCritical(env, iwork, NULL);
     iworkPtr = iworkPtrBase + iworkIdx;
   }
   jdouble *aPtrBase = 0, *aPtr = 0;
   if (a) {
-    aPtrBase = (*env)->GetDoubleArrayElements(env, a, NULL);
+    aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
     aPtr = aPtrBase + aIdx;
   }
   jdouble *bPtrBase = 0, *bPtr = 0;
@@ -4969,7 +5423,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dsygvx(JNIEnv *env, jclass this
     if((*env)->IsSameObject(env, b, a) == JNI_TRUE)
       bPtrBase = aPtrBase;
     else
-      bPtrBase = (*env)->GetDoubleArrayElements(env, b, NULL);
+      bPtrBase = (*env)->GetPrimitiveArrayCritical(env, b, NULL);
     bPtr = bPtrBase + bIdx;
   }
   jint *mPtrBase = 0, *mPtr = 0;
@@ -4977,7 +5431,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dsygvx(JNIEnv *env, jclass this
     if((*env)->IsSameObject(env, m, iwork) == JNI_TRUE)
       mPtrBase = iworkPtrBase;
     else
-      mPtrBase = (*env)->GetIntArrayElements(env, m, NULL);
+      mPtrBase = (*env)->GetPrimitiveArrayCritical(env, m, NULL);
     mPtr = mPtrBase + mIdx;
   }
   jdouble *wPtrBase = 0, *wPtr = 0;
@@ -4988,7 +5442,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dsygvx(JNIEnv *env, jclass this
       if((*env)->IsSameObject(env, w, b) == JNI_TRUE)
       wPtrBase = bPtrBase;
     else
-      wPtrBase = (*env)->GetDoubleArrayElements(env, w, NULL);
+      wPtrBase = (*env)->GetPrimitiveArrayCritical(env, w, NULL);
     wPtr = wPtrBase + wIdx;
   }
   jdouble *zPtrBase = 0, *zPtr = 0;
@@ -5002,7 +5456,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dsygvx(JNIEnv *env, jclass this
       if((*env)->IsSameObject(env, z, w) == JNI_TRUE)
       zPtrBase = wPtrBase;
     else
-      zPtrBase = (*env)->GetDoubleArrayElements(env, z, NULL);
+      zPtrBase = (*env)->GetPrimitiveArrayCritical(env, z, NULL);
     zPtr = zPtrBase + zIdx;
   }
   jdouble *workPtrBase = 0, *workPtr = 0;
@@ -5019,7 +5473,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dsygvx(JNIEnv *env, jclass this
       if((*env)->IsSameObject(env, work, z) == JNI_TRUE)
       workPtrBase = zPtrBase;
     else
-      workPtrBase = (*env)->GetDoubleArrayElements(env, work, NULL);
+      workPtrBase = (*env)->GetPrimitiveArrayCritical(env, work, NULL);
     workPtr = workPtrBase + workIdx;
   }
   jint *ifailPtrBase = 0, *ifailPtr = 0;
@@ -5030,7 +5484,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dsygvx(JNIEnv *env, jclass this
       if((*env)->IsSameObject(env, ifail, m) == JNI_TRUE)
       ifailPtrBase = mPtrBase;
     else
-      ifailPtrBase = (*env)->GetIntArrayElements(env, ifail, NULL);
+      ifailPtrBase = (*env)->GetPrimitiveArrayCritical(env, ifail, NULL);
     ifailPtr = ifailPtrBase + ifailIdx;
   }
   int info;
@@ -5038,7 +5492,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dsygvx(JNIEnv *env, jclass this
   savedEnv = env;
   dsygvx_(&itype, &jobzChr, &rangeChr, &uploChr, &n, aPtr, &lda, bPtr, &ldb, &vl, &vu, &il, &iu, &abstol, mPtr, wPtr, zPtr, &ldz, workPtr, &lwork, iworkPtr, ifailPtr, &info);
   if(ifailPtrBase) {
-    (*env)->ReleaseIntArrayElements(env, ifail, ifailPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, ifail, ifailPtrBase, 0);
     if (ifailPtrBase == iworkPtrBase)
       iworkPtrBase = 0;
     if (ifailPtrBase == mPtrBase)
@@ -5046,7 +5500,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dsygvx(JNIEnv *env, jclass this
     ifailPtrBase = 0;
   }
   if(workPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, work, workPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, work, workPtrBase, 0);
     if (workPtrBase == aPtrBase)
       aPtrBase = 0;
     if (workPtrBase == bPtrBase)
@@ -5058,7 +5512,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dsygvx(JNIEnv *env, jclass this
     workPtrBase = 0;
   }
   if(zPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, z, zPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, z, zPtrBase, 0);
     if (zPtrBase == aPtrBase)
       aPtrBase = 0;
     if (zPtrBase == bPtrBase)
@@ -5068,7 +5522,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dsygvx(JNIEnv *env, jclass this
     zPtrBase = 0;
   }
   if(wPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, w, wPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, w, wPtrBase, 0);
     if (wPtrBase == aPtrBase)
       aPtrBase = 0;
     if (wPtrBase == bPtrBase)
@@ -5076,23 +5530,23 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dsygvx(JNIEnv *env, jclass this
     wPtrBase = 0;
   }
   if(mPtrBase) {
-    (*env)->ReleaseIntArrayElements(env, m, mPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, m, mPtrBase, 0);
     if (mPtrBase == iworkPtrBase)
       iworkPtrBase = 0;
     mPtrBase = 0;
   }
   if(bPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, b, bPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, b, bPtrBase, 0);
     if (bPtrBase == aPtrBase)
       aPtrBase = 0;
     bPtrBase = 0;
   }
   if(aPtrBase) {
-    (*env)->ReleaseDoubleArrayElements(env, a, aPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, 0);
     aPtrBase = 0;
   }
   if(iworkPtrBase) {
-    (*env)->ReleaseIntArrayElements(env, iwork, iworkPtrBase, JNI_ABORT);
+    (*env)->ReleasePrimitiveArrayCritical(env, iwork, iworkPtrBase, JNI_ABORT);
     iworkPtrBase = 0;
   }
 
@@ -5108,12 +5562,12 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_ssygvx(JNIEnv *env, jclass this
   char uploChr = (char) uplo;
   jint *iworkPtrBase = 0, *iworkPtr = 0;
   if (iwork) {
-    iworkPtrBase = (*env)->GetIntArrayElements(env, iwork, NULL);
+    iworkPtrBase = (*env)->GetPrimitiveArrayCritical(env, iwork, NULL);
     iworkPtr = iworkPtrBase + iworkIdx;
   }
   jfloat *aPtrBase = 0, *aPtr = 0;
   if (a) {
-    aPtrBase = (*env)->GetFloatArrayElements(env, a, NULL);
+    aPtrBase = (*env)->GetPrimitiveArrayCritical(env, a, NULL);
     aPtr = aPtrBase + aIdx;
   }
   jfloat *bPtrBase = 0, *bPtr = 0;
@@ -5121,7 +5575,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_ssygvx(JNIEnv *env, jclass this
     if((*env)->IsSameObject(env, b, a) == JNI_TRUE)
       bPtrBase = aPtrBase;
     else
-      bPtrBase = (*env)->GetFloatArrayElements(env, b, NULL);
+      bPtrBase = (*env)->GetPrimitiveArrayCritical(env, b, NULL);
     bPtr = bPtrBase + bIdx;
   }
   jint *mPtrBase = 0, *mPtr = 0;
@@ -5129,7 +5583,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_ssygvx(JNIEnv *env, jclass this
     if((*env)->IsSameObject(env, m, iwork) == JNI_TRUE)
       mPtrBase = iworkPtrBase;
     else
-      mPtrBase = (*env)->GetIntArrayElements(env, m, NULL);
+      mPtrBase = (*env)->GetPrimitiveArrayCritical(env, m, NULL);
     mPtr = mPtrBase + mIdx;
   }
   jfloat *wPtrBase = 0, *wPtr = 0;
@@ -5140,7 +5594,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_ssygvx(JNIEnv *env, jclass this
       if((*env)->IsSameObject(env, w, b) == JNI_TRUE)
       wPtrBase = bPtrBase;
     else
-      wPtrBase = (*env)->GetFloatArrayElements(env, w, NULL);
+      wPtrBase = (*env)->GetPrimitiveArrayCritical(env, w, NULL);
     wPtr = wPtrBase + wIdx;
   }
   jfloat *zPtrBase = 0, *zPtr = 0;
@@ -5154,7 +5608,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_ssygvx(JNIEnv *env, jclass this
       if((*env)->IsSameObject(env, z, w) == JNI_TRUE)
       zPtrBase = wPtrBase;
     else
-      zPtrBase = (*env)->GetFloatArrayElements(env, z, NULL);
+      zPtrBase = (*env)->GetPrimitiveArrayCritical(env, z, NULL);
     zPtr = zPtrBase + zIdx;
   }
   jfloat *workPtrBase = 0, *workPtr = 0;
@@ -5171,7 +5625,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_ssygvx(JNIEnv *env, jclass this
       if((*env)->IsSameObject(env, work, z) == JNI_TRUE)
       workPtrBase = zPtrBase;
     else
-      workPtrBase = (*env)->GetFloatArrayElements(env, work, NULL);
+      workPtrBase = (*env)->GetPrimitiveArrayCritical(env, work, NULL);
     workPtr = workPtrBase + workIdx;
   }
   jint *ifailPtrBase = 0, *ifailPtr = 0;
@@ -5182,7 +5636,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_ssygvx(JNIEnv *env, jclass this
       if((*env)->IsSameObject(env, ifail, m) == JNI_TRUE)
       ifailPtrBase = mPtrBase;
     else
-      ifailPtrBase = (*env)->GetIntArrayElements(env, ifail, NULL);
+      ifailPtrBase = (*env)->GetPrimitiveArrayCritical(env, ifail, NULL);
     ifailPtr = ifailPtrBase + ifailIdx;
   }
   int info;
@@ -5190,7 +5644,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_ssygvx(JNIEnv *env, jclass this
   savedEnv = env;
   ssygvx_(&itype, &jobzChr, &rangeChr, &uploChr, &n, aPtr, &lda, bPtr, &ldb, &vl, &vu, &il, &iu, &abstol, mPtr, wPtr, zPtr, &ldz, workPtr, &lwork, iworkPtr, ifailPtr, &info);
   if(ifailPtrBase) {
-    (*env)->ReleaseIntArrayElements(env, ifail, ifailPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, ifail, ifailPtrBase, 0);
     if (ifailPtrBase == iworkPtrBase)
       iworkPtrBase = 0;
     if (ifailPtrBase == mPtrBase)
@@ -5198,7 +5652,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_ssygvx(JNIEnv *env, jclass this
     ifailPtrBase = 0;
   }
   if(workPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, work, workPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, work, workPtrBase, 0);
     if (workPtrBase == aPtrBase)
       aPtrBase = 0;
     if (workPtrBase == bPtrBase)
@@ -5210,7 +5664,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_ssygvx(JNIEnv *env, jclass this
     workPtrBase = 0;
   }
   if(zPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, z, zPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, z, zPtrBase, 0);
     if (zPtrBase == aPtrBase)
       aPtrBase = 0;
     if (zPtrBase == bPtrBase)
@@ -5220,7 +5674,7 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_ssygvx(JNIEnv *env, jclass this
     zPtrBase = 0;
   }
   if(wPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, w, wPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, w, wPtrBase, 0);
     if (wPtrBase == aPtrBase)
       aPtrBase = 0;
     if (wPtrBase == bPtrBase)
@@ -5228,23 +5682,23 @@ JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_ssygvx(JNIEnv *env, jclass this
     wPtrBase = 0;
   }
   if(mPtrBase) {
-    (*env)->ReleaseIntArrayElements(env, m, mPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, m, mPtrBase, 0);
     if (mPtrBase == iworkPtrBase)
       iworkPtrBase = 0;
     mPtrBase = 0;
   }
   if(bPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, b, bPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, b, bPtrBase, 0);
     if (bPtrBase == aPtrBase)
       aPtrBase = 0;
     bPtrBase = 0;
   }
   if(aPtrBase) {
-    (*env)->ReleaseFloatArrayElements(env, a, aPtrBase, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, a, aPtrBase, 0);
     aPtrBase = 0;
   }
   if(iworkPtrBase) {
-    (*env)->ReleaseIntArrayElements(env, iwork, iworkPtrBase, JNI_ABORT);
+    (*env)->ReleasePrimitiveArrayCritical(env, iwork, iworkPtrBase, JNI_ABORT);
     iworkPtrBase = 0;
   }
 

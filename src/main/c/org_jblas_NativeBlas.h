@@ -409,6 +409,134 @@ JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_zgemm
 
 /*
  * Class:     org_jblas_NativeBlas
+ * Method:    csyrk
+ * Signature: (CCIILorg/jblas/ComplexFloat;[FIILorg/jblas/ComplexFloat;[FII)V
+ */
+JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_csyrk
+  (JNIEnv *, jclass, jchar, jchar, jint, jint, jobject, jfloatArray, jint, jint, jobject, jfloatArray, jint, jint);
+
+/*
+ * Class:     org_jblas_NativeBlas
+ * Method:    dsyrk
+ * Signature: (CCIID[DIID[DII)V
+ */
+JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_dsyrk
+  (JNIEnv *, jclass, jchar, jchar, jint, jint, jdouble, jdoubleArray, jint, jint, jdouble, jdoubleArray, jint, jint);
+
+/*
+ * Class:     org_jblas_NativeBlas
+ * Method:    ssyrk
+ * Signature: (CCIIF[FIIF[FII)V
+ */
+JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_ssyrk
+  (JNIEnv *, jclass, jchar, jchar, jint, jint, jfloat, jfloatArray, jint, jint, jfloat, jfloatArray, jint, jint);
+
+/*
+ * Class:     org_jblas_NativeBlas
+ * Method:    zsyrk
+ * Signature: (CCIILorg/jblas/ComplexDouble;[DIILorg/jblas/ComplexDouble;[DII)V
+ */
+JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_zsyrk
+  (JNIEnv *, jclass, jchar, jchar, jint, jint, jobject, jdoubleArray, jint, jint, jobject, jdoubleArray, jint, jint);
+
+/*
+ * Class:     org_jblas_NativeBlas
+ * Method:    claswp
+ * Signature: (I[FIIII[III)V
+ */
+JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_claswp
+  (JNIEnv *, jclass, jint, jfloatArray, jint, jint, jint, jint, jintArray, jint, jint);
+
+/*
+ * Class:     org_jblas_NativeBlas
+ * Method:    dlaswp
+ * Signature: (I[DIIII[III)V
+ */
+JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_dlaswp
+  (JNIEnv *, jclass, jint, jdoubleArray, jint, jint, jint, jint, jintArray, jint, jint);
+
+/*
+ * Class:     org_jblas_NativeBlas
+ * Method:    slaswp
+ * Signature: (I[FIIII[III)V
+ */
+JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_slaswp
+  (JNIEnv *, jclass, jint, jfloatArray, jint, jint, jint, jint, jintArray, jint, jint);
+
+/*
+ * Class:     org_jblas_NativeBlas
+ * Method:    zlaswp
+ * Signature: (I[DIIII[III)V
+ */
+JNIEXPORT void JNICALL Java_org_jblas_NativeBlas_zlaswp
+  (JNIEnv *, jclass, jint, jdoubleArray, jint, jint, jint, jint, jintArray, jint, jint);
+
+/*
+ * Class:     org_jblas_NativeBlas
+ * Method:    clascl
+ * Signature: (CIIFFII[FII)I
+ */
+JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_clascl
+  (JNIEnv *, jclass, jchar, jint, jint, jfloat, jfloat, jint, jint, jfloatArray, jint, jint);
+
+/*
+ * Class:     org_jblas_NativeBlas
+ * Method:    dlascl
+ * Signature: (CIIDDII[DII)I
+ */
+JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dlascl
+  (JNIEnv *, jclass, jchar, jint, jint, jdouble, jdouble, jint, jint, jdoubleArray, jint, jint);
+
+/*
+ * Class:     org_jblas_NativeBlas
+ * Method:    slascl
+ * Signature: (CIIFFII[FII)I
+ */
+JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_slascl
+  (JNIEnv *, jclass, jchar, jint, jint, jfloat, jfloat, jint, jint, jfloatArray, jint, jint);
+
+/*
+ * Class:     org_jblas_NativeBlas
+ * Method:    zlascl
+ * Signature: (CIIDDII[DII)I
+ */
+JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_zlascl
+  (JNIEnv *, jclass, jchar, jint, jint, jdouble, jdouble, jint, jint, jdoubleArray, jint, jint);
+
+/*
+ * Class:     org_jblas_NativeBlas
+ * Method:    cpotri
+ * Signature: (CI[FII)I
+ */
+JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_cpotri
+  (JNIEnv *, jclass, jchar, jint, jfloatArray, jint, jint);
+
+/*
+ * Class:     org_jblas_NativeBlas
+ * Method:    dpotri
+ * Signature: (CI[DII)I
+ */
+JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_dpotri
+  (JNIEnv *, jclass, jchar, jint, jdoubleArray, jint, jint);
+
+/*
+ * Class:     org_jblas_NativeBlas
+ * Method:    spotri
+ * Signature: (CI[FII)I
+ */
+JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_spotri
+  (JNIEnv *, jclass, jchar, jint, jfloatArray, jint, jint);
+
+/*
+ * Class:     org_jblas_NativeBlas
+ * Method:    zpotri
+ * Signature: (CI[DII)I
+ */
+JNIEXPORT jint JNICALL Java_org_jblas_NativeBlas_zpotri
+  (JNIEnv *, jclass, jchar, jint, jdoubleArray, jint, jint);
+
+/*
+ * Class:     org_jblas_NativeBlas
  * Method:    dgesv
  * Signature: (II[DII[II[DII)I
  */
