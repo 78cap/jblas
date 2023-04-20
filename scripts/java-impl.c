@@ -177,8 +177,10 @@ void xerbla_(char *fct, int *info)
 	//fprintf(stderr, "Searching for function \"%s\"\n", name);
 	
 	for (p = routine_names, i = 0; *p; p++, i++)
-		if (!strcmp(*p, name))
+		if (!strcmp(*p, name)) {
 			arguments = routine_arguments[i];
+			break;
+		}
 			
 	if (!arguments) {
 		sprintf(buffer, "XERBLA: Error on argument %d for *unknown function* %s (how odd!)\n", *info, name);

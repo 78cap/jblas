@@ -565,7 +565,7 @@ EOS
         end
       end
       code.conversions << <<EOS
-#{name}PtrBase = (*env)->Get#{basectype[1..-1].capitalize}ArrayElements(env, #{name}, NULL);
+#{name}PtrBase = (*env)->GetPrimitiveArrayCritical(env, #{name}, NULL);
     #{name}Ptr = #{name}PtrBase + #{'2*' if type.basetype =~ /COMPLEX/}#{name}Idx;
   }
 EOS
@@ -573,7 +573,7 @@ EOS
       # and releasing the stuff again...
       release = []
       release << "  if(#{name}PtrBase) {"
-      release << "    (*env)->Release#{basectype[1..-1].capitalize}ArrayElements(env, #{name}, #{name}PtrBase, #{@type.output? ? '0' : 'JNI_ABORT'});"
+      release << "    (*env)->ReleasePrimitiveArrayCritical(env, #{name}, #{name}PtrBase, #{@type.output? ? '0' : 'JNI_ABORT'});"
       code.arrays.each do |a, t|
         if t == basectype
           release << "    if (#{name}PtrBase == #{a}PtrBase)"
