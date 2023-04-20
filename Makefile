@@ -183,10 +183,10 @@ sanity-checks:
 # Create a tar, extract in a directory, and rebuild from scratch.
 test-dist:
 	make clean all
-	ant clean tar
+	ant clean tar -Dversion=$(VERSION)
 	rm -rf jblas-$(VERSION)
 	tar xzvf jblas-$(VERSION).tgz
-	(cd jblas-$(VERSION); ./configure; make -j3; ant jar; LD_LIBRARY_PATH=$(FULL_LIB_PATH):$(LIB_PATH) java -cp jblas-$(VERSION).jar org.jblas.util.SanityChecks)
+	(cd jblas-$(VERSION); ./configure; make -j3; ant jar -Dversion=$(VERSION); LD_LIBRARY_PATH=$(FULL_LIB_PATH):$(LIB_PATH) java -cp jblas-$(VERSION).jar org.jblas.util.SanityChecks)
 
 ######################################################################
 #
